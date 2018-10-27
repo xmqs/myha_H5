@@ -25,7 +25,7 @@ module.exports = {
     alias: {
       '@': resolve('src'),
     }
-  },
+    },
   module: {
     rules: [
       {
@@ -77,6 +77,6 @@ module.exports = {
     child_process: 'empty'
   },
   externals: {
-    'AMap': 'AMap'
+    'mui':'mui'
   }
 }

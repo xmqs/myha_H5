@@ -25,7 +25,7 @@ export default {
     -moz-text-size-adjust: none;
     -ms-text-size-adjust: none;
     text-size-adjust: none;
-    /*解决chrome浏览器下字体不能小于12px*/ }
+  }
 
   body {
     overflow-x: auto;
@@ -84,22 +84,41 @@ export default {
     font-style: normal; }
 
   input[type="submit"], input[type="reset"], input[type="button"], input[type=date], button, select, input[type=text] {
-    /*去掉苹果的默认UI来渲染按钮 、解决部分手机浏览器对border：none无效办法*/
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    /*去掉微信端input-text在ios轻快下的点击出先黑色半透明背景*/
     tap-highlight-color: transparent !important; }
 
   a, input[type=text], select, input[type=password], textarea {
-    /*去掉微信端input-text在ios轻快下的点击出先黑色半透明背景*/
     tap-highlight-color: transparent !important; }
 
   input::-webkit-input-placeholder {
     color: #aaa; }
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+  #app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+
+  /*TODO 修改mint与postcss-px-to-viewport冲突样式*/
+  /*下拉刷新样式修正*/
+  .mint-loadmore-text{
+    font-size: 26px;
+  }
+
+
+  /*TODO 修改mui弹出框位置提高到屏幕中央*/
+  .mui-toast-container {
+    line-height: 34px;
+    position: fixed;
+    z-index: 9999;
+    bottom: 40%;
+    left: 50%;
+    -webkit-transition: opacity .3s;
+    transition: opacity .3s;
+    -webkit-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
+    opacity: 0;
+  }
 </style>
