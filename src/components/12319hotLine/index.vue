@@ -5,10 +5,10 @@
       <div class="consult">
         <div class="btncontent">
           <div class="btncell" @click="toNew"><img
-            src="http://m.mynj.cn:11118/NJ12345/dist/img/img_homepage1b206ed4efcac81b651fed14fc5bcbdd9.png"><br> 提交诉求
+            src="./../../../static/img/hotline/index1.png"><br> 提交诉求
           </div>
           <div class="btncell"><img
-            src="http://m.mynj.cn:11118/NJ12345/dist/img/img_homepage22d568305760628a11f0c1dec42342289.png"><br> 我的诉求
+            src="./../../../static/img/hotline/index2.png"><br> 我的诉求
             <div class="myappealnum" style="display: block;">0</div>
           </div>
         </div>

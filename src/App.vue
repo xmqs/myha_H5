@@ -15,6 +15,9 @@ export default {
   computed:{
     includedComponents:state=>state.includedComponents,
     excludedComponents:state=>state.excludedComponents
+  },
+  mounted(){
+
   }
 }
 </script>

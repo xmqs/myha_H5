@@ -111,6 +111,8 @@
     methods: {
       changePage(n) {
         this.page = n;
+        let p = "#page"+n
+        document.querySelector(p).scrollIntoView(true);
       }
     }
   }
@@ -120,23 +122,24 @@
   .header {
     position: fixed;
     top: 0;
-    height: 74px;
+    height: 80px;
     width: 100%;
     background-color: #fff;
     box-sizing: border-box;
     z-index: 999;
+    border-bottom: 1px solid #eee;
   }
 
   .swiper-slide {
     width: 200px;
-    height: 72px;
+    height: 78px;
     border-bottom: 4px solid #fff;
     font-size: 32px;
     font-family: PingFangSC-Regular;
     font-weight: 400;
     color: rgba(102, 102, 102, 1);
     text-align: center;
-    line-height: 72px;
+    line-height: 78px;
   }
 
   .active {
@@ -171,6 +174,7 @@
     border-left: 4px solid #0d9bf2;
     padding: 2px 16px;
   }
+
 
   .page_list li {
     padding: 26px 0;

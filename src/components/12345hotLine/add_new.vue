@@ -82,7 +82,8 @@
           appealIdea:"",
           appealContent:"",
           appealPic:[],
-          createBy:"管理员"
+          createBy:"管理员",
+          userId:"340403199401030017"
         },
         canadd:true,
       }
@@ -191,7 +192,7 @@
       },
     },
     beforeRouteEnter (to, from, next) {
-      if(from.name=="hotLine19"){
+      if(from.name=="hotLineTip45"){
         window.scrollTo(0,0);
       }
       next(vm => {

@@ -13,7 +13,7 @@
         <br>
         （3）联系方式有误，无法联系核实； <br> （4）诉求内容混乱，或含多个问题； <br> （5）诉求内容信息不全； <br> （6）重复反映相同问题。 </p>
       <p>五、评价反馈：请在诉求办结完成24小时内进行评价，否则视为最优评价。不满意评价的诉求最多办理、评价两次。 </p>
-      <div class="bottombox">
+      <div class="bottombox" @click="toAdd">
         已阅知
       </div>
     </div>
@@ -22,7 +22,20 @@
 
 <script>
   export default {
-    name: "tips"
+    name: "tips",
+    methods:{
+      toAdd(){
+        this.$router.replace("/hotLine45/new");
+      }
+    },
+    beforeRouteEnter (to, from, next) {
+      if(from.name=="hotLine45"){
+        window.scrollTo(0,0);
+      }
+      next(vm => {
+
+      });
+    }
   }
 </script>
 
