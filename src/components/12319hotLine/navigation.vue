@@ -6,109 +6,109 @@
         <input type="search" id="input" class="search" placeholder="请输入搜索内容" v-model="searchKey">
       </form>
     </div>
-    <div class="tab">
-      <div :class="{'active':page==1}">事项</div>
-      <div :class="{'active':page==2}">区域</div>
-    </div>
     <div class="wall">
-      <div class="cell_right_side">
-        为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
-      </div>
-      <div class="cell_right_side">
-        为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
-      </div>
-      <div class="cell_right_side">
-        为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
-      </div>
-      <div class="cell_right_side">
-        为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
-      </div>
-      <div class="cell_right_side">
-        为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
-      </div>
-      <div class="cell_right_side">
-        为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
-      </div>
-      <div class="cell_right_side">
-        为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
-      </div>
-      <div class="cell_right_side">
-        为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
-      </div>
-      <div class="cell_right_side">
-        为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
-      </div>
-      <div class="cell_right_side">
-        为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
-      </div>
-      <div class="cell_right_side">
-        为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
-      </div>
-      <div class="cell_right_side">
-        为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
-      </div>
-      <div class="cell_right_side">
-        为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
-      </div>
-      <div class="cell_right_side">
-        为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
-      </div>
-      <div class="cell_right_side">
-        为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
-      </div>
-      <div class="cell_right_side">
-        为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
-      </div>
-      <div class="cell_right_side">
-        为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
-      </div>
-      <div class="cell_right_side">
-        为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
-      </div>
-      <div class="cell_right_side">
-        为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
-      </div>
-      <div class="cell_right_side">
-        为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
-      </div>
-      <div class="cell_right_side">
-        为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
-      </div>
-      <div class="cell_right_side">
-        为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
-      </div>
-      <div class="cell_right_side">
-        为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
-      </div>
-      <div class="cell_right_side">
-        为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
-      </div>
-      <div class="cell_right_side">
-        为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
+      <div class="scroll">
+        <div class="cell_right_side">
+          为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
+        </div>
+        <div class="cell_right_side">
+          为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
+        </div>
+        <div class="cell_right_side">
+          为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
+        </div>
+        <div class="cell_right_side">
+          为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
+        </div>
+        <div class="cell_right_side">
+          为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
+        </div>
+        <div class="cell_right_side">
+          为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
+        </div>
+        <div class="cell_right_side">
+          为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
+        </div>
+        <div class="cell_right_side">
+          为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
+        </div>
+        <div class="cell_right_side">
+          为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
+        </div>
+        <div class="cell_right_side">
+          为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
+        </div>
+        <div class="cell_right_side">
+          为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
+        </div>
+        <div class="cell_right_side">
+          为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
+        </div>
+        <div class="cell_right_side">
+          为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
+        </div>
+        <div class="cell_right_side">
+          为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
+        </div>
+        <div class="cell_right_side">
+          为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
+        </div>
+        <div class="cell_right_side">
+          为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
+        </div>
+        <div class="cell_right_side">
+          为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
+        </div>
+        <div class="cell_right_side">
+          为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
+        </div>
+        <div class="cell_right_side">
+          为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
+        </div>
+        <div class="cell_right_side">
+          为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
+        </div>
+        <div class="cell_right_side">
+          为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
+        </div>
+        <div class="cell_right_side">
+          为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
+        </div>
+        <div class="cell_right_side">
+          为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
+        </div>
+        <div class="cell_right_side">
+          为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
+        </div>
+        <div class="cell_right_side">
+          为了保证页面的整洁美观，在很多的时候，我们常需要隐藏超出长度的文字
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-    export default {
-        name: "navigation",
-      data(){
-          return{
-            page:1,
-            searchKey:''
-          }
+  export default {
+    name: "scrollList",
+    data(){
+      return{
+        searchKey:''
       }
     }
+  }
 </script>
 
 <style scoped>
   .searchList {
+    position: fixed;
+    top: 0;
     height: 88px;
     width: 100%;
     background-color: #EFEFF4;
     padding-top: 14px;
     box-sizing: border-box;
+    z-index: 999;
   }
 
   .search {
@@ -136,28 +136,15 @@
   input[type=search]::-webkit-search-cancel-button {
     -webkit-appearance: none;
   }
-  .tab{
-    height: 92px;
-    display: flex;
-    vertical-align: center;
-    justify-content: center;
-    background: #fff;
-    border-bottom: 1px solid #eee;
-  }
-  .tab div{
-    width: 40%;
-    font-size: 34px;
-    text-align: center;
-    line-height: 88px;
-  }
-  .tab div.active{
-    color: #0d9bf2;
-    border-bottom: 4px solid #0d9bf2;
-  }
   .wall {
     width: 100%;
-    height: 1153px;
-    overflow-y: scroll;
+    padding-top:88px;
+  }
+
+  .scroll{
+    overflow: scroll;
+    width: 100%;
+    -webkit-overflow-scrolling: touch;
     background: #fff;
     padding: 0 32px;
   }
@@ -169,7 +156,7 @@
     overflow: hidden;
     padding-right: 40px;
     background: url("./../../../static/img/normal/right.png")  right no-repeat ;
-    background-size: 16px;
+    background-size: 12px;
     font-size: 32px;
   }
 </style>

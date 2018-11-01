@@ -1,5 +1,5 @@
 const state = {
-  includedComponents:[],
+  cardId:'',
   userName:'',
   userId:'',
   userPhone:''

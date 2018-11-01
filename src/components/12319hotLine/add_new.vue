@@ -2,38 +2,24 @@
   <div class="main">
     <ul class="list_ui">
       <li class="list_li right_icon" @click="chose()">
-        <div class="word"> 诉求类别</div>
-        <div class="add_inp2">{{data.appealType}}</div>
-      </li>
-      <li class="list_li right_icon" @click="choseTime()">
-        <div class="word"> 事发时间</div>
-        <div class="add_inp2">{{data.appealTime}}</div>
-      </li>
-      <li class="list_li right_icon">
-        <div class="word"> 事发区域</div>
-        <div class="add_inp2">{{data.appealArea}}</div>
-      </li>
-      <li class="list_li2">
-        <div class="word"> 具体位置</div>
+        <div class="word"> 建议类型</div>
+        <div class="add_inp2">{{data.suggestType}}</div>
       </li>
       <li class="list_li">
-        <input type="text" name="" value="" placeholder="请输入您的位置，具体到门牌号" class="add_inp" v-model="data.appealPosition">
-      </li>
-      <li class="list_li">
-        <div class="word"> 诉讼目的</div>
-        <input type="text" name="" value="" placeholder="请输入诉讼目的（20字以内）" class="add_inp" v-model="data.appealIdea">
+        <div class="word"> 建议主题</div>
+        <input type="text" name="" value="" placeholder="请填写建议主题"  class="add_inp" v-model="data.suggestTitle">
       </li>
       <li class="list_li2">
-        <div class="word"> 诉讼内容</div>
+        <div class="word"> 建议内容</div>
       </li>
       <li class="list_li4">
-          <textarea name="" id="RqstContent" rows="6" cols="" placeholder="请输入诉求内容(500字以内)" v-model="data.appealContent">
+          <textarea name="" id="RqstContent" rows="6" cols="" placeholder="请输入建议内容(500字以内)" v-model="data.suggestContent">
 
           </textarea>
       </li>
       <li class="list_li6">
         <img src="./../../../static/img/hotline/upImg.png" class="upImg" @click="myImg(1)">
-        <div v-for="(item,index) in data.appealPic" class="imgList">
+        <div v-for="(item,index) in data.suggestPic" class="imgList">
           <div class="remove" @click="removeImg(index)">+</div>
           <img :src="item" class="avatar">
         </div>
@@ -53,8 +39,8 @@
         <div class="add_inp2">{{data.phone}}</div>
       </li>
       <li class="list_li" style="border-bottom: 0">
-        <div class="word"> 备用联系方式</div>
-        <input type="number" name="" value="" placeholder="请填写备用联系方式"  class="add_inp" v-model="data.SparePhone">
+        <div class="word"> 联系地址</div>
+        <input type="number" name="" value="" placeholder="请填写联系地址"  class="add_inp" v-model="data.alternateContact">
       </li>
     </ul>
     <div class="submit" @click="add">
@@ -64,6 +50,7 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
   import './../../../static/js/mui.picker.min'
   import axios from "axios"
   export default {
@@ -71,21 +58,31 @@
     data() {
       return {
         data: {
-          appealType:"请选择诉讼类别",
-          appealTime:"请选择事发时间",
-          appealArea:"玄武区",
+          suggestType:"请选择建议类型",
+          suggestTitle:"",
+          suggestContent:"",
+          suggestPic:[],
           isVisit:false,
-          userName:"武则天",
-          phone:"31415926535898",
-          SparePhone:"",
-          appealPosition:"",
-          appealIdea:"",
-          appealContent:"",
-          appealPic:[],
-          createBy:"管理员"
+          userName:"",
+          phone:"",
+          alternateContact:"",
+          userId:""
         },
         canadd:true,
       }
+    },
+    mounted(){
+      this.data.phone = this.getUserPhone;
+      this.data.userName = this.getUserName;
+      this.data.userId = this.getUserId;
+    },
+    computed: {
+      ...mapGetters([
+        "getUserId",
+        "getUserName",
+        "getIncludedComponents",
+        "getUserPhone",
+      ])
     },
     methods:{
       chose(n){
@@ -93,23 +90,23 @@
         var picker = new mui.PopPicker();
         picker.setData([{
           value: "first",
-          text: "诉讼类别一"
+          text: "建议类别一"
         }, {
           value: "second",
-          text: "诉讼类别二"
+          text: "建议类别二"
         }, {
           value: "third",
-          text: "诉讼类别三"
+          text: "建议类别三"
         }, {
           value: "fourth",
-          text: "诉讼类别四"
+          text: "建议类别四"
         }, {
           value: "fifth",
-          text: "诉讼类别五"
+          text: "建议类别五"
         }])
         picker.show(function(SelectedItem) {
           console.log(SelectedItem);
-          vue.data.appealType = SelectedItem[0].text;
+          vue.data.suggestType = SelectedItem[0].text;
         })
       },
       choseTime(){
@@ -123,33 +120,27 @@
         if(!this.canadd){
           return
         }
-        if(this.data.appealType=="请选择诉讼类别"){
-          mui.toast('请选择诉讼类别',{ duration:'short', type:'div' });
+
+
+        if(this.data.suggestType=="请选择建议类型"){
+          mui.toast('请选择建议类别',{ duration:'short', type:'div' });
           return
         }
-        if(this.data.appealTime=="请选择事发时间"){
-          mui.toast('请选择事发时间',{ duration:'short', type:'div' });
+        if(this.data.suggestTitle==""){
+          mui.toast('请填写建议主题',{ duration:'short', type:'div' });
           return
         }
-        if(this.data.appealArea=="请选择事发区域"){
-          mui.toast('请选择事发区域',{ duration:'short', type:'div' });
-          return
-        }
-        if(this.data.appealPosition==""){
-          mui.toast('请输入您的位置',{ duration:'short', type:'div' });
-          return
-        }
-        if(this.data.appealIdea==""){
-          mui.toast('请输入诉讼目的',{ duration:'short', type:'div' });
+        if(this.data.suggestContent==""){
+          mui.toast('请填写建议内容',{ duration:'short', type:'div' });
           return
         }
 
         this.canadd = false;
-        this.data.appealPic = JSON.stringify( this.data.appealPic);
-        axios.post("/myha-server/12345/add.do",this.data).then(res=>{
+        this.data.suggestPic = JSON.stringify( this.data.suggestPic);
+        axios.post("/myha-server/12319/add.do",this.data).then(res=>{
           if(res.data.result==1){
             this.canadd = true;
-            mui.toast('诉讼成功',{ duration:'short', type:'div' });
+            mui.toast('建议成功',{ duration:'short', type:'div' });
             this.$router.go(-1);
           }
         }).catch(err=> {
@@ -158,10 +149,10 @@
         })
       },
       removeImg(n){
-        this.data.appealPic.splice(n,1);
+        this.data.suggestPic.splice(n,1);
       },
       myImg(id) {
-        if(this.data.appealPic.length>5){
+        if(this.data.suggestPic.length>5){
           mui.toast('最多上传六张照片',{ duration:'short', type:'div' });
           return
         }
@@ -181,7 +172,7 @@
         var that = this;
 
         window.uploadImgOver = function (str) {
-          that.data.appealPic.push(JSON.parse(str).data);
+          that.data.suggestPic.push(JSON.parse(str).data);
         }
 
         if (isAndroid) {
@@ -191,7 +182,7 @@
       },
     },
     beforeRouteEnter (to, from, next) {
-      if(from.name=="hotLine19"){
+      if(from.name=="hotLineTip19"){
         window.scrollTo(0,0);
       }
       next(vm => {

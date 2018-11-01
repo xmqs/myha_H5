@@ -25,8 +25,7 @@ const webpackConfig = merge(baseWebpackConfig, {
   output: {
     path: config.build.assetsRoot,
     filename: utils.assetsPath('js/[name].[chunkhash].js'),
-    chunkFilename:utils.assetsPath('js/[name].[chunkhash].js'),
-    publicPath:'./'
+    chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
   },
   plugins: [
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
@@ -37,6 +36,9 @@ const webpackConfig = merge(baseWebpackConfig, {
       uglifyOptions: {
         compress: {
           warnings: false
+        },
+        mangle: {
+          safari10: true
         }
       },
       sourceMap: config.build.productionSourceMap,
@@ -132,7 +134,7 @@ if (config.build.productionGzip) {
         config.build.productionGzipExtensions.join('|') +
         ')$'
       ),
-      threshold: 10240,
+      threshold: 1024,
       minRatio: 0.8
     })
   )

@@ -1,8 +1,8 @@
 import * as types from './mutation-type'
 
 export default {
-  [types.setIncludedComponents](state,includedComponents){
-    state.includedComponents = includedComponents;
+  [types.setCardId](state,cardId){
+    state.cardId = cardId;
   },
   [types.setUserName](state,userName){
     state.userName = userName;

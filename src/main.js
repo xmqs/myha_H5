@@ -5,6 +5,8 @@ import store from './store/index.js';
 
 import 'swiper/dist/css/swiper.css';
 
+import Mint from'mint-ui'
+Vue.use(Mint);
 
 new Vue({
   el: '#app',

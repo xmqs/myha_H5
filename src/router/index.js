@@ -11,6 +11,8 @@ const hotLineTip19 = ()=>import('@/components/12319hotLine/tips'/*webpackChunkNa
 const hotLinePhone19 = ()=>import('@/components/12319hotLine/phoneNumber'/*webpackChunkName: "hotLine19"*/)
 const hotLineNavigation19 = ()=>import('@/components/12319hotLine/navigation'/*webpackChunkName: "hotLine19"*/)
 const hotLineNew19 = ()=>import('@/components/12319hotLine/add_new'/*webpackChunkName: "hotLine19"*/)
+const hotLineList19 = ()=>import('@/components/12319hotLine/list'/*webpackChunkName: "hotLine19"*/)
+const hotLineDetail19 = ()=>import('@/components/12319hotLine/detail'/*webpackChunkName: "hotLine19"*/)
 
 /*hotLine45模块*/
 const hotLine45 = ()=>import('@/components/12345hotLine'/*webpackChunkName: "hotLine45"*/)
@@ -38,10 +40,42 @@ const selectPlane = ()=>import('@/components/flight/selectPlane'/*webpackChunkNa
 const travel = ()=>import('@/components/travel'/*webpackChunkName: "travel"*/)
 const travelList = ()=>import('@/components/travel/list'/*webpackChunkName: "travel"*/)
 
+/*公共自行车*/
+const bicycle = ()=>import('@/components/bicycle'/*webpackChunkName: "bicycle"*/)
+const mapCondition = ()=>import('@/components/bicycle/map'/*webpackChunkName: "bicycle"*/)
+
+
+/*物业管理*/
+const propertyManagement = ()=>import('@/components/propertyManagement'/*webpackChunkName: "propertyManagement"*/)
+const propertyList = ()=>import('@/components/propertyManagement/list'/*webpackChunkName: "propertyManagement"*/)
+const propertyDetail = ()=>import('@/components/propertyManagement/detail'/*webpackChunkName: "propertyManagement"*/)
+const managementRank = ()=>import('@/components/propertyManagement/managementRank'/*webpackChunkName: "propertyManagement"*/)
+const managementtingList = ()=>import('@/components/propertyManagement/tingList'/*webpackChunkName: "propertyManagement"*/)
+const managementthingDetail = ()=>import('@/components/propertyManagement/thingDetail'/*webpackChunkName: "propertyManagement"*/)
+const managementChars = ()=>import('@/components/propertyManagement/chars'/*webpackChunkName: "propertyManagement"*/)
+const managementpropertyList = ()=>import('@/components/propertyManagement/propertyList'/*webpackChunkName: "propertyManagement"*/)
+const managementpropertyListDetail = ()=>import('@/components/propertyManagement/propertyListDetail'/*webpackChunkName: "propertyManagement"*/)
+
+
+/*医检报告*/
+const hospitalPort = ()=>import('@/components/hospital/hospitalPort'/*webpackChunkName: "hospital"*/)
+const firstAid = ()=>import('@/components/hospital/firstAid'/*webpackChunkName: "hospital"*/)
+const hospitalUserInfo = ()=>import('@/components/hospital/userInfo'/*webpackChunkName: "hospital"*/)
+
+
+/*车辆违章*/
+const trafficUserInfo = ()=>import('@/components/traffic/userInfo'/*webpackChunkName: "traffic"*/)
+const traffic = ()=>import('@/components/traffic/peccancy'/*webpackChunkName: "traffic"*/)
+const trafficlicense = ()=>import('@/components/traffic/license'/*webpackChunkName: "traffic"*/)
+const trafficlicenseList = ()=>import('@/components/traffic/licenseList'/*webpackChunkName: "traffic"*/)
+const trafficaddNewCar = ()=>import('@/components/traffic/addNewCar'/*webpackChunkName: "traffic"*/)
+
 
 /*公共列表样式*/
 
 const normalList = () => import ("../components/public/normalList")
+const newsList = () => import ("../components/public/newsList")
+const normalList2 = () => import ("../components/public/normalList2")
 const scrollList = () => import ("../components/public/scrollList")
 
 
@@ -80,6 +114,16 @@ export default new Router({
       path: '/hotLine19/new',/*19新增诉讼*/
       name: 'hotLineNew19',
       component: hotLineNew19,
+    },
+    {
+      path: '/hotLine19/list',/*19新增诉讼*/
+      name: 'hotLineList19',
+      component: hotLineList19,
+    },
+    {
+      path: '/hotLine19/detail/:id',/*19新增诉讼*/
+      name: 'hotLineDetail19',
+      component: hotLineDetail19,
     },
     {
       path: '/hotLine45',/*12345*/
@@ -169,6 +213,101 @@ export default new Router({
       name: 'travelList',
       component: travelList,
     },
+    /*公共自行车*/
+    {
+      path: '/bicycle',/*普通列表*/
+      name: 'bicycle',
+      component: bicycle,
+    },
+    {
+      path: '/mapCondition',/*普通列表*/
+      name: 'mapCondition',
+      component: mapCondition,
+    },
+    /*物业管理*/
+    {
+      path: '/propertyManagement',
+      name: 'propertyManagement',
+      component: propertyManagement,
+    },
+    {
+      path: '/propertyManagement/list',
+      name: 'propertyList',
+      component: propertyList,
+    },
+    {
+      path: '/propertyDetail/:id',
+      name: 'propertyDetail',
+      component: propertyDetail,
+    },
+    {
+      path: '/managementRank',
+      name: 'managementRank',
+      component: managementRank,
+    },
+    {
+      path: '/managementtingList',
+      name: 'managementtingList',
+      component: managementtingList,
+    },
+    {
+      path: '/managementthingDetail/:id',
+      name: 'managementthingDetail',
+      component: managementthingDetail,
+    },
+    {
+      path: '/managementChars/:id',
+      name: 'managementChars',
+      component: managementChars,
+    },
+    {
+      path: '/managementpropertyList',
+      name: 'managementpropertyList',
+      component: managementpropertyList,
+    },
+    {
+      path: '/managementpropertyListDetail/:type',
+      name: 'managementpropertyListDetail',
+      component: managementpropertyListDetail,
+    },
+
+    /*医检报告*/
+    {
+      path: '/hospital/port',
+      name: 'hospitalPort',
+      component: hospitalPort,
+    },
+    {
+      path: '/hospital/firstAid',
+      name: 'firstAid',
+      component: firstAid,
+    },
+    {
+      path: '/hospital/userInfo',
+      name: 'hospitalUserInfo',
+      component: hospitalUserInfo,
+    },
+    /*机动车违章信息*/
+    {
+      path: '/trafficUserInfo',
+      name: 'trafficUserInfo',
+      component: trafficUserInfo,
+    },
+    {
+      path: '/trafficaddNewCar',
+      name: 'trafficaddNewCar',
+      component: trafficaddNewCar,
+    },
+    {
+      path: '/trafficlicense',/*驾照*/
+      name: 'trafficlicense',
+      component: trafficlicense,
+    },
+    {
+      path: '/trafficlicenseList',/*扣分详情*/
+      name: 'trafficlicenseList',
+      component: trafficlicenseList,
+    },
 
     /*特殊公共样式*/
     {
@@ -177,9 +316,19 @@ export default new Router({
       component: normalList,
     },
     {
+      path: '/list/normalList2/:key1?/:key2?/:key3?',/*普通列表*/
+      name: 'normalList2',
+      component: normalList2,
+    },
+    {
       path: '/list/scrollList/:key1?/:key2?/:key3?',/*滚动刷新列表*/
       name: 'scrollList',
       component: scrollList,
+    },
+    {
+      path: '/newsList/:key',/*滚动刷新列表*/
+      name: 'newsList',
+      component: newsList,
     },
   ]
 })

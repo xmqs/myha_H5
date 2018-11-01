@@ -17,7 +17,28 @@ export default {
     excludedComponents:state=>state.excludedComponents
   },
   mounted(){
-
+    this.getparam();
+  },
+  methods:{
+    getUrlParam(id) {
+      let url = window.document.location.href.toString();
+      let u = url.split("?");
+      let arr = [];
+      if(typeof(u[1]) == "string"){
+        u = u[1].split("&");
+        for(let i in u){
+          let a = (u[i].split("="));
+          arr[a[0]] = a[1];
+        }
+      }
+      return arr[id]
+    },
+    getparam() {
+      this.$store.commit("setCardId",this.getUrlParam('znmh_idNumber'));
+      this.$store.commit("setUserName",this.getUrlParam('znmh_userName'));
+      this.$store.commit("setUserId",this.getUrlParam('userId'));
+      this.$store.commit("setUserPhone",this.getUrlParam('znmh_mobile'));
+    }
   }
 }
 </script>
@@ -49,7 +70,9 @@ export default {
 
   html * {
     outline: 0;
-    zoom: 1; }
+    zoom: 1;
+    font-size: 28px;
+  }
 
   html button::-moz-focus-inner {
     border-color: transparent !important; }

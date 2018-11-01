@@ -7,52 +7,31 @@
           <div class="btncell" @click="toNew"><img
             src="./../../../static/img/hotline/index1.png"><br> 提交诉求
           </div>
-          <div class="btncell"><img
+          <div class="btncell" @click="toList"><img
             src="./../../../static/img/hotline/index2.png"><br> 我的诉求
-            <div class="myappealnum" style="display: block;">0</div>
+            <div class="myappealnum" style="display: block;">{{number}}</div>
           </div>
         </div>
       </div>
     </div>
-    <div class="tabtitle news" id="news"> 最新资讯 <span class="more">更多</span></div>
-    <li class="newslist">
-      <div class="title">关于2018南京马拉松比赛期间对部分道路采取临时交通管控措施的通告</div>
-      <div class="date">10-22</div>
-    </li>
-    <li class="newslist">
-      <div class="title">关于2018南京马拉松比赛期间对部分道路采取临时交通管控措施的通告</div>
-      <div class="date">10-22</div>
-    </li>
-    <li class="newslist">
-      <div class="title">关于2018南京马拉松比赛期间对部分道路采取临时交通管控措施的通告</div>
-      <div class="date">10-22</div>
+    <div class="tabtitle news" id="news"> 最新资讯 <span class="more" @click="toNewsList('12319_zuixinzixun')">更多</span></div>
+    <li class="newslist" v-for="item in list1" @click="toDetail(item.url)">
+      <div class="title">{{item.sourceLabel}}</div>
+      <div class="date">{{ item.updateTime | formatDate }}</div>
     </li>
 
-    <div class="tabtitle news2"> 热点解答 <span class="more">更多</span></div>
-    <li class="newslist">
-      <div class="title">关于2018南京马拉松比赛期间对部分道路采取临时交通管控措施的通告</div>
-      <div class="date">10-22</div>
+    <div class="tabtitle news2"> 热点解答 <span class="more" @click="toNewsList('12319_redianjieda')">更多</span></div>
+    <li class="newslist" v-for="item in list2" @click="toDetail(item.url)">
+      <div class="title">{{item.sourceLabel}}</div>
+      <div class="date">{{ item.updateTime | formatDate }}</div>
     </li>
-    <li class="newslist">
-      <div class="title">关于2018南京马拉松比赛期间对部分道路采取临时交通管控措施的通告</div>
-      <div class="date">10-22</div>
-    </li>
-    <li class="newslist">
-      <div class="title">关于2018南京马拉松比赛期间对部分道路采取临时交通管控措施的通告</div>
-      <div class="date">10-22</div>
-    </li>
-    <div class="tabtitle news3"> 便民服务 <span class="more">更多</span></div>
+    <div class="tabtitle news3"> 便民服务 </div>
     <div class="tab">
       <div class="tab_line1">
-        <div class="tab_item" @click="toNavigation">
-          <img src="./../../../static/img/hotline/icon4.png" alt="">便民导航
-        </div>
         <div class="tab_item" @click="toPhoneNumber">
           <img src="./../../../static/img/hotline/icon5.png" alt="">常用电话
         </div>
-      </div>
-      <div class="tab_line2">
-        <div class="tab_item">
+        <div class="tab_item" @click="toNewsList('12319_bianminfuwu')">
           <img src="./../../../static/img/hotline/icon4.png" alt="">便民导航
         </div>
       </div>
@@ -61,12 +40,24 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
+  import axios from "axios"
   export default {
     name: "index",
     data() {
       return {
-
+        list1:[],
+        list2:[],
+        number:0,
       }
+    },
+    computed: {
+      ...mapGetters([
+        "getUserId",
+        "getUserName",
+        "getIncludedComponents",
+        "getUserPhone",
+      ])
     },
     methods:{
       toPhoneNumber(){
@@ -76,8 +67,40 @@
         this.$router.push("/hotLine19/navigation");
       },
       toNew(){
-        this.$router.push("/hotLine19/new");
+        this.$router.push("/hotLine19/tip");
       },
+      toList(){
+        this.$router.push("/hotLine19/list");
+      },
+      toDetail(url){
+        window.location = url;
+      },
+      toNewsList(key){
+        this.$router.push("/newsList/"+key);
+      }
+    },
+    filters:{
+      formatDate(val) {
+        let date=new Date(val);
+        let month = date.getMonth()+1;
+        let day = date.getDate();
+
+        return month+"-"+day;
+      }
+    },
+    mounted(){
+      axios.post("/myha-server/12319/count.do",{
+        "userId":this.getUserId
+      }).then(res=>{
+        this.number = res.data.data.appealCount;
+      })
+
+      axios.get("/myha-server/public/catalog/querySource.do?catalogAlias=12319_zuixinzixun&sourceType=03").then(res=>{
+        this.list1 = res.data.data;
+      })
+      axios.get("/myha-server/public/catalog/querySource.do?catalogAlias=12319_redianjieda&sourceType=03").then(res=>{
+        this.list2 = res.data.data;
+      })
     }
   }
 </script>
@@ -115,6 +138,7 @@
     font-size: 32px;
     text-align: center;
     position: relative;
+
   }
 
   .btncell img {
@@ -163,7 +187,7 @@
   .more {
     float: right;
     color: #666;
-    font-size: 14px;
+    font-size: 28px;
   }
 
   .newslist {

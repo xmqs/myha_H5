@@ -54,7 +54,7 @@
       </li>
       <li class="list_li" style="border-bottom: 0">
         <div class="word"> 备用联系方式</div>
-        <input type="number" name="" value="" placeholder="请填写备用联系方式"  class="add_inp" v-model="data.SparePhone">
+        <input type="number" name="" value="" placeholder="请填写备用联系方式"  class="add_inp" v-model="data.alternateContact">
       </li>
     </ul>
     <div class="submit" @click="add">
@@ -64,6 +64,7 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
   import './../../../static/js/mui.picker.min'
   import axios from "axios"
   export default {
@@ -75,18 +76,30 @@
           appealTime:"请选择事发时间",
           appealArea:"玄武区",
           isVisit:false,
-          userName:"武则天",
-          phone:"31415926535898",
+          userName:"",
+          phone:"",
           SparePhone:"",
           appealPosition:"",
           appealIdea:"",
           appealContent:"",
           appealPic:[],
-          createBy:"管理员",
-          userId:"340403199401030017"
+          userId:""
         },
         canadd:true,
       }
+    },
+    mounted(){
+      this.data.phone = this.getUserPhone;
+      this.data.userName = this.getUserName;
+      this.data.userId = this.getUserId;
+    },
+    computed: {
+      ...mapGetters([
+        "getUserId",
+        "getUserName",
+        "getIncludedComponents",
+        "getUserPhone",
+      ])
     },
     methods:{
       chose(n){

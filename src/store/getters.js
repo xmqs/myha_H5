@@ -1,5 +1,5 @@
-export const getIncludedComponents = (state) =>{
-  return state.includedComponents;
+export const getCardId = (state) =>{
+  return state.cardId;
 }
 
 export const getUserId = (state) => {

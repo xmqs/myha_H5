@@ -1,73 +1,43 @@
 <template>
   <div>
     <div class="header">
-      <span @click="state=0" :class="{'active':state==0}">诉求详情</span>
+      <span @click="state=0" :class="{'active':state==0}">建议详情</span>
       <span @click="state=1" :class="{'active':state==1}">处理流程</span>
     </div>
     <div class="main">
       <div class="main_1" v-if="state==0">
         <div class="tip">
-          诉求信息
+          建议信息
         </div>
         <div class="ele">
           <div class="tit">
-            <div class="cntit">诉求类别</div>
+            <div class="cntit">建议类型</div>
           </div>
           <div class="elecontent">
-            <div class="inps2">{{data.appealType}}</div>
-          </div>
-        </div>
-        <div class="ele eleright" @click="chose(0)">
-          <div class="tit">
-            <div class="cntit">事发时间</div>
-          </div>
-          <div class="elecontent">
-            <div class="inps2">{{data.createTime}}</div>
+            <div class="inps2">{{data.suggestType}}</div>
           </div>
         </div>
         <div class="ele">
           <div class="tit">
-            <div class="cntit">事发区域</div>
+            <div class="cntit">建议主题</div>
           </div>
           <div class="elecontent">
-            <div class="inps2">{{data.appealArea}}</div>
+            <div class="inps2">{{data.suggestTitle}}</div>
           </div>
         </div>
         <div class="ele5">
           <div class="tit">
-            <div class="cntit">具体位置</div>
+            <div class="cntit">建议内容</div>
           </div>
           <div class="elecontent">
             <div class="inps2"></div>
           </div>
         </div>
         <div class="ele4">
-          {{data.appealPosition}}
-        </div>
-        <div class="ele5">
-          <div class="tit">
-            <div class="cntit">诉求目的</div>
-          </div>
-          <div class="elecontent">
-            <div class="inps2"></div>
-          </div>
-        </div>
-        <div class="ele4">
-          {{data.appealIdea}}
-        </div>
-        <div class="ele5">
-          <div class="tit">
-            <div class="cntit">诉求内容</div>
-          </div>
-          <div class="elecontent">
-            <div class="inps2"></div>
-          </div>
-        </div>
-        <div class="ele4">
-          {{data.appealContent==""?"暂无":data.appealContent}}
+          {{data.suggestContent==""?"暂无":data.suggestContent}}
         </div>
         <div class="ele6">
-          <img :src=item alt="" class="img" v-for="item in data.appealPic">
+          <img :src=item alt="" class="img" v-for="item in data.suggestPic">
         </div>
         <div class="ele">
           <div class="tit">
@@ -87,7 +57,7 @@
         </div>
         <div class="ele">
           <div class="tit">
-            <div class="cntit">备用联系方式</div>
+            <div class="cntit">联系地址</div>
           </div>
           <div class="elecontent">
             <div class="inps2">{{data.alternateContact}}</div>
@@ -130,7 +100,7 @@
       }
     },
     mounted() {
-      axios.post("/myha-server/12345/echoInfo.do", {
+      axios.post("/myha-server/12319/echoInfo.do", {
         "id":this.$route.params.id
       }).then(res => {
         this.data = res.data.data;

@@ -6,6 +6,10 @@
     </div>
     <div class="wall">
       <div class="scroll">
+        <div v-show="nodata" class="nodata">
+          <img src="./../../../static/img/hotline/nodata.png" alt="">
+          <p>暂无数据</p>
+        </div>
         <div class="cell" v-for="item in list1" @click="toDetail(item.id)" v-show="page==1">
           <div class="time_line">
             {{item.createTime}}
@@ -51,6 +55,11 @@
         page:1,
         list1:[],
         list2:[]
+      }
+    },
+    computed:{
+      nodata(){
+        return ((this.page==1&&this.list1.length==0)||(this.page==2&&this.list2.length==0))
       }
     },
     methods:{
@@ -182,6 +191,18 @@
     font-size: 28px;
 
     transform:rotate(-45deg);
+  }
+
+  .nodata{
+    text-align: center;
+    padding-top: 66px;
+  }
+  .nodata img{
+    width: 240px;
+  }
+  .nodata p{
+    font-size: 28px;
+    margin-top: 16px;
   }
 
 </style>
