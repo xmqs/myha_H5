@@ -46,6 +46,7 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
   import axios from "axios"
     export default {
       name: "addNewCar",
@@ -53,16 +54,27 @@
         return{
           data:{
             type:1,
-            plateNumber:"NKZD6P",
+            plateNumber:"",
             carOwner:"",
             carImg  :'./../../../static/img/hotline/hotLint1bg.png',
             vinNo:"",
             motorNo:"",
-            userId:'340403199401030017'
+            userId:''
           },
           addIng:false,
           oldImg:"./../../../static/img/hotline/hotLint1bg.png"
         }
+      },
+      computed: {
+        ...mapGetters([
+          "getUserId",
+          "getUserName",
+          "getCardId",
+          "getUserPhone",
+        ])
+      },
+      mounted(){
+        this.data.userId = this.getUserId;
       },
       methods:{
         myImg() {
@@ -124,10 +136,18 @@
           }
           this.addIng = true;
           axios.post("/myha-server/vehicle/binding.do",this.data).then(res=>{
-            this.addIng = false;
-            this.data.carImg = this.oldImg;
-            mui.toast('请输入发动机号',{ duration:'short', type:'div' });
-            this.$router.go(-1);
+            if(res.data.result==1){
+              this.addIng = false;
+              this.data.carImg = this.oldImg;
+              mui.toast('绑定成功',{ duration:'short', type:'div' });
+              this.$router.go(-1);
+            }else{
+              this.addIng = false;
+              this.data.carImg = this.oldImg;
+              mui.toast(res.data.errMsg,{ duration:'short', type:'div' });
+            }
+
+
           }).catch(err=>{
             this.addIng = false;
             this.data.carImg = this.oldImg;
@@ -145,6 +165,7 @@
   }
   .red{
     color: #e4393c;
+    font-size: 32px;
   }
 
   .main{

@@ -72,8 +72,17 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
     export default {
-        name: "license",
+      name: "license",
+      computed: {
+        ...mapGetters([
+          "getUserId",
+          "getUserName",
+          "getCardId",
+          "getUserPhone",
+        ])
+      },
       methods:{
         toDetail(){
           this.$router.push("/trafficlicenseList")

@@ -39,7 +39,7 @@
 
 <script>
   import swiper from "swiper"
-    export default {
+      export default {
       name: "index",
       data(){
           return{

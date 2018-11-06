@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <div class="header">
-      <img src="./../../../static/img/hotline/hotLint1bg.png" alt="" width="100%">
+      <img src="./../../../static/img/hotline/hotLint2bg.png" alt="" width="100%">
       <div class="consult">
         <div class="btncontent">
           <div class="btncell" @click="toNew"><img
@@ -55,7 +55,7 @@
       ...mapGetters([
         "getUserId",
         "getUserName",
-        "getIncludedComponents",
+        "getCardId",
         "getUserPhone",
       ])
     },

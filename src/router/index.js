@@ -4,7 +4,6 @@ import Router from 'vue-router'
 /*懒加载模块*/
 const peopleNews = ()=>import('@/components/peopleNews'/*webpackChunkName: "peopleNews"*/)
 
-
 /*hotLine19模块*/
 const hotLine19 = ()=>import('@/components/12319hotLine'/*webpackChunkName: "hotLine19"*/)
 const hotLineTip19 = ()=>import('@/components/12319hotLine/tips'/*webpackChunkName: "hotLine19"*/)
@@ -23,10 +22,8 @@ const hotLineNew45 = ()=>import('@/components/12345hotLine/add_new'/*webpackChun
 const hotLineList45 = ()=>import('@/components/12345hotLine/list'/*webpackChunkName: "hotLine45"*/)
 const hotLineDetail45 = ()=>import('@/components/12345hotLine/detail'/*webpackChunkName: "hotLine45"*/)
 
-
 /*hotLine49模块*/
 const hotLine49 = ()=>import('@/components/12345hotLine'/*webpackChunkName: "hotLine49"*/)
-
 
 /*航班模块*/
 const flightMainNew = ()=>import('@/components/flight/flightMain'/*webpackChunkName: "flight"*/)
@@ -44,10 +41,10 @@ const travelList = ()=>import('@/components/travel/list'/*webpackChunkName: "tra
 const bicycle = ()=>import('@/components/bicycle'/*webpackChunkName: "bicycle"*/)
 const mapCondition = ()=>import('@/components/bicycle/map'/*webpackChunkName: "bicycle"*/)
 
-
 /*物业管理*/
 const propertyManagement = ()=>import('@/components/propertyManagement'/*webpackChunkName: "propertyManagement"*/)
 const propertyList = ()=>import('@/components/propertyManagement/list'/*webpackChunkName: "propertyManagement"*/)
+const protectList = ()=>import('@/components/propertyManagement/protectList'/*webpackChunkName: "propertyManagement"*/)
 const propertyDetail = ()=>import('@/components/propertyManagement/detail'/*webpackChunkName: "propertyManagement"*/)
 const managementRank = ()=>import('@/components/propertyManagement/managementRank'/*webpackChunkName: "propertyManagement"*/)
 const managementtingList = ()=>import('@/components/propertyManagement/tingList'/*webpackChunkName: "propertyManagement"*/)
@@ -55,6 +52,15 @@ const managementthingDetail = ()=>import('@/components/propertyManagement/thingD
 const managementChars = ()=>import('@/components/propertyManagement/chars'/*webpackChunkName: "propertyManagement"*/)
 const managementpropertyList = ()=>import('@/components/propertyManagement/propertyList'/*webpackChunkName: "propertyManagement"*/)
 const managementpropertyListDetail = ()=>import('@/components/propertyManagement/propertyListDetail'/*webpackChunkName: "propertyManagement"*/)
+const houseIndex = ()=>import('@/components/propertyManagement/houseIndex'/*webpackChunkName: "propertyManagement"*/)
+const guideList = ()=>import('@/components/propertyManagement/guideList'/*webpackChunkName: "propertyManagement"*/)
+const business = ()=>import('@/components/propertyManagement/business'/*webpackChunkName: "propertyManagement"*/)
+const houseDetail = ()=>import('@/components/propertyManagement/houseDetail'/*webpackChunkName: "propertyManagement"*/)
+const protectDetail = ()=>import('@/components/propertyManagement/protectDetail'/*webpackChunkName: "propertyManagement"*/)
+const dismantleList = ()=>import('@/components/propertyManagement/dismantleList'/*webpackChunkName: "propertyManagement"*/)
+const dismantleDetail = ()=>import('@/components/propertyManagement/dismantleDetail'/*webpackChunkName: "propertyManagement"*/)
+const qaList = ()=>import('@/components/propertyManagement/qaList'/*webpackChunkName: "propertyManagement"*/)
+const fundDetail = ()=>import('@/components/propertyManagement/fundDetail'/*webpackChunkName: "propertyManagement"*/)
 
 
 /*医检报告*/
@@ -69,6 +75,7 @@ const traffic = ()=>import('@/components/traffic/peccancy'/*webpackChunkName: "t
 const trafficlicense = ()=>import('@/components/traffic/license'/*webpackChunkName: "traffic"*/)
 const trafficlicenseList = ()=>import('@/components/traffic/licenseList'/*webpackChunkName: "traffic"*/)
 const trafficaddNewCar = ()=>import('@/components/traffic/addNewCar'/*webpackChunkName: "traffic"*/)
+const trafficarThings = ()=>import('@/components/traffic/carThings'/*webpackChunkName: "traffic"*/)
 
 
 /*公共列表样式*/
@@ -236,9 +243,19 @@ export default new Router({
       component: propertyList,
     },
     {
+      path: '/propertyManagement/protectList',
+      name: 'protectList',
+      component: protectList,
+    },
+    {
       path: '/propertyDetail/:id',
       name: 'propertyDetail',
       component: propertyDetail,
+    },
+    {
+      path: '/protectDetail/:id',
+      name: 'protectDetail',
+      component: protectDetail,
     },
     {
       path: '/managementRank',
@@ -266,9 +283,49 @@ export default new Router({
       component: managementpropertyList,
     },
     {
+      path: '/house/qaList',
+      name: 'qaList',
+      component: qaList,
+    },
+    {
+      path: '/house/fundDetail',
+      name: 'fundDetail',
+      component: fundDetail,
+    },
+    {
       path: '/managementpropertyListDetail/:type',
       name: 'managementpropertyListDetail',
       component: managementpropertyListDetail,
+    },
+    {
+      path: '/houseIndex',
+      name: 'houseIndex',
+      component: houseIndex,
+    },
+    {
+      path: '/guideList',
+      name: 'guideList',
+      component: guideList,
+    },
+    {
+      path: '/business',
+      name: 'business',
+      component: business,
+    },
+    {
+      path: '/houseDetail',
+      name: 'houseDetail',
+      component: houseDetail,
+    },
+    {
+      path: '/dismantleList',
+      name: 'dismantleList',
+      component: dismantleList,
+    },
+    {
+      path: '/dismantleDetail/:id',
+      name: 'dismantleDetail',
+      component: dismantleDetail,
     },
 
     /*医检报告*/
@@ -307,6 +364,11 @@ export default new Router({
       path: '/trafficlicenseList',/*扣分详情*/
       name: 'trafficlicenseList',
       component: trafficlicenseList,
+    },
+    {
+      path: '/trafficarThings/:id',/*扣分详情*/
+      name: 'trafficarThings',
+      component: trafficarThings,
     },
 
     /*特殊公共样式*/

@@ -48,7 +48,7 @@
             <div class="inps2">截止{{item.mtoTerm}}</div>
           </div>
         </div>
-        <div class="ele right_icon">
+        <div class="ele right_icon" @click="toThings(item.plateNumber)">
           <div class="tit">
             <div class="cntit">未处理违章</div>
           </div>
@@ -92,11 +92,14 @@
         ...mapGetters([
           "getUserId",
           "getUserName",
-          "getIncludedComponents",
+          "getCardId",
           "getUserPhone",
         ])
       },
       methods:{
+        toThings(id){
+          this.$router.push("/trafficarThings/"+id);
+        },
         toAdd(){
           this.$router.push("/trafficaddNewCar");
         },
@@ -110,14 +113,14 @@
           let vue = this;
           var btnArray = ['取消', '确定'];
           mui.confirm(
-            "系统即将解除本账号<span class='color_red'>（驾驶证号码："+"12345679123"+"）</span>与车辆<span class='color_red'>"+item.plateNumber+"</span>的绑定关系，请您确认无误后点击确定进行解绑。",
+            "系统即将解除本账号<span class='color_red'>（驾驶证号码："+item.driverLicenseNumber+"）</span>与车辆<span class='color_red'>"+item.plateNumber+"</span>的绑定关系，请您确认无误后点击确定进行解绑。",
             "操作确认",
             btnArray,
             function (e) {
               if(e.index==1){
                 axios.post("/myha-server/vehicle/unbind.do",{
-                  plateNumber:item.plateNumber,
-                  carOwner:"622545648212345724"
+                  id:item.id,
+                  plateNumber:item.plateNumber
                 }).then(res=>{
                   if(res.data.result=="1"){
                     mui.toast('解除成功',{ duration:'short', type:'div' });
@@ -130,7 +133,7 @@
         },
         getList(){
           axios.post("/myha-server/vehicle/vehicleList.do",{
-            "userId":"340403199401030017"
+            "userId":this.getUserId
           }).then(res=>{
             this.list = res.data.data;
           })
@@ -246,8 +249,8 @@
     align-items: center;
   }
   .elecontent2 img{
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
   }
   .unbind{
     color: #fff;

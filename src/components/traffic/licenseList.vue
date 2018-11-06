@@ -72,8 +72,17 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
     export default {
       name: "licenseList",
+      computed: {
+        ...mapGetters([
+          "getUserId",
+          "getUserName",
+          "getCardId",
+          "getUserPhone",
+        ])
+      },
       data(){
           return{
             list:[]
@@ -113,6 +122,7 @@
   }
   .red{
     color: #e4393c;
+    font-size: 32px;
   }
   .title{
     display: flex;

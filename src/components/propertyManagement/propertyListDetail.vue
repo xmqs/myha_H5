@@ -1,28 +1,16 @@
 <template>
   <div>
     <div class="content">
-      <div class="item" :class="{'active':active}" @click="active=!active">
+      <div class="item" @click="change(index)" v-for="(item,index) in list">
         <div class="title">
-          <div>南京市欣木防水工程有限公司</div>
+          <div>{{item.name}}</div>
           <img src="./../../../static/img/normal/down_icon.png" alt="">
         </div>
-        <div :class="active?'txt2':'txt'">
-          <div>公司名称：南京市欣木防水工程有限公司</div>
-          <div>法人代表：黄轩</div>
-          <div>联系人：陆进</div>
-          <div>联系电话：12302666984</div>
-        </div>
-      </div>
-      <div class="item" :class="{'active':active2}" @click="active2=!active2">
-        <div class="title">
-          <div>南京市欣木防水工程有限公司</div>
-          <img src="./../../../static/img/normal/down_icon.png" alt="">
-        </div>
-        <div :class="active2?'txt2':'txt'">
-          <div>公司名称：南京市欣木防水工程有限公司</div>
-          <div>法人代表：黄轩</div>
-          <div>联系人：陆进</div>
-          <div>联系电话：12302666984</div>
+        <div class="txt">
+          <div>公司名称：{{item.name}}</div>
+          <div>法人代表：{{item.corporation}}</div>
+          <div>联系人：{{item.contact}}</div>
+          <div>联系电话：{{item.phone}}</div>
         </div>
       </div>
     </div>
@@ -30,13 +18,36 @@
 </template>
 
 <script>
+  import axios from "axios"
+  import "./../../../static/js/jquery.min"
     export default {
         name: "propertyListDetail",
       data(){
           return{
-            active:false,
-            active2:false
+            list:[]
           }
+      },
+      methods:{
+        change(index){
+          console.log($($('.item')[index]).hasClass('active'));
+          if($($('.item')[index]).hasClass('active')){
+            $($('.item')[index]).removeClass("active");
+            $($('.item .txt2')).addClass("txt").removeClass("txt2");
+          }else{
+            $($('.item')[index]).addClass("active");
+            $($('.item .txt')).addClass("txt2").removeClass("txt");
+          }
+        }
+      },
+      mounted(){
+          axios.post('/myha-server/property/bmjgList.do',{
+            "bmjgKey":this.$route.params.type
+          }).then(res=>{
+            this.list = res.data.data;
+            for(let i = 0;i<this.list.length;i++){
+              this.list[i].active = false;
+            }
+          })
       }
     }
 </script>

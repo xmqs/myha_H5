@@ -65,7 +65,7 @@
       ...mapGetters([
         "getUserId",
         "getUserName",
-        "getIncludedComponents",
+        "getCardId",
         "getUserPhone",
       ])
     },
@@ -140,6 +140,7 @@
 
   .blue{
     color: #0d9bf2;
+    font-size: 28px;
   }
   .title{
     white-space:nowrap; text-overflow:ellipsis;

@@ -8,35 +8,10 @@
       </div>
       <div class="content">
         <ul>
-          <li>
-            <div>1</div>
-            <div>永安南路永安南路永安南路</div>
-            <div>奥体新城</div>
-          </li>
-          <li>
-            <div>2</div>
-            <div>永安南路永安南路永安南路</div>
-            <div>奥体新城</div>
-          </li>
-          <li>
-            <div>3</div>
-            <div>永安南路</div>
-            <div>奥体新城</div>
-          </li>
-          <li>
-            <div>4</div>
-            <div>永安南路</div>
-            <div>奥体新城</div>
-          </li>
-          <li>
-            <div>5</div>
-            <div>永安南路永安南路永安南路</div>
-            <div>奥体新城</div>
-          </li>
-          <li>
-            <div>6</div>
-            <div>永安南路</div>
-            <div>奥体新城</div>
+          <li v-for="(item,index) in list">
+            <div>{{index+1}}</div>
+            <div>{{item.address}}</div>
+            <div>{{item.propertyCompany}}</div>
           </li>
         </ul>
       </div>
@@ -45,9 +20,20 @@
 </template>
 
 <script>
-    export default {
-        name: "managementRank"
+  import axios from "axios"
+  export default {
+    name: "managementRank",
+    data(){
+        return{
+          list:[]
+        }
+    },
+    mounted(){
+      axios.get('/myha-server/property/rank.do').then(res=>{
+        this.list = res.data.data;
+      })
     }
+  }
 </script>
 
 <style scoped>

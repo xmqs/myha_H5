@@ -229,8 +229,4 @@
   .mint-indexlist-nav {
     background: #efeff4 !important;
   }
-  .mint-cell-wrapper{
-    border: 10px solid #0d9bf2;
-
-  }
 </style>

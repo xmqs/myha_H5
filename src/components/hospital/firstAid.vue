@@ -4,7 +4,7 @@
 
     </div>
     <div class="tab">
-      <div class="phone">当前联系电话：<span class="blue">15905600684</span></div>
+      <div class="phone">当前联系电话：<span class="blue">{{getUserPhone}}</span></div>
       <a href="tel:120">
         <div class="call">
           呼叫120急救
@@ -12,15 +12,15 @@
       </a>
       <div class="icon">
         <div>
-          <img src="./../../../static/img/publicIcon/育苗通.png" alt="">
-          <p>紧急呼救</p>
+          <img src="./../../../static/img/hostipal/icon1.png" alt="">
+          <p style="color: #1e78f2">紧急呼救</p>
         </div>
         <div>
-          <img src="./../../../static/img/publicIcon/驾考模拟考试.png" alt="">
+          <img src="./../../../static/img/hostipal/icon2.png" alt="">
           <p>注意事项</p>
         </div>
         <div @click="toUserInfo">
-          <img src="./../../../static/img/publicIcon/有线电视.png" alt="">
+          <img src="./../../../static/img/hostipal/icon3.png" alt="">
           <p>个人信息</p>
         </div>
       </div>
@@ -29,17 +29,26 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
     export default {
       name: "firstAid",
       data(){
         return{
-          map:{}
+          map:{},
         }
       },
       methods:{
         toUserInfo(){
-          this.$router.push("/hospital/firstAid");
+          this.$router.push("/hospital/userInfo");
         }
+      },
+      computed: {
+        ...mapGetters([
+          "getUserId",
+          "getUserName",
+          "getCardId",
+          "getUserPhone",
+        ])
       },
       mounted(){
         this.map = new AMap.Map('container', {
@@ -73,9 +82,11 @@
     line-height: 66px;
     height: 66px;
     border-bottom: 1px solid #eee;
+    font-size: 32px;
   }
   .blue{
     color: #18B4FE;
+    font-size: 32px;
   }
   .call{
     width: 686px;

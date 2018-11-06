@@ -40,6 +40,7 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
   import axios from "axios"
   export default {
     name: "index",
@@ -79,9 +80,17 @@
         return month+"-"+day;
       }
     },
+    computed: {
+      ...mapGetters([
+        "getUserId",
+        "getUserName",
+        "getCardId",
+        "getUserPhone",
+      ])
+    },
     mounted(){
       axios.post("/myha-server/12345/count.do",{
-        "userId":"340403459401030017"
+        "userId":this.getUserId
       }).then(res=>{
         this.number = res.data.data.appealCount;
       })

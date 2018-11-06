@@ -3,6 +3,17 @@
     <div id="container">
 
     </div>
+    <div class="tab">
+      <div class="tab_item">
+        <img src="./../../../static/img/map/icon1.png" alt="">
+        <span>办卡须知</span>
+      </div>
+      <div class="line"></div>
+      <div class="tab_item">
+        <img src="./../../../static/img/map/icon1.png" alt="">
+        <span>办卡点&nbsp;&nbsp;&nbsp;</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -27,10 +38,19 @@
         axios.get("/myha-server/common/getBike.do").then(res=>{
           this.list = res.data.data;
           for(let i = 0;i<this.list.length;i++){
+            let startIcon = new AMap.Icon({
+              // 图标尺寸
+              size: new AMap.Size(40, 40),
+              // 图标的取图地址
+              image: './../../../../static/img/map/icon1.png',
+              // 图标所用图片大小
+              imageSize: new AMap.Size(40, 40),
+              // 图标取图偏移量
+            });
             let marker = new AMap.Marker({
               map: vue.map,
               position: [res.data.data[i].longitude,res.data.data[i].latitude],
-              icon:'./../../../../static/img/normal/Group4.png'
+              icon:startIcon,
             });
             //鼠标点击marker弹出自定义的信息窗体
             AMap.event.addListener(marker, 'click', function () {
@@ -87,7 +107,6 @@
               return info;
             }
 
-//关闭信息窗体
             function closeInfoWindow() {
               vue.map.clearInfoWindow();
             }
@@ -105,7 +124,47 @@
     height: 100%;
     position: fixed;
   }
+  span {
+    margin-left: 20px;
+    font-size: 22px;
+  }
 
+  .info-middle img {
+    float: left;
+    margin-right: 12px;
+  }
+  .tab{
+    position: fixed;
+    z-index: 999;
+    bottom: 72px;
+    width: 500px;
+    border: 1px solid #999;
+    background: #fff;
+    left: 125px;
+    border-radius: 6px;
+    padding:4px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+  .tab_item{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+  .tab_item span{
+    font-size: 30px;
+    color: #444;
+  }
+  .tab_item img{
+    width: 60px;
+    height: 60px;
+  }
+  .line{
+    margin: 0 16px;
+    height: 40px;
+    border-left: 1px solid #999;
+  }
 </style>
 <style>
   .content-window-card {
@@ -171,13 +230,5 @@
     z-index: 104;
   }
 
-  span {
-    margin-left: 20px;
-    font-size: 22px;
-  }
 
-  .info-middle img {
-    float: left;
-    margin-right: 12px;
-  }
 </style>

@@ -12,9 +12,9 @@
           <div class="name">号码查询电话</div>
           <div class="phone">10086</div>
         </a>
-        <a href="tel:10086" class="cell">
-          <div class="name">号码查询电话</div>
-          <div class="phone">10086</div>
+        <a href="tel:120" class="cell">
+          <div class="name">急救</div>
+          <div class="phone">120</div>
         </a>
         <a href="tel:10086" class="cell">
           <div class="name">号码查询电话</div>

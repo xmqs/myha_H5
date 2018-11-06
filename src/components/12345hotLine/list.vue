@@ -47,6 +47,7 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
   import axios from "axios"
   export default {
     name: "list",
@@ -60,7 +61,13 @@
     computed:{
       nodata(){
         return ((this.page==1&&this.list1.length==0)||(this.page==2&&this.list2.length==0))
-      }
+      },
+      ...mapGetters([
+        "getUserId",
+        "getUserName",
+        "getCardId",
+        "getUserPhone",
+      ])
     },
     methods:{
       toDetail(id){
@@ -69,7 +76,7 @@
     },
     mounted(){
       axios.post("/myha-server/12345/showProcess.do",{
-        userId:"340403199401030017"
+        userId:this.getUserId
       }).then(res=>{
         this.list1 = res.data.data.processing;
         this.list2 = res.data.data.processingDone;
@@ -133,6 +140,7 @@
 
   .blue{
     color: #0d9bf2;
+    font-size: 28px;
   }
   .title{
     white-space:nowrap; text-overflow:ellipsis;

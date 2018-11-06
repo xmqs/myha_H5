@@ -8,11 +8,46 @@
     </div>
     <div class="wall">
       <div class="scroll">
-          <div class="cell" @click="toDetail(item.id)" v-for="item in list">
-            <div class="title">{{item.name}}</div>
+          <div class="cell" @click="toDetail">
+            <div class="title">江东新村公寓（嘉和园）1</div>
             <div class="content">
-              <span>{{item.remark}}</span>
-              <span class="number">{{item.quaNo}}</span>
+              <span>鼓楼区</span>
+            </div>
+          </div>
+          <div class="cell" @click="toDetail">
+            <div class="title">江东新村公寓（嘉和园）2</div>
+            <div class="content">
+              <span>鼓楼区</span>
+            </div>
+          </div>
+          <div class="cell" @click="toDetail">
+            <div class="title">江东新村公寓（嘉和园）3</div>
+            <div class="content">
+              <span>鼓楼区</span>
+            </div>
+          </div>
+          <div class="cell" @click="toDetail" >
+            <div class="title">江东新村公寓（嘉和园）4</div>
+            <div class="content">
+              <span>鼓楼区</span>
+            </div>
+          </div>
+          <div class="cell">
+            <div class="title">江东新村公寓（嘉和园）5</div>
+            <div class="content">
+              <span>鼓楼区</span>
+            </div>
+          </div>
+          <div class="cell">
+            <div class="title">江东新村公寓（嘉和园）6</div>
+            <div class="content">
+              <span>鼓楼区</span>
+            </div>
+          </div>
+          <div class="cell">
+            <div class="title">江东新村公寓（嘉和园）7</div>
+            <div class="content">
+              <span>鼓楼区</span>
             </div>
           </div>
       </div>
@@ -21,24 +56,17 @@
 </template>
 
 <script>
-  import axios from "axios"
   export default {
     name: "scrollList",
     data(){
       return{
-        searchKey:'',
-        list:[]
+        searchKey:''
       }
     },
     methods:{
-      toDetail(id){
-        this.$router.push("/propertyDetail/"+id);
+      toDetail(){
+        this.$router.push("/protectDetail/:id");
       }
-    },
-    mounted(){
-      axios.get('/myha-server/property/infoList.do').then(res=>{
-        this.list = res.data.data
-      })
     }
   }
 </script>

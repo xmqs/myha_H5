@@ -3,6 +3,9 @@
     <div id="container">
 
     </div>
+    <div class="control">
+      123
+    </div>
   </div>
 </template>
 
@@ -27,10 +30,19 @@
       axios.get("/myha-server/common/getBike.do").then(res=>{
         this.list = res.data.data;
         for(let i = 0;i<this.list.length;i++){
+          let startIcon = new AMap.Icon({
+            // 图标尺寸
+            size: new AMap.Size(40, 40),
+            // 图标的取图地址
+            image: './../../../../static/img/map/icon11.png',
+            // 图标所用图片大小
+            imageSize: new AMap.Size(40, 40),
+            // 图标取图偏移量
+          });
           let marker = new AMap.Marker({
             map: vue.map,
             position: [res.data.data[i].longitude,res.data.data[i].latitude],
-            icon:'./../../../../static/img/normal/Group4.png'
+            icon:startIcon
           });
           //鼠标点击marker弹出自定义的信息窗体
           AMap.event.addListener(marker, 'click', function () {
@@ -112,6 +124,21 @@
     position: fixed;
   }
 
+  span {
+    margin-left: 20px;
+    font-size: 22px;
+  }
+
+  .info-middle img {
+    float: left;
+    margin-right: 12px;
+  }
+  .control{
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 999;
+  }
 </style>
 <style>
   .content-window-card {
@@ -177,13 +204,4 @@
     z-index: 104;
   }
 
-  span {
-    margin-left: 20px;
-    font-size: 22px;
-  }
-
-  .info-middle img {
-    float: left;
-    margin-right: 12px;
-  }
 </style>

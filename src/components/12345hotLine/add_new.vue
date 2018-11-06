@@ -40,7 +40,7 @@
       </li>
       <li class="list_li5">
         <div class="word"> 是否回访</div>
-        <div class="mui-switch mui-switch-mini" :class="{'mui-active':data.isVisit}" @click="data.isVisit=!data.isVisit">
+        <div class="mui-switch mui-switch-mini" :class="{'mui-active':data.visit}" @click="data.visit=!data.visit">
           <div class="mui-switch-handle"></div>
         </div>
       </li>
@@ -75,7 +75,7 @@
           appealType:"请选择诉讼类别",
           appealTime:"请选择事发时间",
           appealArea:"玄武区",
-          isVisit:false,
+          visit:false,
           userName:"",
           phone:"",
           SparePhone:"",
@@ -97,7 +97,7 @@
       ...mapGetters([
         "getUserId",
         "getUserName",
-        "getIncludedComponents",
+        "getCardId",
         "getUserPhone",
       ])
     },
@@ -159,7 +159,6 @@
         }
 
         this.canadd = false;
-        this.data.appealPic = JSON.stringify( this.data.appealPic);
         axios.post("/myha-server/12345/add.do",this.data).then(res=>{
           if(res.data.result==1){
             this.canadd = true;
@@ -167,8 +166,8 @@
             this.$router.go(-1);
           }
         }).catch(err=> {
-          mui.toast(err.data.message,{ duration:'short', type:'div' });
           this.canadd = true;
+          mui.toast("出了点小差错，请稍后尝试",{ duration:'short', type:'div' });
         })
       },
       removeImg(n){
@@ -185,11 +184,11 @@
         var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 
         if (isAndroid) {
-          window.location.href += '#uploadImgByClient?imgNum=0&serverurl=https://m.mynj.cn:11162/web-editor-web/public/delivery/uploadByBase64.do&selectPhotoType=photoAll&isEdit=0';
+          window.location.href += '#uploadImgByClient?imgNum=0&serverurl=http://192.168.0.214:7003/ljs-server/upload/upload.do&selectPhotoType=photoAll&isEdit=0';
         }
 
         if (isiOS) {
-          window.location.href = '#uploadImgByClient?imgNum=0&serverurl=https://m.mynj.cn:11162/web-editor-web/public/delivery/uploadByBase64.do&selectPhotoType=photoAll&isEdit=0';
+          window.location.href = '#uploadImgByClient?imgNum=0&serverurl=http://192.168.0.214:7003/ljs-server/upload/upload.do&selectPhotoType=photoAll&isEdit=0';
         }
 
         var that = this;

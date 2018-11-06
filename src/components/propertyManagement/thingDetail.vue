@@ -3,26 +3,26 @@
     <div class="content">
       <div class="line">
         <div class="lab">详细地址：</div>
-        <div class="txt">海安市长江东路318号</div>
+        <div class="txt">{{data.voteAddress}}</div>
       </div>
       <div class="line">
         <div class="lab">投票主题：</div>
-        <div class="txt">关于9栋物业维修资金增修电梯</div>
+        <div class="txt">{{data.voteTitle}}</div>
       </div>
       <div class="line">
         <div class="lab">投票内容：</div>
-        <div class="txt">关于9栋物业维修资金增修电梯关于9栋物业维修资金增修电梯关于9栋物业维修资金增修电梯关于9栋物业维修资金增修电梯关于9栋物业维修资金增修电梯</div>
+        <div class="txt">{{data.voteContent}}</div>
       </div>
       <div class="line">
         <div class="lab">通过条件：</div>
-        <div class="txt">关于9栋物业维修资金增修电梯关于9栋物业维修资金增修电梯关于9栋物业维修资金增修电梯关于9栋物业维修资金增修电梯关于9栋物业维修资金增修电梯</div>
+        <div class="txt">{{data.voteCondition}}</div>
       </div>
       <div class="line">
         <div class="lab">投票日期：</div>
-        <div class="txt">2018-10-30至2018-10-30</div>
+        <div class="txt">{{data.startDate}}至{{data.endDate}}</div>
       </div>
       <div class="line">
-        <div class="lab">投票日期：</div>
+        <div class="lab">投票附件：</div>
         <div class="txt">
           <img src="./../../../static/img/hotline/nodata.png" alt="" class="more">
         </div>
@@ -41,9 +41,9 @@
       </div>
       <div class="line_right" @click="chose">
         <div class="lab">投票意见：</div>
-        <div class="txt"><span class="state2">{{data.type}}</span></div>
+        <div class="txt"><span class="state2">{{voteSuggest==0?'不同意':'同意'}}</span></div>
       </div>
-      <div class="submit">
+      <div class="submit" @click="vote">
         提交
       </div>
     </div>
@@ -51,34 +51,68 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
+  import axios from "axios"
   import './../../../static/js/mui.picker.min'
     export default {
       name: "thingDetail",
       data(){
         return{
-          data:{
-            type:"请选择"
-          }
+          data:{},
+          voteSuggest:1
         }
+      },
+      computed: {
+        ...mapGetters([
+          "getUserId",
+          "getUserName",
+          "getCardId",
+          "getUserPhone",
+        ])
+      },
+      mounted(){
+        axios.post("/myha-server/property/voteDetail.do",{
+          id:this.$route.params.id
+        }).then(res=>{
+          this.data = res.data.data;
+        })
       },
       methods:{
         toManagementChars(){
-          this.$router.push("/managementChars/:id");
+          this.$router.push("/managementChars/"+this.data.id);
         },
         chose(){
           let vue = this;
           var picker = new mui.PopPicker();
           picker.setData([{
-            value: "true",
+            value: "1",
             text: "同意"
           }, {
-            value: "false",
+            value: "0",
             text: "不同意"
           }])
           picker.show(function(SelectedItem) {
-            vue.data.type = SelectedItem[0].text;
+            vue.voteSuggest = SelectedItem[0].value;
           })
         },
+        vote(){
+          axios.post('/myha-server/property/vote.do',{
+            voteId:this.data.id,
+            userId:this.getUserId,
+            voteSuggest:this.voteSuggest
+          }).then(res=>{
+            if(res.data.result==1){
+              mui.toast('投票成功',{ duration:'short', type:'div' });
+              this.$router.go(-1);
+            }else{
+              mui.toast(res.data.errMsg,{ duration:'short', type:'div' });
+            }
+
+          }).catch(err=> {
+            this.canadd = true;
+            mui.toast("出了点小差错，请稍后尝试",{ duration:'short', type:'div' });
+          })
+        }
       }
     }
 </script>
@@ -114,9 +148,11 @@
   }
   .state1{
     color: #3ad558;
+    font-size: 32px;
   }
   .state2{
     color: #0d9bf2;
+    font-size: 32px;
   }
   .submit{
     width: 686px;

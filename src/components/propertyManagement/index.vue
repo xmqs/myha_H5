@@ -9,7 +9,7 @@
           <img src="./../../../static/img/management/icon11.png" alt="">
           <div>业主议事</div>
         </div>
-        <div class="tab_item">
+        <div class="tab_item" @click="propertyManagement">
           <img src="./../../../static/img/management/icon12.png" alt="">
           <div>物业 <br>常见问题</div>
         </div>
@@ -29,7 +29,7 @@
           <img src="./../../../static/img/management/icon15.png" alt="">
           <div>便民机构<br>查询</div>
         </div>
-        <div class="tab_item">
+        <div class="tab_item" @click="fundDetail">
           <img src="./../../../static/img/management/icon16.png" alt="">
           <div>维修基金<br>查询表决</div>
         </div>
@@ -44,6 +44,12 @@
       methods:{
         toRank(){
           this.$router.push("/managementRank");
+        },
+        fundDetail(){
+          this.$router.push("/house/fundDetail");
+        },
+        propertyManagement(){
+          this.$router.push("/house/qaList");
         },
         toList(){
           this.$router.push("/propertyManagement/list");

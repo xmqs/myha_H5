@@ -4,97 +4,96 @@
       <span @click="state=0" :class="{'active':state==0}">诉求详情</span>
       <span @click="state=1" :class="{'active':state==1}">处理流程</span>
     </div>
-    <div class="main">
-      <div class="main_1" v-if="state==0">
-        <div class="tip">
-          诉求信息
+    <div class="main_1" v-show="state==0">
+      <div class="tip">
+        诉求信息
+      </div>
+      <div class="ele">
+        <div class="tit">
+          <div class="cntit">诉求类别</div>
         </div>
-        <div class="ele">
-          <div class="tit">
-            <div class="cntit">诉求类别</div>
-          </div>
-          <div class="elecontent">
-            <div class="inps2">{{data.appealType}}</div>
-          </div>
-        </div>
-        <div class="ele eleright" @click="chose(0)">
-          <div class="tit">
-            <div class="cntit">事发时间</div>
-          </div>
-          <div class="elecontent">
-            <div class="inps2">{{data.createTime}}</div>
-          </div>
-        </div>
-        <div class="ele">
-          <div class="tit">
-            <div class="cntit">事发区域</div>
-          </div>
-          <div class="elecontent">
-            <div class="inps2">{{data.appealArea}}</div>
-          </div>
-        </div>
-        <div class="ele5">
-          <div class="tit">
-            <div class="cntit">具体位置</div>
-          </div>
-          <div class="elecontent">
-            <div class="inps2"></div>
-          </div>
-        </div>
-        <div class="ele4">
-          {{data.appealPosition}}
-        </div>
-        <div class="ele5">
-          <div class="tit">
-            <div class="cntit">诉求目的</div>
-          </div>
-          <div class="elecontent">
-            <div class="inps2"></div>
-          </div>
-        </div>
-        <div class="ele4">
-          {{data.appealIdea}}
-        </div>
-        <div class="ele5">
-          <div class="tit">
-            <div class="cntit">诉求内容</div>
-          </div>
-          <div class="elecontent">
-            <div class="inps2"></div>
-          </div>
-        </div>
-        <div class="ele4">
-          {{data.appealContent==""?"暂无":data.appealContent}}
-        </div>
-        <div class="ele6">
-          <img :src=item alt="" class="img" v-for="item in data.appealPic">
-        </div>
-        <div class="ele">
-          <div class="tit">
-            <div class="cntit">姓名</div>
-          </div>
-          <div class="elecontent">
-            <div class="inps2">{{data.userName}}</div>
-          </div>
-        </div>
-        <div class="ele">
-          <div class="tit">
-            <div class="cntit">联系方式</div>
-          </div>
-          <div class="elecontent">
-            <div class="inps2">{{data.phone}}</div>
-          </div>
-        </div>
-        <div class="ele">
-          <div class="tit">
-            <div class="cntit">备用联系方式</div>
-          </div>
-          <div class="elecontent">
-            <div class="inps2">{{data.alternateContact}}</div>
-          </div>
+        <div class="elecontent">
+          <div class="inps2">{{data.appealType}}</div>
         </div>
       </div>
-      <div class="main_2" v-if="state==1">
+      <div class="ele eleright" @click="chose(0)">
+        <div class="tit">
+          <div class="cntit">事发时间</div>
+        </div>
+        <div class="elecontent">
+          <div class="inps2">{{data.createTime}}</div>
+        </div>
+      </div>
+      <div class="ele">
+        <div class="tit">
+          <div class="cntit">事发区域</div>
+        </div>
+        <div class="elecontent">
+          <div class="inps2">{{data.appealArea}}</div>
+        </div>
+      </div>
+      <div class="ele5">
+        <div class="tit">
+          <div class="cntit">具体位置</div>
+        </div>
+        <div class="elecontent">
+          <div class="inps2"></div>
+        </div>
+      </div>
+      <div class="ele4">
+        {{data.appealPosition}}
+      </div>
+      <div class="ele5">
+        <div class="tit">
+          <div class="cntit">诉求目的</div>
+        </div>
+        <div class="elecontent">
+          <div class="inps2"></div>
+        </div>
+      </div>
+      <div class="ele4">
+        {{data.appealIdea}}
+      </div>
+      <div class="ele5">
+        <div class="tit">
+          <div class="cntit">诉求内容</div>
+        </div>
+        <div class="elecontent">
+          <div class="inps2"></div>
+        </div>
+      </div>
+      <div class="ele4">
+        {{data.appealContent==""?"暂无":data.appealContent}}
+      </div>
+      <div class="ele6">
+        <img :src=item alt="" class="img" v-for="item in data.appealPic">
+      </div>
+      <div class="ele">
+        <div class="tit">
+          <div class="cntit">姓名</div>
+        </div>
+        <div class="elecontent">
+          <div class="inps2">{{data.userName}}</div>
+        </div>
+      </div>
+      <div class="ele">
+        <div class="tit">
+          <div class="cntit">联系方式</div>
+        </div>
+        <div class="elecontent">
+          <div class="inps2">{{data.phone}}</div>
+        </div>
+      </div>
+      <div class="ele">
+        <div class="tit">
+          <div class="cntit">备用联系方式</div>
+        </div>
+        <div class="elecontent">
+          <div class="inps2">{{data.alternateContact}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="main_2" v-show="state==1">
         <div class="detail" >
           <ul>
             <li v-if="data.timeLine.length>0" v-for="item in data.timeLine">
@@ -110,7 +109,6 @@
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -172,22 +170,14 @@
     border-bottom: 4px solid #4D7BFE;
   }
 
-  .main {
-    padding: 72px 0 0 0;
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    overflow: scroll;
-    background: #f5f5f5;
-  }
 
   .main_1 {
+    padding-top: 72px;
     background: #fff;
   }
 
   .main_2 {
-    padding: 16px 0 0 0;
-    background: #f5f5f5;
+    padding-top: 72px;
   }
 
   .ele {

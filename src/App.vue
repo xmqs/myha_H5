@@ -9,15 +9,26 @@
 </template>
 
 <script>
-
+import axios from "axios";
 export default {
   name: 'App',
+  data(){
+    return{
+      data:{
+        idNumber:"",
+        userName:"",
+        userId:"",
+        mobile:"",
+      }
+    }
+  },
   computed:{
     includedComponents:state=>state.includedComponents,
     excludedComponents:state=>state.excludedComponents
   },
   mounted(){
     this.getparam();
+
   },
   methods:{
     getUrlParam(id) {
@@ -34,10 +45,42 @@ export default {
       return arr[id]
     },
     getparam() {
-      this.$store.commit("setCardId",this.getUrlParam('znmh_idNumber'));
-      this.$store.commit("setUserName",this.getUrlParam('znmh_userName'));
-      this.$store.commit("setUserId",this.getUrlParam('userId'));
-      this.$store.commit("setUserPhone",this.getUrlParam('znmh_mobile'));
+      if(sessionStorage.getItem("userId")){
+
+        this.$store.commit("setCardId",sessionStorage.getItem("idcard"));
+        /*TODO  Url decode*/
+        this.$store.commit("setUserName",sessionStorage.getItem("userName"));
+        this.$store.commit("setUserId",sessionStorage.getItem("userId"));
+        this.$store.commit("setUserPhone",sessionStorage.getItem("tel"));
+
+      }else{
+        this.idNumber=this.getUrlParam('znmh_idNumber')!==undefined?this.getUrlParam('znmh_idNumber'):'';
+        this.userName=this.getUrlParam('znmh_userName')!==undefined?this.getUrlParam('znmh_userName'):'';
+        this.userId=this.getUrlParam('userId')!==undefined?this.getUrlParam('userId'):'';
+        this.mobile=this.getUrlParam('znmh_mobile')!==undefined?this.getUrlParam('znmh_mobile'):'';
+
+        axios.post("/myha-server/public/rsa/getRsaUser.do",{
+          userid: this.userId,
+          idcard: this.idNumber,
+          username: this.userName,
+          tel: this.mobile,
+          rsaKey:"basic_des_key"
+        }).then(res=>{
+          console.log(res.data.data);
+          let data = res.data.data;
+
+          this.$store.commit("setCardId",data.idcard);
+          /*TODO  Url decode*/
+          this.$store.commit("setUserName",data.userName);
+          this.$store.commit("setUserId",data.userId);
+          this.$store.commit("setUserPhone",data.tel);
+
+          sessionStorage.setItem("idcard", data.idcard);
+          sessionStorage.setItem("userName", data.userName);
+          sessionStorage.setItem("userId", data.userId);
+          sessionStorage.setItem("tel", data.tel);
+        })
+      }
     }
   }
 }
