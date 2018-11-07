@@ -1,7 +1,8 @@
 <template>
   <div>
     <div class="noInfo" v-if="this.list.length==0">
-      <img src="./../../../static/img/hotline/hotLint1bg.png" alt="">
+      <img src="./../../../static/img/normal/i6.png" alt="">
+      <p>您暂无绑定车辆</p>
     </div>
     <div class="carList" v-for="item in list">
       <div class="item">
@@ -151,7 +152,7 @@
     padding: 100px 0 80px 0;
   }
   .noInfo img{
-    width: 400px;
+    width: 260px;
   }
   .aadNew{
     width: 550px;

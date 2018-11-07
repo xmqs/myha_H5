@@ -33,55 +33,57 @@
           <div class="page_title">
             <div class="page_text">时事新闻</div>
           </div>
-          <li>海关总署第237号令（关于公布《中华人民共和 国海关企业信用管理办法》的令）</li>
-          <li>海关总署第237号令（关于公布《中华人民共和 国海关企业信用管理办法》的令）</li>
-          <li>海关总署第237号令（关于公布《中华人民共和 国海关企业信用管理办法》的令）</li>
-          <li>海关总署第237号令（关于公布《中华人民共和 国海关企业信用管理办法》的令）</li>
+          <li v-for="item in list.list1" @click="toDetail(item.href)">
+            {{item.title}}{{item.type}}
+          </li>
         </ul>
         <ul class="page_list" id="page2">
           <div class="page_title">
             <div class="page_text">政务信息</div>
           </div>
-          <li>海关总署第237号令（关于公布《中华人民共和 国海关企业信用管理办法》的令）</li>
-          <li>海关总署第237号令（关于公布《中华人民共和 国海关企业信用管理办法》的令）</li>
-          <li>海关总署第237号令（关于公布《中华人民共和 国海关企业信用管理办法》的令）</li>
-          <li>海关总署第237号令（关于公布《中华人民共和 国海关企业信用管理办法》的令）</li>
+          <li v-for="item in list.list2" @click="toDetail(item.href)">
+            {{item.title}}{{item.type}}
+          </li>
         </ul>
         <ul class="page_list" id="page3">
           <div class="page_title">
             <div class="page_text">公告信息</div>
           </div>
-          <li>海关总署第237号令（关于公布《中华人民共和 国海关企业信用管理办法》的令）</li>
-          <li>海关总署第237号令（关于公布《中华人民共和 国海关企业信用管理办法》的令）</li>
-          <li>海关总署第237号令（关于公布《中华人民共和 国海关企业信用管理办法》的令）</li>
-          <li>海关总署第237号令（关于公布《中华人民共和 国海关企业信用管理办法》的令）</li>
+          <li v-for="item in list.list3" @click="toDetail(item.href)">
+            {{item.title}}{{item.type}}
+          </li>
         </ul>
         <ul class="page_list" id="page4">
           <div class="page_title">
             <div class="page_text">政策宣传</div>
           </div>
-          <li>海关总署第237号令（关于公布《中华人民共和 国海关企业信用管理办法》的令）</li>
-          <li>海关总署第237号令（关于公布《中华人民共和 国海关企业信用管理办法》的令）</li>
-          <li>海关总署第237号令（关于公布《中华人民共和 国海关企业信用管理办法》的令）</li>
-          <li>海关总署第237号令（关于公布《中华人民共和 国海关企业信用管理办法》的令）</li>
+          <li v-for="item in list.list4" @click="toDetail(item.href)">
+            {{item.title}}{{item.type}}
+          </li>
         </ul>
         <ul class="page_list" id="page5">
           <div class="page_title">
-            <div class="page_text">调查文件</div>
+            <div class="page_text">视频直播</div>
           </div>
-          <li>海关总署第237号令（关于公布《中华人民共和 国海关企业信用管理办法》的令）</li>
-          <li>海关总署第237号令（关于公布《中华人民共和 国海关企业信用管理办法》的令）</li>
-          <li>海关总署第237号令（关于公布《中华人民共和 国海关企业信用管理办法》的令）</li>
-          <li>海关总署第237号令（关于公布《中华人民共和 国海关企业信用管理办法》的令）</li>
+          <li v-for="item in list.list5" @click="toDetail(item.href)">
+            {{item.title}}{{item.type}}
+          </li>
         </ul>
         <ul class="page_list" id="page6">
           <div class="page_title">
+            <div class="page_text">调查问卷</div>
+          </div>
+          <li v-for="item in list.list5" @click="toDetail(item.href)">
+            {{item.title}}{{item.type}}
+          </li>
+        </ul>
+        <ul class="page_list" id="page7">
+          <div class="page_title">
             <div class="page_text">个性推送</div>
           </div>
-          <li>海关总署第237号令（关于公布《中华人民共和 国海关企业信用管理办法》的令）</li>
-          <li>海关总署第237号令（关于公布《中华人民共和 国海关企业信用管理办法》的令）</li>
-          <li>海关总署第237号令（关于公布《中华人民共和 国海关企业信用管理办法》的令）</li>
-          <li>海关总署第237号令（关于公布《中华人民共和 国海关企业信用管理办法》的令）</li>
+          <li v-for="item in list.list6" @click="toDetail(item.href)">
+            {{item.title}}{{item.type}}
+          </li>
         </ul>
       </div>
     </div>
@@ -91,6 +93,7 @@
 <script>
   import 'swiper/dist/css/swiper.css';
   import Swiper from 'swiper';
+  import axios from "axios"
 
   export default {
     name: "index",
@@ -98,9 +101,15 @@
       return {
         swiper: {},
         page: 1,
+        list:{}
       }
     },
     mounted() {
+      axios.get('/myha-server/common/getAll.do').then(res=>{
+        this.list =  res.data.data;
+      })
+
+
       this.swiper = new Swiper('.swiper-container', {
         loop: false,
         observer: true,
@@ -109,6 +118,9 @@
       })
     },
     methods: {
+      toDetail(href){
+        window.location = href
+      },
       changePage(n) {
         this.page = n;
         let p = "#page"+n

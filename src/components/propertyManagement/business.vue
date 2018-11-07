@@ -1,67 +1,93 @@
 <template>
   <div>
-    <div class="title">
-      <div class="icon">
-        <img src="./../../../static/img/management/listIcon.png" alt="">合同编号2017149810</div>
-      <div class="red">已完成</div>
-    </div>
-    <div class="title">
-      <div class="t1">
-        坐落
+    <div class="list" v-for="item in list">
+      <div class="title">
+        <div class="icon">
+          <img src="./../../../static/img/management/listIcon.png" alt="">合同编号{{item.contractNum}}</div>
+        <div class="red">{{item.contractStatus}}</div>
       </div>
-      <div>
-        秦淮河仙鹤路44号702室秦淮河仙鹤路44号702室秦淮河仙鹤路44号702室秦淮河仙鹤路44号702室秦淮河仙鹤路44号702室
+      <div class="title">
+        <div class="t1">
+          坐落
+        </div>
+        <div>
+          {{item.address}}
+        </div>
       </div>
-    </div>
-    <div class="title">
-      <div class="t1">
-        不动房产号
+      <div class="title">
+        <div class="t1">
+          不动房产号
+        </div>
+        <div>
+          123456789
+        </div>
       </div>
-      <div>
-        123456789
+      <div class="title">
+        <div class="t1">
+          转让方
+        </div>
+        <div>
+          王克庆
+        </div>
       </div>
-    </div>
-    <div class="title">
-      <div class="t1">
-        转让方
+      <div class="title">
+        <div class="t1">
+          受让方
+        </div>
+        <div>
+          李温州
+        </div>
       </div>
-      <div>
-        王克庆
+      <div class="title">
+        <div class="t1">
+          签约日期
+        </div>
+        <div>
+          2018年11月2日
+        </div>
       </div>
-    </div>
-    <div class="title">
-      <div class="t1">
-        受让方
+      <div class="title">
+        <div class="t1">
+          合同总价
+        </div>
+        <div>
+          123万
+        </div>
       </div>
-      <div>
-        李温州
+      <div class="show">
+        查看票据
       </div>
-    </div>
-    <div class="title">
-      <div class="t1">
-        签约日期
-      </div>
-      <div>
-        2018年11月2日
-      </div>
-    </div>
-    <div class="title">
-      <div class="t1">
-        合同总价
-      </div>
-      <div>
-        123万
-      </div>
-    </div>
-    <div class="show">
-      查看票据
     </div>
   </div>
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
+  import axios from "axios"
     export default {
-        name: "business"
+      name: "business",
+      data(){
+        return{
+          list:[]
+        }
+      },
+      computed: {
+        ...mapGetters([
+          "getUserId",
+          "getUserName",
+          "getCardId",
+          "getUserPhone",
+        ])
+      },
+      mounted(){
+        axios.post("/myha-server/houseRegistration/showRegis.do",{
+          pageNo:"1",
+          pageSize:"100",
+          userId:this.getUserId
+        }).then(res=>{
+          this.list = res.data.data;
+        })
+      }
     }
 </script>
 
@@ -99,5 +125,9 @@
     line-height: 88px;
     font-size: 32px;
     margin: 16px 0 0 32px;
+  }
+  .list{
+    border-top: 16px solid #eee;
+    padding-bottom: 16px;
   }
 </style>

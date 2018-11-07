@@ -5,12 +5,12 @@
     </div>
     <div class="tab">
       <div class="tab_item">
-        <img src="./../../../static/img/map/icon1.png" alt="">
+        <img src="./../../../static/img/normal/i4.png" alt="">
         <span>办卡须知</span>
       </div>
       <div class="line"></div>
-      <div class="tab_item">
-        <img src="./../../../static/img/map/icon1.png" alt="">
+      <div class="tab_item" @click="bicycleList">
+        <img src="./../../../static/img/normal/i5.png" alt="">
         <span>办卡点&nbsp;&nbsp;&nbsp;</span>
       </div>
     </div>
@@ -25,6 +25,11 @@
         return{
           map:{},
           list:[]
+        }
+      },
+      methods:{
+        bicycleList(){
+          this.$router.push('/bicycleList');
         }
       },
       mounted(){
@@ -142,7 +147,7 @@
     background: #fff;
     left: 125px;
     border-radius: 6px;
-    padding:4px 16px;
+    padding:8px 16px;
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -157,8 +162,8 @@
     color: #444;
   }
   .tab_item img{
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
   }
   .line{
     margin: 0 16px;

@@ -184,11 +184,11 @@
         var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 
         if (isAndroid) {
-          window.location.href += '#uploadImgByClient?imgNum=0&serverurl=http://192.168.0.214:7003/ljs-server/upload/upload.do&selectPhotoType=photoAll&isEdit=0';
+          window.location.href += '#uploadImgByClient?imgNum=0&serverurl=http://192.168.0.37:8000/file-server/upload/upload.do&selectPhotoType=photoAll&isEdit=0';
         }
 
         if (isiOS) {
-          window.location.href = '#uploadImgByClient?imgNum=0&serverurl=http://192.168.0.214:7003/ljs-server/upload/upload.do&selectPhotoType=photoAll&isEdit=0';
+          window.location.href = '#uploadImgByClient?imgNum=0&serverurl=http://192.168.0.37:8000/file-server/upload/upload.do&selectPhotoType=photoAll&isEdit=0';
         }
 
         var that = this;

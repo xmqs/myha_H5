@@ -56,13 +56,13 @@
             type:1,
             plateNumber:"",
             carOwner:"",
-            carImg  :'./../../../static/img/hotline/hotLint1bg.png',
+            carImg  :'./../../../static/img/normal/i6.png',
             vinNo:"",
             motorNo:"",
             userId:''
           },
           addIng:false,
-          oldImg:"./../../../static/img/hotline/hotLint1bg.png"
+          oldImg:"./../../../static/img/normal/i6.png"
         }
       },
       computed: {
@@ -78,20 +78,20 @@
       },
       methods:{
         myImg() {
-          var oldUrl = window.location.href;
-          var u = navigator.userAgent;
-          var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
-          var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+          let oldUrl = window.location.href;
+          let u = navigator.userAgent;
+          let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+          let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 
           if (isAndroid) {
-            window.location.href += '#uploadImgByClient?imgNum=0&serverurl=https://m.mynj.cn:11162/web-editor-web/public/delivery/uploadByBase64.do&selectPhotoType=photoAll&isEdit=0';
+            window.location.href += '#uploadImgByClient?imgNum=0&serverurl=http://192.168.0.37:8000/file-server/upload/upload.do&selectPhotoType=photoAll&isEdit=0';
           }
 
           if (isiOS) {
-            window.location.href = '#uploadImgByClient?imgNum=0&serverurl=https://m.mynj.cn:11162/web-editor-web/public/delivery/uploadByBase64.do&selectPhotoType=photoAll&isEdit=0';
+            window.location.href = '#uploadImgByClient?imgNum=0&serverurl=http://192.168.0.37:8000/file-server/upload/upload.do&selectPhotoType=photoAll&isEdit=0';
           }
 
-          var that = this;
+          let that = this;
 
           window.uploadImgOver = function (str) {
             that.data.carImg = JSON.parse(str).data;
@@ -115,7 +115,7 @@
             mui.toast('请输入车主信息',{ duration:'short', type:'div' });
             return
           }
-          if(this.data.type==1&&this.data.carImg=="./../../../static/img/hotline/hotLint1bg.png"){
+          if(this.data.type==1&&this.data.carImg=="./../../../static/img/normal/i6.png"){
             mui.toast('请上传驾驶证与车辆和合照',{ duration:'short', type:'div' });
             return
           }
@@ -233,6 +233,7 @@
     font-size: 28px;
   }
   .imgPage img{
+    border: 1px solid #eee;
     width: 380px;
     height: 380px;
   }

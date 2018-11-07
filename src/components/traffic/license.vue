@@ -7,15 +7,15 @@
             <div class="cntit">档案编号</div>
           </div>
           <div class="elecontent">
-            <div class="inps2">姓名</div>
+            <div class="inps2">{{data.recodeNo}}</div>
           </div>
         </div>
         <div class="ele">
           <div class="tit">
-            <div class="cntit">事发区域</div>
+            <div class="cntit">姓名</div>
           </div>
           <div class="elecontent">
-            <div class="inps2">123123</div>
+            <div class="inps2">{{data.name}}</div>
           </div>
         </div>
         <div class="ele">
@@ -23,7 +23,7 @@
             <div class="cntit">驾照编号</div>
           </div>
           <div class="elecontent">
-            <div class="inps2">62222222233312215555</div>
+            <div class="inps2">{{data.drivingNo}}</div>
           </div>
         </div>
         <div class="ele">
@@ -31,7 +31,7 @@
             <div class="cntit">剩余分值</div>
           </div>
           <div class="elecontent">
-            <div class="inps2">12分</div>
+            <div class="inps2">{{data.plusPercent}}分</div>
           </div>
         </div>
         <div class="ele">
@@ -39,7 +39,7 @@
             <div class="cntit">初次领证时间</div>
           </div>
           <div class="elecontent">
-            <div class="inps2">2018-10-30</div>
+            <div class="inps2">{{data.startTakeTime}}</div>
           </div>
         </div>
         <div class="ele">
@@ -47,7 +47,7 @@
             <div class="cntit">下次换证时间</div>
           </div>
           <div class="elecontent">
-            <div class="inps2">2018-10-30</div>
+            <div class="inps2">{{data.nextTakeTime}}</div>
           </div>
         </div>
         <div class="ele">
@@ -58,7 +58,7 @@
             <div class="inps2">正常</div>
           </div>
         </div>
-        <div class="ele right_icon" @click="toDetail">
+        <div class="ele right_icon" @click="toDetail(data.drivingNo)">
           <div class="tit">
             <div class="cntit">扣分记录</div>
           </div>
@@ -72,6 +72,7 @@
 </template>
 
 <script>
+  import axios from "axios"
   import {mapGetters} from 'vuex'
     export default {
       name: "license",
@@ -83,10 +84,22 @@
           "getUserPhone",
         ])
       },
-      methods:{
-        toDetail(){
-          this.$router.push("/trafficlicenseList")
+      data(){
+        return{
+          data:{}
         }
+      },
+      methods:{
+        toDetail(id){
+          this.$router.push("/trafficlicenseList/"+id)
+        }
+      },
+      mounted(){
+        axios.post('/myha-server/driver/getLicenseInfo.do',{
+          userId:this.getUserId
+        }).then(res=>{
+          this.data = res.data.data;
+        })
       }
     }
 </script>

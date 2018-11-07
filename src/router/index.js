@@ -40,6 +40,7 @@ const travelList = ()=>import('@/components/travel/list'/*webpackChunkName: "tra
 /*公共自行车*/
 const bicycle = ()=>import('@/components/bicycle'/*webpackChunkName: "bicycle"*/)
 const mapCondition = ()=>import('@/components/bicycle/map'/*webpackChunkName: "bicycle"*/)
+const bicycleList = ()=>import('@/components/bicycle/bicycleList'/*webpackChunkName: "bicycle"*/)
 
 /*物业管理*/
 const propertyManagement = ()=>import('@/components/propertyManagement'/*webpackChunkName: "propertyManagement"*/)
@@ -231,6 +232,11 @@ export default new Router({
       name: 'mapCondition',
       component: mapCondition,
     },
+    {
+      path: '/bicycleList',/*普通列表*/
+      name: 'bicycleList',
+      component: bicycleList,
+    },
     /*物业管理*/
     {
       path: '/propertyManagement',
@@ -361,7 +367,7 @@ export default new Router({
       component: trafficlicense,
     },
     {
-      path: '/trafficlicenseList',/*扣分详情*/
+      path: '/trafficlicenseList/:id',/*扣分详情*/
       name: 'trafficlicenseList',
       component: trafficlicenseList,
     },
