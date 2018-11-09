@@ -6,7 +6,7 @@
     <div class="control">
       <img src="./../../../static/img/normal/i1.png" alt="" @click="noInfo">
       <img src="./../../../static/img/normal/i2.png" alt="" @click="show">
-      <img src="./../../../static/img/normal/i3.png" alt="" @click="showList">
+      <!--<img src="./../../../static/img/normal/i3.png" alt="" @click="showList">-->
     </div>
     <div class="MyListMask" v-if="showMask" @click="showMask=false">
     </div>
@@ -37,14 +37,14 @@
       });
 
       let vue = this;
-      axios.get("/myha-server/common/getBike.do").then(res=>{
+      axios.get("/myha-server/common/getRoadCondition.do").then(res=>{
         this.list = res.data.data;
         for(let i = 0;i<this.list.length;i++){
           let startIcon = new AMap.Icon({
             // 图标尺寸
             size: new AMap.Size(40, 40),
             // 图标的取图地址
-            image: './../../../../static/img/map/icon11.png',
+            image: './../static/img/map/icon11.png',
             // 图标所用图片大小
             imageSize: new AMap.Size(40, 40),
             // 图标取图偏移量
@@ -59,7 +59,7 @@
             infoWindow.open(vue.map, marker.getPosition());
           });
 
-          let title = res.data.data[i].name,
+          let title = res.data.data[i].pointName,
             content = [];
 
           content.push("<div>"+
@@ -83,6 +83,7 @@
             //可以通过下面的方式修改自定义窗体的宽高
             //info.style.width = "400px";
             // 定义顶部标题
+
             let top = document.createElement("div");
             let titleD = document.createElement("div");
             let closeX = document.createElement("img");

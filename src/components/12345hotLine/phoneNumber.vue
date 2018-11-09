@@ -8,49 +8,9 @@
     </div>
     <div class="wall">
       <div class="scroll">
-        <a href="tel:10086" class="cell">
-          <div class="name">号码查询电话</div>
-          <div class="phone">10086</div>
-        </a>
-        <a href="tel:10086" class="cell">
-          <div class="name">号码查询电话</div>
-          <div class="phone">10086</div>
-        </a>
-        <a href="tel:10086" class="cell">
-          <div class="name">号码查询电话</div>
-          <div class="phone">10086</div>
-        </a>
-        <a href="tel:10086" class="cell">
-          <div class="name">号码查询电话</div>
-          <div class="phone">10086</div>
-        </a>
-        <a href="tel:10086" class="cell">
-          <div class="name">号码查询电话</div>
-          <div class="phone">10086</div>
-        </a>
-        <a href="tel:10086" class="cell">
-          <div class="name">号码查询电话</div>
-          <div class="phone">10086</div>
-        </a>
-        <a href="tel:10086" class="cell">
-          <div class="name">号码查询电话</div>
-          <div class="phone">10086</div>
-        </a>
-        <a href="tel:10086" class="cell">
-          <div class="name">号码查询电话</div>
-          <div class="phone">10086</div>
-        </a>
-        <a href="tel:10086" class="cell">
-          <div class="name">号码查询电话</div>
-          <div class="phone">10086</div>
-        </a>
-        <a href="tel:10086" class="cell">
-          <div class="name">号码查询电话</div>
-          <div class="phone">10086</div>
-        </a>
-        <a href="tel:10086" class="cell">
-          <div class="name">号码查询电话</div>
-          <div class="phone">10086</div>
+        <a :href="'tel:'+item.tel" class="cell" v-for="item in list">
+          <div class="name">{{item.department}}</div>
+          <div class="phone">{{item.tel}}</div>
         </a>
       </div>
     </div>
@@ -58,12 +18,22 @@
 </template>
 
 <script>
+  import axios from "axios"
   export default {
     name: "scrollList",
     data(){
       return{
-        searchKey:''
+        searchKey:'',
+        list:[]
       }
+    },
+    mounted(){
+      axios.post('/myha-server/houseTelInfo/showInfo.do',{
+        pageNo:1,
+        pageSize:99
+      }).then(res=>{
+        this.list = res.data.data;
+      })
     }
   }
 </script>

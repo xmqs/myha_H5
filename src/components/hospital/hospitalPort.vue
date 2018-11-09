@@ -12,91 +12,52 @@
       </div>
     </div>
     <div class="list2" v-show="page==1">
-      <div @click="page=0">
-        <span>全部</span>
+      <div @click="change(0,0)">
+        <span :class="{'blue':time==0}">全部</span>
       </div>
-      <div @click="page=0">
-        <span>近3个月</span>
+      <div @click="change(0,1)">
+        <span :class="{'blue':time==1}">近3个月</span>
       </div>
-      <div @click="page=0">
-        <span>近6个月</span>
+      <div @click="change(0,2)">
+        <span :class="{'blue':time==2}">近6个月</span>
       </div>
-      <div @click="page=0">
-        <span>近1年</span>
+      <div @click="change(0,3)">
+        <span :class="{'blue':time==3}">近1年</span>
       </div>
     </div>
     <div class="list2" v-show="page==2">
-      <div @click="page=0">
+      <div @click="change(1,'')" :class="{'blue':instName==''}">
         <span>全部</span>
       </div>
-      <div @click="page=0">
-        <span>南京市江宁医院</span>
-      </div>
-      <div @click="page=0">
-        <span>白家湖社区卫生服务中心</span>
-      </div>
-      <div @click="page=0">
-        <span>南京市江宁医院</span>
-      </div>
-      <div @click="page=0">
-        <span>白家湖社区卫生服务中心</span>
-      </div>
-      <div @click="page=0">
-        <span>南京市江宁医院</span>
-      </div>
-      <div @click="page=0">
-        <span>白家湖社区卫生服务中心</span>
-      </div>
-      <div @click="page=0">
-        <span>南京市江宁医院</span>
+      <div @click="change(1,item)" v-for="item in hospital" :class="{'blue':instName==item}">
+        <span>{{item}}</span>
       </div>
     </div>
     <div class="list2" v-show="page==3">
-      <div @click="page=0">
+      <div @click="change(2,0)" :class="{'blue':type==0}">
         <span>全部</span>
       </div>
-      <div @click="page=0">
+      <div @click="change(2,1)" :class="{'blue':type==1}">
         <span>门诊</span>
       </div>
-      <div @click="page=0">
+      <div @click="change(2,2)" :class="{'blue':type==2}">
         <span>急诊</span>
       </div>
-      <div @click="page=0">
+      <div @click="change(2,3)" :class="{'blue':type==3}">
         <span>住院</span>
       </div>
     </div>
     <div class="wall">
       <div class="scroll">
-        <div class="cell">
-          <img src="./../../../static/img/publicIcon/育苗通.png" alt="">
+        <p v-if="!list" style="text-align: center;font-size: 20px;padding-top: 16px;height: 300px">
+          暂无信息
+        </p>
+        <div v-if="list" class="cell" v-for="item in list" @click="toDetail(item.id)">
+          <img src="./../../../static/img/hostipal/icon4.png" alt="">
           <div class="txt">
-            <div class="title">谷里社区卫生服务中心</div>
-            <div class="line1">报告：<span class="blue">检查，检验，心电</span></div>
-            <div class="line1">业务时间：<span class="blue">2018-10-30</span></div>
-          </div>
-        </div>
-        <div class="cell">
-          <img src="./../../../static/img/publicIcon/育苗通.png" alt="">
-          <div class="txt">
-            <div class="title">谷里社区卫生服务中心</div>
-            <div class="line1">报告：<span class="blue">检查，检验，心电</span></div>
-            <div class="line1">业务时间：<span class="blue">2018-10-30</span></div>
-          </div>
-        </div>
-        <div class="cell">
-          <img src="./../../../static/img/publicIcon/育苗通.png" alt="">
-          <div class="txt">
-            <div class="title">谷里社区卫生服务中心</div>
-            <div class="line1">报告：<span class="blue">检查，检验，心电</span></div>
-            <div class="line1">业务时间：<span class="blue">2018-10-30</span></div>
-          </div>
-        </div>
-        <div class="cell">
-          <img src="./../../../static/img/publicIcon/育苗通.png" alt="">
-          <div class="txt">
-            <div class="title">谷里社区卫生服务中心</div>
-            <div class="line1">报告：<span class="blue">检查，检验，心电</span></div>
-            <div class="line1">业务时间：<span class="blue">2018-10-30</span></div>
+            <div class="title">{{item.instName}}</div>
+            <div class="line1">报告：<span class="blue">{{item.report}}</span></div>
+            <div class="line1">业务时间：<span class="blue">{{item.businessDate}}</span></div>
           </div>
         </div>
       </div>
@@ -105,17 +66,69 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
+  import axios from "axios"
     export default {
       name: "index",
       data(){
         return{
-          page:0
+          page:0,
+          hospital:[],
+          instName:"",
+          time:'',
+          type:'',
+          list:[],
         }
       },
       methods:{
+        toDetail(id){
+          this.$router.push("/hospital/portDetail/"+id);
+        },
         showPage(n){
           this.page = n
+        },
+        change(type,n){
+          this.page = 0;
+          if (type == 0){
+            this.time = n
+          }
+          if (type == 1){
+            this.instName = n
+          }
+          if (type == 2){
+            this.type = n
+          }
+
+          this.showReport();
+        },
+        showReport(){
+          axios.post("/myha-server/medical/showReport.do",{
+            instName:this.instName,
+            pageNo:1,
+            pageSize:20,
+            time:this.time,
+            type:this.type,
+            userId:this.getUserId
+          }).then(res=>{
+            this.list = res.data.data;
+          })
         }
+      },
+      computed: {
+        ...mapGetters([
+          "getUserId",
+          "getUserName",
+          "getCardId",
+          "getUserPhone",
+        ])
+      },
+      mounted(){
+        axios.post('/myha-server/medical/showInstName.do',{
+          userId:this.getUserId
+        }).then(res=>{
+          this.hospital = res.data.data;
+          this.showReport();
+        })
       }
     }
 </script>
@@ -191,7 +204,7 @@
   }
   .cell img{
     width: 100px;
-    margin: 36px;
+    margin: 36px 36px 36px 24px;
   }
   .cell .txt{
     flex-grow: 1;

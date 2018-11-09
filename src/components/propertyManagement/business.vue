@@ -1,61 +1,19 @@
 <template>
   <div>
-    <div class="list" v-for="item in list">
-      <div class="title">
-        <div class="icon">
-          <img src="./../../../static/img/management/listIcon.png" alt="">合同编号{{item.contractNum}}</div>
-        <div class="red">{{item.contractStatus}}</div>
-      </div>
-      <div class="title">
-        <div class="t1">
-          坐落
+    <div class="searchList">
+      <iframe id="frame" name="iframe" style="display:none;"></iframe>
+      <form action="javascript:return true;" method="post">
+        <input type="search" id="input" class="search" placeholder="请输入搜索内容" v-model="searchKey">
+      </form>
+    </div>
+    <div class="wall">
+      <div class="scroll">
+        <div class="cell" @click="toDetail(item.id)" v-for="item in list">
+          <div class="title">合同编号：{{item.contractNum}}</div>
+          <div class="content">
+            <span>{{item.signDate}}</span>
+          </div>
         </div>
-        <div>
-          {{item.address}}
-        </div>
-      </div>
-      <div class="title">
-        <div class="t1">
-          不动房产号
-        </div>
-        <div>
-          123456789
-        </div>
-      </div>
-      <div class="title">
-        <div class="t1">
-          转让方
-        </div>
-        <div>
-          王克庆
-        </div>
-      </div>
-      <div class="title">
-        <div class="t1">
-          受让方
-        </div>
-        <div>
-          李温州
-        </div>
-      </div>
-      <div class="title">
-        <div class="t1">
-          签约日期
-        </div>
-        <div>
-          2018年11月2日
-        </div>
-      </div>
-      <div class="title">
-        <div class="t1">
-          合同总价
-        </div>
-        <div>
-          123万
-        </div>
-      </div>
-      <div class="show">
-        查看票据
       </div>
     </div>
   </div>
@@ -87,47 +45,90 @@
         }).then(res=>{
           this.list = res.data.data;
         })
+      },
+      methods:{
+        toDetail(id){
+          this.$router.push("/businessDetail/"+id)
+        }
       }
     }
 </script>
 
 <style scoped>
-  .title{
-    display: flex;
-    align-items: center;
-    padding: 16px 32px;
-    border-bottom: 1px solid #eee;
-    font-size: 32px;
-    justify-content: space-between;
-  }
-  .icon{
-    display: flex;
-    align-items: center;
-  }
-  .icon img{
-    width: 50px;
-    height: 50px;
-  }
-  .red{
-    color: #e4393c;
-  }
-  .t1{
-    min-width: 200px;
-    white-space: nowrap;
-  }
-  .show{
-    width: 686px;
+  .searchList {
+    position: fixed;
+    top: 0;
     height: 88px;
-    border-radius: 6px;
-    background: #ec971f;
-    color: #fff;
-    text-align: center;
-    line-height: 88px;
-    font-size: 32px;
-    margin: 16px 0 0 32px;
+    width: 100%;
+    background-color: #EFEFF4;
+    padding-top: 14px;
+    box-sizing: border-box;
+    z-index: 999;
   }
-  .list{
-    border-top: 16px solid #eee;
-    padding-bottom: 16px;
+
+  .search {
+    width: 686px;
+    height: 60px;
+    border-radius: 10px;
+    background: #fff url("./../../../static/img/hotline/searchicon.png") no-repeat;
+    background-size: 30px;
+    background-position: 20px center;
+    margin: 0 auto 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 28px;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(153, 153, 153, 1);
+    border: 0;
+    outline: 0;
+    box-sizing: border-box;
+    padding-left: 60px;
+  }
+
+  input[type=search]::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+  }
+  .wall {
+    width: 100%;
+    padding-top:88px;
+  }
+
+  .scroll{
+    overflow: scroll;
+    width: 100%;
+    -webkit-overflow-scrolling: touch;
+    background: #fff;
+    padding: 0 32px;
+  }
+  .cell{
+    border-bottom: 1px solid #eee;
+    padding: 16px 0;
+    padding-right: 40px;
+    background: url("./../../../static/img/normal/right.png")  right no-repeat ;
+    background-size: 12px;
+    font-size: 32px;
+  }
+  .title{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 32px;
+    color: #666;
+  }
+  .content{
+    font-size: 28px;
+    color: #999;
+    padding-top: 8px;
+  }
+  .number{
+    float: right;
+  }
+  .content::after{
+    display: table;
+    content: "";
+    clear: both;
   }
 </style>

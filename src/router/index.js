@@ -56,7 +56,9 @@ const managementpropertyListDetail = ()=>import('@/components/propertyManagement
 const houseIndex = ()=>import('@/components/propertyManagement/houseIndex'/*webpackChunkName: "propertyManagement"*/)
 const guideList = ()=>import('@/components/propertyManagement/guideList'/*webpackChunkName: "propertyManagement"*/)
 const business = ()=>import('@/components/propertyManagement/business'/*webpackChunkName: "propertyManagement"*/)
+const businessDetail = ()=>import('@/components/propertyManagement/businessDetail'/*webpackChunkName: "propertyManagement"*/)
 const houseDetail = ()=>import('@/components/propertyManagement/houseDetail'/*webpackChunkName: "propertyManagement"*/)
+const houseList = ()=>import('@/components/propertyManagement/houseList'/*webpackChunkName: "propertyManagement"*/)
 const protectDetail = ()=>import('@/components/propertyManagement/protectDetail'/*webpackChunkName: "propertyManagement"*/)
 const dismantleList = ()=>import('@/components/propertyManagement/dismantleList'/*webpackChunkName: "propertyManagement"*/)
 const dismantleDetail = ()=>import('@/components/propertyManagement/dismantleDetail'/*webpackChunkName: "propertyManagement"*/)
@@ -68,6 +70,7 @@ const fundDetail = ()=>import('@/components/propertyManagement/fundDetail'/*webp
 const hospitalPort = ()=>import('@/components/hospital/hospitalPort'/*webpackChunkName: "hospital"*/)
 const firstAid = ()=>import('@/components/hospital/firstAid'/*webpackChunkName: "hospital"*/)
 const hospitalUserInfo = ()=>import('@/components/hospital/userInfo'/*webpackChunkName: "hospital"*/)
+const portDetail = ()=>import('@/components/hospital/portDetail'/*webpackChunkName: "hospital"*/)
 
 
 /*车辆违章*/
@@ -79,12 +82,21 @@ const trafficaddNewCar = ()=>import('@/components/traffic/addNewCar'/*webpackChu
 const trafficarThings = ()=>import('@/components/traffic/carThings'/*webpackChunkName: "traffic"*/)
 
 
-/*公共列表样式*/
+/*生育登记*/
+const birthIndex = ()=>import('@/components/birth'/*webpackChunkName: "birth"*/)
+const birthAdd = ()=>import('@/components/birth/birthAdd'/*webpackChunkName: "birth"*/)
+const birthIdCard = ()=>import('@/components/birth/birthIdCard'/*webpackChunkName: "birth"*/)
+const birthAddress = ()=>import('@/components/birth/birthAddress'/*webpackChunkName: "birth"*/)
+const birthOrigin = ()=>import('@/components/birth/birthOrigin'/*webpackChunkName: "birth"*/)
+const birthState = ()=>import('@/components/birth/birthState'/*webpackChunkName: "birth"*/)
+const birthHistory = ()=>import('@/components/birth/birthHistory'/*webpackChunkName: "birth"*/)
 
-const normalList = () => import ("../components/public/normalList")
-const newsList = () => import ("../components/public/newsList")
-const normalList2 = () => import ("../components/public/normalList2")
-const scrollList = () => import ("../components/public/scrollList")
+
+/*公共特殊页面*/
+const normalList = () => import ("../components/public/normalList"/*webpackChunkName: "static"*/)
+const newsList = () => import ("../components/public/newsList"/*webpackChunkName: "static"*/)
+const normalList2 = () => import ("../components/public/normalList2"/*webpackChunkName: "static"*/)
+const scrollList = () => import ("../components/public/scrollList"/*webpackChunkName: "static"*/)
 
 
 
@@ -319,7 +331,17 @@ export default new Router({
       component: business,
     },
     {
-      path: '/houseDetail',
+      path: '/businessDetail/:id',
+      name: 'businessDetail',
+      component: businessDetail,
+    },
+    {
+      path: '/houseList',
+      name: 'houseList',
+      component: houseList,
+    },
+    {
+      path: '/houseDetail/:id',
       name: 'houseDetail',
       component: houseDetail,
     },
@@ -339,6 +361,15 @@ export default new Router({
       path: '/hospital/port',
       name: 'hospitalPort',
       component: hospitalPort,
+      meta:{
+        keepAlive:true
+      }
+
+    },
+    {
+      path: '/hospital/portDetail/:id',
+      name: 'portDetail',
+      component: portDetail,
     },
     {
       path: '/hospital/firstAid',
@@ -375,6 +406,46 @@ export default new Router({
       path: '/trafficarThings/:id',/*扣分详情*/
       name: 'trafficarThings',
       component: trafficarThings,
+    },
+
+    /*生育登记*/
+    {
+      path: '/birthIndex',/*生育登记首页*/
+      name: 'birthIndex',
+      component: birthIndex,
+    },
+    {
+      path: '/birthAdd',/*新增页面*/
+      name: 'birthAdd',
+      component: birthAdd,
+      meta:{
+        keepAlive:true
+      }
+    },
+    {
+      path: '/birthIdCard',/*身份证页面*/
+      name: 'birthIdCard',
+      component: birthIdCard,
+    },
+    {
+      path: '/birthAddress',/*生育登记居住地*/
+      name: 'birthAddress',
+      component: birthAddress,
+    },
+    {
+      path: '/birthOrigin',/*生育登记户籍*/
+      name: 'birthOrigin',
+      component: birthOrigin,
+    },
+    {
+      path: '/birthState',/*生育登记婚姻状况*/
+      name: 'birthState',
+      component: birthState,
+    },
+    {
+      path: '/birthHistory',/*生育登记本人生育史*/
+      name: 'birthHistory',
+      component: birthHistory,
     },
 
     /*特殊公共样式*/

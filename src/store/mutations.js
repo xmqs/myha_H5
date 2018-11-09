@@ -12,5 +12,8 @@ export default {
   },
   [types.setUserPhone](state,userPhone){
     state.userPhone = userPhone;
+  },
+  [types.setChildInfo](state,childInfo){
+    state.childInfo = childInfo;
   }
 }

@@ -1,11 +1,12 @@
 import * as types from './mutation-type'
 
 export default {
-  nameAsyn({commit},{cardId,userId,userName,userPhone}){
+  nameAsyn({commit},{cardId,userId,userName,userPhone,childInfo}){
     commit(types.setCardId,cardId);
     commit(types.setUserId,userId);
     commit(types.setUserName,userName);
     commit(types.setUserPhone,userPhone);
+    commit(types.setChildInfo,childInfo);
   }
 
 }

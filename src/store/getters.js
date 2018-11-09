@@ -14,3 +14,7 @@ export const  getUserPhone = (state) => {
   return state.userPhone;
 }
 
+export const  getChildInfo = (state) => {
+  return state.childInfo;
+}
+

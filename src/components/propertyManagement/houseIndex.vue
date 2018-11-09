@@ -89,7 +89,7 @@
           this.$router.push("/managementpropertyList");
         },
         houseDetail(){
-          this.$router.push("/houseDetail");
+          this.$router.push("/houseList");
         },
         protectList(){
           this.$router.push("/propertyManagement/protectList");

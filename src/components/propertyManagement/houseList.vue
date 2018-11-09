@@ -8,10 +8,12 @@
     </div>
     <div class="wall">
       <div class="scroll">
-        <a :href="'tel:'+item.tel" class="cell" v-for="item in list">
-          <div class="name">{{item.department}}</div>
-          <div class="phone">{{item.tel}}</div>
-        </a>
+          <div class="cell" @click="toDetail(item.id)" v-for="item in list">
+            <div class="title">{{item.address}}</div>
+            <div class="content">
+              <span>{{item.hillockNum}}</span>
+            </div>
+          </div>
       </div>
     </div>
   </div>
@@ -19,6 +21,7 @@
 
 <script>
   import axios from "axios"
+  import {mapGetters} from 'vuex'
   export default {
     name: "scrollList",
     data(){
@@ -27,10 +30,24 @@
         list:[]
       }
     },
+    computed: {
+      ...mapGetters([
+        "getUserId",
+        "getUserName",
+        "getCardId",
+        "getUserPhone",
+      ])
+    },
+    methods:{
+      toDetail(id){
+        this.$router.push("/houseDetail/"+id);
+      }
+    },
     mounted(){
-      axios.post('/myha-server/houseTelInfo/showInfo.do',{
+      axios.post('/myha-server/houseRoomInfo/showRoom.do',{
+        userId:this.getUserId,
         pageNo:1,
-        pageSize:99
+        pageSize:30
       }).then(res=>{
         this.list = res.data.data;
       })
@@ -89,24 +106,30 @@
   }
   .cell{
     border-bottom: 1px solid #eee;
-    padding: 22px 0;
+    padding: 16px 0;
+    padding-right: 40px;
+    background: url("./../../../static/img/normal/right.png")  right no-repeat ;
+    background-size: 12px;
+    font-size: 32px;
+  }
+  .title{
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    display: flex;
-
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .name {
     font-size: 32px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    color: #666;
   }
-  .phone {
-    text-align: right;
-    color: #008ef3;
-    font-size: 32px;
+  .content{
+    font-size: 28px;
+    color: #999;
+    padding-top: 8px;
+  }
+  .number{
+    float: right;
+  }
+  .content::after{
+    display: table;
+    content: "";
+    clear: both;
   }
 </style>

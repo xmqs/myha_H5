@@ -5,7 +5,7 @@
         坐落
       </div>
       <div>
-        秦淮河仙鹤路44号702室秦淮河仙鹤路44号702室秦淮河仙鹤路44号702室秦淮河仙鹤路44号702室秦淮河仙鹤路44号702室
+        {{data.address}}
       </div>
     </div>
     <div class="title">
@@ -13,7 +13,7 @@
         丘权号
       </div>
       <div>
-        123456789
+        {{data.hillockNum}}
       </div>
     </div>
     <div class="title">
@@ -21,10 +21,10 @@
         不动产单元号
       </div>
       <div>
-        123456789
+        {{data.estateUnitNum}}
       </div>
     </div>
-    <div class="title right_icon">
+    <div class="title right_icon" @click="pdf(data.estateRegister)">
       <div class="t1">
         不动产登记簿
       </div>
@@ -32,7 +32,7 @@
         查看
       </div>
     </div>
-    <div class="title right_icon">
+    <div class="title right_icon"@click="pdf(data.houseHoldMap)">
       <div class="t1">
         分层分户图
       </div>
@@ -44,8 +44,26 @@
 </template>
 
 <script>
+  import axios from "axios"
   export default {
-    name: "business"
+    name: "business",
+    data(){
+      return{
+        data:{}
+      }
+    },
+    methods:{
+      pdf(url){
+        window.location  = "http://192.168.0.37:8000/jn/pdf/whjn/pdf.html?url="+url;
+      }
+    },
+    mounted(){
+      axios.post("/myha-server/houseRoomInfo/showRoomInfo.do",{
+        id:this.$route.params.id
+      }).then(res=>{
+        this.data = res.data.data
+      })
+    }
   }
 </script>
 

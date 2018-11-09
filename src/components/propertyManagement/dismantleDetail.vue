@@ -4,67 +4,73 @@
       行政区名称
     </div>
     <div class="detail">
-      玄武区
+      {{data.areaName}}
     </div>
     <div class="tip">
       街道
     </div>
     <div class="detail">
-      暂无记录
+      {{data.street }}
     </div>
     <div class="tip">
       小区名称
     </div>
     <div class="detail">
-      公教一村
+      {{data.communityName}}
     </div>
     <div class="tip">
       座落
     </div>
     <div class="detail">
-      北京东路51号28栋404
+      {{data.address}}
     </div>
     <div class="tip">
       门牌号
     </div>
     <div class="detail">
-      暂无记录
+      {{data.houseNum}}
     </div>
     <div class="tip">
       公安栋号
     </div>
     <div class="detail">
-      28
+      {{data.policeNum}}
     </div>
     <div class="tip">
       公安单元号
     </div>
     <div class="detail">
-      暂无记录
+      {{data.policeUnitNum}}
     </div>
     <div class="tip">
       公安户室号
     </div>
     <div class="detail">
-      404
+      {{data.policeRoomNum}}
     </div>
     <div class="tip">
       核准结果
     </div>
     <div class="detail">
-      NJASDI-ASF-23-004215552156112
+      {{data.approvalNumber}}
     </div>
     <div class="tip">
       核准日期
     </div>
     <div class="detail">
-      2018-11-2
+      {{data.approvalDate}}
     </div>
     <div class="tip">
       核准项目
     </div>
     <div class="detail">
-      1、拆除阳台与卧室之间的窗间墙，形成宽1660mmX高2400mm的门洞。
+      {{data.approvalProjects}}
+    </div>
+    <div class="tip">
+      核准结果
+    </div>
+    <div class="detail">
+      {{data.approvalResults}}
     </div>
   </div>
 </template>
@@ -79,7 +85,11 @@
         }
       },
       mounted(){
-
+        axios.post('/myha-server/houseRoomDemolition/showRoomInfo.do',{
+          id:this.$route.params.id
+        }).then(res=>{
+          this.data = res.data.data
+        })
       }
     }
 </script>

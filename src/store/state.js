@@ -2,7 +2,51 @@ const state = {
   cardId:'',
   userName:'',
   userId:'',
-  userPhone:''
+  userPhone:'',
+  childInfo:{
+    idCard:{
+      number:'',
+      front:'',
+      back:''
+    },
+    address:{
+      address:['','',''],
+      detail:""
+    },
+    origin:{
+      address:['','','',''],
+      detail:'',
+      picture:''
+    },
+    marriage:{
+      state:'',
+      time:'',
+      number:'',
+      picture:''
+    },
+    history:[],
+    spouseIdCard:{
+      number:'',
+      front:'',
+      back:''
+    },
+    spouseAddress:{
+      address:['','',''],
+      detail:""
+    },
+    spouseOrigin:{
+      address:['','','',''],
+      detail:'',
+      picture:''
+    },
+    spouseMarriage:{
+      state:'',
+      time:'',
+      number:'',
+      picture:''
+    },
+    spouseHistory:[],
+  }
 }
 
 export default state;

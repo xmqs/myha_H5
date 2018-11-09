@@ -8,40 +8,10 @@
     </div>
     <div class="wall">
       <div class="scroll">
-        <div class="cell" @click="toDetail">
-          <div class="title">小区名称：江东新村公寓（嘉和园）1</div>
+        <div class="cell" @click="toDetail(item.id)" v-for="item in list">
+          <div class="title">{{item.communityName}}</div>
           <div class="content">
-            <span>坐落：清溪路9号11栋</span>
-          </div>
-        </div>
-        <div class="cell" @click="toDetail">
-          <div class="title">小区名称：江东新村公寓（嘉和园）2</div>
-          <div class="content">
-            <span>坐落：清溪路9号11栋</span>
-          </div>
-        </div>
-        <div class="cell" @click="toDetail">
-          <div class="title">小区名称：江东新村公寓（嘉和园）3</div>
-          <div class="content">
-            <span>坐落：清溪路9号11栋</span>
-          </div>
-        </div>
-        <div class="cell" @click="toDetail">
-          <div class="title">小区名称：江东新村公寓（嘉和园）4</div>
-          <div class="content">
-            <span>坐落：清溪路9号11栋</span>
-          </div>
-        </div>
-        <div class="cell" @click="toDetail">
-          <div class="title">小区名称：江东新村公寓（嘉和园）5</div>
-          <div class="content">
-            <span>坐落：清溪路9号11栋</span>
-          </div>
-        </div>
-        <div class="cell" @click="toDetail">
-          <div class="title">小区名称：江东新村公寓（嘉和园）6</div>
-          <div class="content">
-            <span>坐落：清溪路9号11栋</span>
+            <span>坐落：{{item.address}}</span>
           </div>
         </div>
       </div>
@@ -50,17 +20,28 @@
 </template>
 
 <script>
+  import axios from "axios"
   export default {
     name: "scrollList",
     data(){
       return{
-        searchKey:''
+        searchKey:'',
+        list:[]
       }
     },
     methods:{
-      toDetail(){
-        this.$router.push("/dismantleDetail/:id");
+      toDetail(id){
+        this.$router.push("/dismantleDetail/"+id);
       }
+    },
+    mounted(){
+      axios.post('/myha-server/houseRoomDemolition/showRoom.do',{
+        keyWord:this.searchKey,
+        pageNo:1,
+        pageSize:30
+      }).then(res=>{
+        this.list = res.data.data;
+      })
     }
   }
 </script>
