@@ -1,34 +1,46 @@
 <template>
   <div>
     <div class="content">
-      <div class="item" @click="toDetail(item.url)" v-for="item in data">
-        <img src="./../../../static/img/management/listIcon.png" alt="">
-        <span>
-          {{item.title}}
-        </span>
+      <div class="item" @click="change(index)" v-for="(item,index) in list">
+        <div class="title">
+          <div>{{item.title}}</div>
+          <img src="./../../../static/img/normal/down_icon.png" alt="">
+        </div>
+        <div class="txt">
+          <div>{{item.content}}</div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import axiso from "axios"
+  import axios from "axios"
+  import "./../../../static/js/jquery.min"
   export default {
-    name: "topropertyList",
+    name: "propertyListDetail",
     data(){
       return{
-        data:[]
+        list:[]
       }
     },
     methods:{
-      toDetail(url){
-        window.location = url;
-      },
+      change(index){
+        if($($('.item')[index]).hasClass('active')){
+          $($('.item')[index]).removeClass("active");
+          $($('.item .txt')[index]).removeClass("txt2");
+        }else{
+          $($('.item')[index]).addClass("active");
+          $($('.item .txt')[index]).addClass("txt2");
+        }
+      }
     },
     mounted(){
-
-      axiso.get('/myha-server/property/question.do').then(res=>{
-        this.data = res.data.data;
+      axios.get('/myha-server/property/question.do').then(res=>{
+        this.list = res.data.data;
+        for(let i = 0;i<this.list.length;i++){
+          this.list[i].active = false;
+        }
       })
     }
   }
@@ -40,30 +52,56 @@
     padding: 8px 0;
   }
   .item{
+    margin-bottom: 16px;
+  }
+  .item .title{
     width: 718px;
     min-height: 88px;
-    margin:8px 0 22px 16px;
-    background: #fff url("./../../../static/img/normal/right.png") no-repeat ;
-    background-position: 96% center;
+    margin:8px 0 0 16px;
     background-size: 12px;
 
     display: flex;
-    padding-left: 16px;
+
+    justify-content: space-between;
 
     align-items: center;
-    font-size: 32px;
+    font-size: 30px;
     color: #666;
-  }
-  .item img{
-    width: 50px;
-    height: 50px;
+
+    background: #fff;
+
+    padding: 8px 32px;
   }
 
-  .item span{
-    padding:0 40px 0 12px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: 30px;
+  .title img{
+    transition: all 0.25s;
+    width: 30px;
+    margin-left: 20px;
+  }
+  .txt{
+    display: none;
+
+    font-size: 28px;
+    color: #fff;
+    background:#ec971f;
+    width: 718px;
+    margin-left: 16px;
+    padding: 16px 32px;
+  }
+
+  .active .title div{
+    color: #ec971f!important;
+  }
+  .active .title img{
+    transform:rotate(180deg);
+  }
+  .txt2{
+    font-size: 28px;
+    color: #fff;
+    background:#ec971f;
+    width: 718px;
+    margin-left: 16px;
+    padding: 16px 32px;
+    display: block!important;
   }
 </style>

@@ -52,7 +52,9 @@ const managementtingList = ()=>import('@/components/propertyManagement/tingList'
 const managementthingDetail = ()=>import('@/components/propertyManagement/thingDetail'/*webpackChunkName: "propertyManagement"*/)
 const managementChars = ()=>import('@/components/propertyManagement/chars'/*webpackChunkName: "propertyManagement"*/)
 const managementpropertyList = ()=>import('@/components/propertyManagement/propertyList'/*webpackChunkName: "propertyManagement"*/)
+const managementpropertyList2 = ()=>import('@/components/propertyManagement/propertyList2'/*webpackChunkName: "propertyManagement"*/)
 const managementpropertyListDetail = ()=>import('@/components/propertyManagement/propertyListDetail'/*webpackChunkName: "propertyManagement"*/)
+const managementpropertyListDetail2 = ()=>import('@/components/propertyManagement/propertyListDetail2'/*webpackChunkName: "propertyManagement"*/)
 const houseIndex = ()=>import('@/components/propertyManagement/houseIndex'/*webpackChunkName: "propertyManagement"*/)
 const guideList = ()=>import('@/components/propertyManagement/guideList'/*webpackChunkName: "propertyManagement"*/)
 const business = ()=>import('@/components/propertyManagement/business'/*webpackChunkName: "propertyManagement"*/)
@@ -91,6 +93,11 @@ const birthOrigin = ()=>import('@/components/birth/birthOrigin'/*webpackChunkNam
 const birthState = ()=>import('@/components/birth/birthState'/*webpackChunkName: "birth"*/)
 const birthHistory = ()=>import('@/components/birth/birthHistory'/*webpackChunkName: "birth"*/)
 
+/*解锁电话+热线*/
+const unlockLine = ()=>import('@/components/unlockLine'/*webpackChunkName: "unlockLine"*/)
+
+/*服务中心*/
+const serviceCenter = ()=>import('@/components/serviceCenter'/*webpackChunkName: "serviceCenter"*/)
 
 /*公共特殊页面*/
 const normalList = () => import ("../components/public/normalList"/*webpackChunkName: "static"*/)
@@ -235,17 +242,17 @@ export default new Router({
     },
     /*公共自行车*/
     {
-      path: '/bicycle',/*普通列表*/
+      path: '/bicycle',/**/
       name: 'bicycle',
       component: bicycle,
     },
     {
-      path: '/mapCondition',/*普通列表*/
+      path: '/mapCondition',/*监控*/
       name: 'mapCondition',
       component: mapCondition,
     },
     {
-      path: '/bicycleList',/*普通列表*/
+      path: '/bicycleList',/**/
       name: 'bicycleList',
       component: bicycleList,
     },
@@ -301,6 +308,11 @@ export default new Router({
       component: managementpropertyList,
     },
     {
+      path: '/managementpropertyList2',
+      name: 'managementpropertyList2',
+      component: managementpropertyList2,
+    },
+    {
       path: '/house/qaList',
       name: 'qaList',
       component: qaList,
@@ -314,6 +326,11 @@ export default new Router({
       path: '/managementpropertyListDetail/:type',
       name: 'managementpropertyListDetail',
       component: managementpropertyListDetail,
+    },
+    {
+      path: '/managementpropertyListDetail2/:type',
+      name: 'managementpropertyListDetail2',
+      component: managementpropertyListDetail2,
     },
     {
       path: '/houseIndex',
@@ -447,6 +464,20 @@ export default new Router({
       name: 'birthHistory',
       component: birthHistory,
     },
+    /*解锁电话热线*/
+    {
+      path: '/unlockLine',/*unlockLine*/
+      name: 'unlockLine',
+      component: unlockLine,
+    },
+    /*服务中心*/
+    {
+      path: '/serviceCenter',/*serviceCenter*/
+      name: 'serviceCenter',
+      component: serviceCenter,
+    },
+
+
 
     /*特殊公共样式*/
     {

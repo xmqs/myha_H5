@@ -29,13 +29,12 @@
       },
       methods:{
         change(index){
-          console.log($($('.item')[index]).hasClass('active'));
           if($($('.item')[index]).hasClass('active')){
             $($('.item')[index]).removeClass("active");
-            $($('.item .txt2')).addClass("txt").removeClass("txt2");
+            $($('.item .txt')[index]).removeClass("txt2");
           }else{
             $($('.item')[index]).addClass("active");
-            $($('.item .txt')).addClass("txt2").removeClass("txt");
+            $($('.item .txt')[index]).addClass("txt2");
           }
         }
       },
@@ -107,5 +106,6 @@
     width: 718px;
     margin-left: 16px;
     padding: 16px 32px;
+    display: block!important;
   }
 </style>

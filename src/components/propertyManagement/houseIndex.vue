@@ -2,9 +2,9 @@
   <div class="main">
     <div class="swiper-container">
       <div class="swiper-wrapper">
-        <div class="swiper-slide">slider1</div>
-        <div class="swiper-slide">slider2</div>
-        <div class="swiper-slide">slider3</div>
+        <div class="swiper-slide" v-for="item in list">
+          <img :src="item.imageUrl" alt="">
+        </div>
       </div>
     </div>
     <div class="tab">
@@ -68,11 +68,13 @@
 
 <script>
     import swiper from "swiper"
+    import axios from "axios"
     export default {
       name: "hoseIndex",
       data(){
         return{
-          swiper:{}
+          swiper:{},
+          list:[]
         }
       },
       methods:{
@@ -99,11 +101,16 @@
         }
       },
       mounted(){
-        this.swiper = new swiper('.swiper-container', {
-          autoplay: true,//可选选项，自动滑动
-          loop:true,
-          slidesPerView: 1,
-          centeredSlides: true,
+        axios.get('/myha-server/public/catalog/querySource.do?catalogAlias=lunbo_zhihuilvyou&sourceType=02').then(res=>{
+          this.list = res.data.data;
+          this.$nextTick(()=>{
+            this.swiper = new swiper('.swiper-container', {
+              autoplay: true,//可选选项，自动滑动
+              loop:true,
+              slidesPerView: 1,
+              centeredSlides: true,
+            })
+          })
         })
       },
     }
@@ -112,13 +119,15 @@
 <style scoped>
   .swiper-slide{
     width: 100%;
-    height: 300px;
-    background: #ec971f;
     color: #fff;
     font-size: 46px;
     text-align: center;
-    line-height: 300px;
   }
+  .swiper-slide img{
+    width: 100%;
+    height: 400px;
+  }
+
   .tab{
     border-top: 16px solid #eee;
   }

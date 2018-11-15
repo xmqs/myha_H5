@@ -9,7 +9,7 @@
         <div class="word"> 事发时间</div>
         <div class="add_inp2">{{data.appealTime}}</div>
       </li>
-      <li class="list_li right_icon">
+      <li class="list_li right_icon" @click="choseAdd()">
         <div class="word"> 事发区域</div>
         <div class="add_inp2">{{data.appealArea}}</div>
       </li>
@@ -72,9 +72,9 @@
     data() {
       return {
         data: {
-          appealType:"请选择诉讼类别",
+          appealType:"请选择诉求类别",
           appealTime:"请选择事发时间",
-          appealArea:"玄武区",
+          appealArea:"请选择事发区域",
           visit:false,
           userName:"",
           phone:"",
@@ -86,12 +86,17 @@
           userId:""
         },
         canadd:true,
+        addList:[]
       }
     },
     mounted(){
       this.data.phone = this.getUserPhone;
       this.data.userName = this.getUserName;
       this.data.userId = this.getUserId;
+
+      axios.get('/myha-server/common/getAreaList.do').then(res=>{
+        this.addList = res.data.data;
+      })
     },
     computed: {
       ...mapGetters([
@@ -107,25 +112,36 @@
         var picker = new mui.PopPicker();
         picker.setData([{
           value: "first",
-          text: "诉讼类别一"
+          text: "诉求类别一"
         }, {
           value: "second",
-          text: "诉讼类别二"
+          text: "诉求类别二"
         }, {
           value: "third",
-          text: "诉讼类别三"
+          text: "诉求类别三"
         }, {
           value: "fourth",
-          text: "诉讼类别四"
+          text: "诉求类别四"
         }, {
           value: "fifth",
-          text: "诉讼类别五"
+          text: "诉求类别五"
         }])
         picker.show(function(SelectedItem) {
           console.log(SelectedItem);
           vue.data.appealType = SelectedItem[0].text;
         })
       },
+      choseAdd(){
+        let vue = this;
+        var picker = new mui.PopPicker({
+          layer: 2
+        });
+        picker.setData(this.addList);
+        picker.show(function(SelectedItem) {
+          vue.data.appealArea = SelectedItem[0].text +"  "+ (SelectedItem[1].text?SelectedItem[1].text:'');
+        })
+      },
+
       choseTime(){
         let vue = this;
         var dtPicker = new mui.DtPicker();
@@ -137,15 +153,15 @@
         if(!this.canadd){
           return
         }
-        if(this.data.appealType=="请选择诉讼类别"){
-          mui.toast('请选择诉讼类别',{ duration:'short', type:'div' });
+        if(this.data.appealType=="请选择诉求类别"){
+          mui.toast('请选择诉求类别',{ duration:'short', type:'div' });
           return
         }
         if(this.data.appealTime=="请选择事发时间"){
           mui.toast('请选择事发时间',{ duration:'short', type:'div' });
           return
         }
-        if(this.data.appealArea=="请选择事发区域"){
+        if(this.data.appealArea=="请选择事发区域"||this.data.appealArea==""){
           mui.toast('请选择事发区域',{ duration:'short', type:'div' });
           return
         }
@@ -162,7 +178,7 @@
         axios.post("/myha-server/12345/add.do",this.data).then(res=>{
           if(res.data.result==1){
             this.canadd = true;
-            mui.toast('诉讼成功',{ duration:'short', type:'div' });
+            mui.toast('诉求成功',{ duration:'short', type:'div' });
             this.$router.go(-1);
           }
         }).catch(err=> {
@@ -178,17 +194,18 @@
           mui.toast('最多上传六张照片',{ duration:'short', type:'div' });
           return
         }
+
         var oldUrl = window.location.href;
         var u = navigator.userAgent;
         var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
         var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 
         if (isAndroid) {
-          window.location.href += '#uploadImgByClient?imgNum=0&serverurl=http://58.221.196.5:11001//file-server/upload/upload.do&selectPhotoType=photoAll&isEdit=0';
+          window.location.href += '#uploadImgByClient?imgNum=0&serverurl=http://58.221.196.5:11001/user/myhaUpload&selectPhotoType=photoAll&isEdit=0';
         }
 
         if (isiOS) {
-          window.location.href = '#uploadImgByClient?imgNum=0&serverurl=http://58.221.196.5:11001//file-server/upload/upload.do&selectPhotoType=photoAll&isEdit=0';
+          window.location.href = '#uploadImgByClient?imgNum=0&serverurl=http://58.221.196.5:11001/user/myhaUpload&selectPhotoType=photoAll&isEdit=0';
         }
 
         var that = this;

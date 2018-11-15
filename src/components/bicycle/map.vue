@@ -44,7 +44,7 @@
             // 图标尺寸
             size: new AMap.Size(40, 40),
             // 图标的取图地址
-            image: './../static/img/map/icon11.png',
+            image: './static/img/map/icon11.png',
             // 图标所用图片大小
             imageSize: new AMap.Size(40, 40),
             // 图标取图偏移量

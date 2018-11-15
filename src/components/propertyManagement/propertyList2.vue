@@ -1,45 +1,33 @@
 <template>
     <div>
       <div class="content">
-        <div class="item" @click="toDetail('FS')">
+        <div class="item" @click="toDetail('A')">
           <img src="./../../../static/img/management/listIcon.png" alt="">
-          <span>防水维修</span>
+          <span>水果</span>
         </div>
-        <div class="item" @click="toDetail('FWJZ')">
+        <div class="item" @click="toDetail('B')">
           <img src="./../../../static/img/management/listIcon.png" alt="">
-          <span>房屋建筑维修</span>
+          <span>修车</span>
         </div>
-        <div class="item" @click="toDetail('XF')">
+        <div class="item" @click="toDetail('C')">
           <img src="./../../../static/img/management/listIcon.png" alt="">
-          <span>消防维修</span>
+          <span>修鞋</span>
         </div>
-        <div class="item" @click="toDetail('ZNH')">
+        <div class="item" @click="toDetail('D')">
           <img src="./../../../static/img/management/listIcon.png" alt="">
-          <span>智能化维修</span>
+          <span>修锁</span>
         </div>
-        <div class="item" @click="toDetail('DT')">
+        <div class="item" @click="toDetail('E')">
           <img src="./../../../static/img/management/listIcon.png" alt="">
-          <span>电梯维修</span>
+          <span>刻章</span>
         </div>
-        <div class="item" @click="toDetail('ZZZX')">
+        <div class="item" @click="toDetail('F')">
           <img src="./../../../static/img/management/listIcon.png" alt="">
-          <span>造价咨询服务</span>
+          <span>蔬菜</span>
         </div>
-        <div class="item" @click="toDetail('JLFW')">
+        <div class="item" @click="toDetail('G')">
           <img src="./../../../static/img/management/listIcon.png" alt="">
-          <span>监理服务</span>
-        </div>
-        <div class="item" @click="toDetail('ZSDT')">
-          <img src="./../../../static/img/management/listIcon.png" alt="">
-          <span>增设电梯设计服务</span>
-        </div>
-        <div class="item" @click="toDetail('DTJD')">
-          <img src="./../../../static/img/management/listIcon.png" alt="">
-          <span>电梯井道加固</span>
-        </div>
-        <div class="item" @click="toDetail('DTSB')">
-          <img src="./../../../static/img/management/listIcon.png" alt="">
-          <span>电梯设备采集及安装服务</span>
+          <span>修理</span>
         </div>
       </div>
     </div>
@@ -55,7 +43,7 @@
       },
       methods:{
         toDetail(type){
-          this.$router.push("/managementpropertyListDetail/"+type);
+          this.$router.push("/managementpropertyListDetail2/"+type);
         }
       }
     }

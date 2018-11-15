@@ -28,7 +28,6 @@ export default {
   },
   mounted(){
     this.getparam();
-
   },
   methods:{
     getUrlParam(id) {

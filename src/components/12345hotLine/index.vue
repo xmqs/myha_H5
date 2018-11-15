@@ -31,9 +31,9 @@
         <div class="tab_item" @click="toPhoneNumber">
           <img src="./../../../static/img/hotline/icon5.png" alt="">常用电话
         </div>
-        <div class="tab_item" @click="toNewsList('12345_bianminfuwu')">
+        <!--<div class="tab_item" @click="toNewsList('12345_bianminfuwu')">
           <img src="./../../../static/img/hotline/icon4.png" alt="">便民导航
-        </div>
+        </div>-->
       </div>
     </div>
   </div>
@@ -53,7 +53,7 @@
     },
     methods:{
       toPhoneNumber(){
-        this.$router.push("/hotLine45/phone");
+        this.$router.push("/unlockLine");
       },
       toNavigation(){
         this.$router.push("/hotLine45/navigation");

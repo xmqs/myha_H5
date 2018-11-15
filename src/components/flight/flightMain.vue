@@ -11,7 +11,7 @@
     <div class="header_page">
       <ul class="header_line_b">
         <div class="search" @click="toDestination">
-          <img src="../../../../static/img/Fill1.png" alt="">
+          <img src="./../../../static/img/normal/Fill1.png" alt="">
           航班查询
         </div>
       </ul>

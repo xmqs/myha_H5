@@ -2,7 +2,7 @@
   <div class="main">
     <div class="tab">
       <div class="title">
-        <span>物业管理</span>
+        <span>物业服务</span>
       </div>
       <div class="tab_list">
         <div class="tab_item" @click="toThingList">
@@ -34,6 +34,12 @@
           <div>维修基金<br>查询表决</div>
         </div>
       </div>
+      <div class="tab_list">
+        <div class="tab_item" @click="topropertyList2">
+          <img src="./../../../static/img/management/icon17.png" alt="">
+          <div>文化场所</div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -59,6 +65,9 @@
         },
         topropertyList(){
           this.$router.push("/managementpropertyList");
+        },
+        topropertyList2(){
+          this.$router.push("/managementpropertyList2");
         }
       }
     }

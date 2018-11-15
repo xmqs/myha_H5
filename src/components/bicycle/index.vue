@@ -4,16 +4,19 @@
 
     </div>
     <div class="tab">
+      <a href="http://58.221.196.5:11001/myha-server/s//h/20181109/6C0A3F565A504D33ABB06E50F50FB1F4.htm">
       <div class="tab_item">
         <img src="./../../../static/img/normal/i4.png" alt="">
         <span>办卡须知</span>
       </div>
+      </a>
       <div class="line"></div>
       <div class="tab_item" @click="bicycleList">
         <img src="./../../../static/img/normal/i5.png" alt="">
         <span>办卡点&nbsp;&nbsp;&nbsp;</span>
       </div>
     </div>
+    <img src="./../../../static/img/map/icon4.png" alt="" class="position" @click="moveLocation">
   </div>
 </template>
 
@@ -24,12 +27,28 @@
       data(){
         return{
           map:{},
-          list:[]
+          list:[],
+          userPosition:[],
+          userMark:{},
+          t1:{}
         }
       },
       methods:{
         bicycleList(){
           this.$router.push('/bicycleList');
+        },
+        moveLocation(){
+
+          this.userPosition = sessionStorage.getItem("userPosition").split(",");
+          this.map.remove(this.userMark);
+
+          this.userMark = new AMap.Marker({
+            map: this.map,
+            position: this.userPosition,
+          });
+          this.userMark.setAnimation('AMAP_ANIMATION_BOUNCE');
+
+          this.map.panTo(this.userPosition);
         }
       },
       mounted(){
@@ -39,7 +58,23 @@
           center:[118.886324,32.085925],
         });
 
+
         let vue = this;
+
+        this.t1 = setInterval(()=> {
+          vue.map.remove(vue.userMark);
+          if(sessionStorage.getItem("userPosition")){
+            vue.map.remove(vue.userMark);
+
+            vue.userPosition = sessionStorage.getItem("userPosition").split(",");
+
+            vue.userMark = new AMap.Marker({
+              map: this.map,
+              position: this.userPosition,
+            });
+            vue.userMark.setAnimation('AMAP_ANIMATION_BOUNCE');
+          }
+        },3000)
         axios.get("/myha-server/common/getBike.do").then(res=>{
           this.list = res.data.data;
           for(let i = 0;i<this.list.length;i++){
@@ -47,7 +82,7 @@
               // 图标尺寸
               size: new AMap.Size(40, 40),
               // 图标的取图地址
-              image: './../static/img/map/icon1.png',
+              image: './static/img/map/icon1.png',
               // 图标所用图片大小
               imageSize: new AMap.Size(40, 40),
               // 图标取图偏移量
@@ -137,6 +172,14 @@
   .info-middle img {
     float: left;
     margin-right: 12px;
+  }
+  .position{
+    position: fixed;
+    z-index: 999;
+    left:32px ;
+    bottom:68px ;
+    width: 72px;
+    height: 72px;
   }
   .tab{
     position: fixed;

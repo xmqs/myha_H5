@@ -8,6 +8,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
+    <meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui" name="viewport">
+
     <!--公共CSS模块-->
     <link rel="stylesheet" href="./static/css/mui.min.css">
     <link rel="stylesheet" href="./static/css/mui.picker.min.css">
@@ -35,4 +37,9 @@
     <!-- built files will be auto injected -->
   </body>
   <script src="./static/js/mui.min.js"></script>
+  <script>
+    function moveTo(longitude, latitude) {
+      sessionStorage.setItem("userPosition", longitude + "," + latitude);
+    }
+  </script>
 </html>

@@ -54,7 +54,7 @@
     },
     methods:{
       pdf(url){
-        window.location  = "http://192.168.0.37:8000/jn/pdf/whjn/pdf.html?url="+url;
+        window.location  = "http://58.221.196.5:11001/haian/pdf/pdf.html?url="+url;
       }
     },
     mounted(){

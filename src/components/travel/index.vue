@@ -1,109 +1,151 @@
 <template>
-    <div>
-      <div class="swiper-container">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide" v-for="item in list">
-            <img :src="item.imageUrl" alt="">
-          </div>
+  <div>
+    <div class="title">
+      旅游攻略
+    </div>
+    <div class="tab_list">
+      <a href="https://mp.weixin.qq.com/mp/homepage?__biz=MzA4ODY3ODcxNA%3D%3D&hid=12&sn=2c6483834cae29b1ba52c9088c5ff0ce&scene=18">
+        <div class="tab_item">
+          <img src="./../../../static/img/travel/icon6.png" alt="">
+          <div>海安介绍</div>
         </div>
-      </div>
-      <div class="tab_list">
-        <div class="tab_item" @click="toList('zhly_lvyouluxian')">
-          <img src="./../../../static/img/travel/icon1.png" alt="">
+      </a>
+      <a href="http://mp.weixin.qq.com/mp/homepage?__biz=MzA4ODY3ODcxNA==&hid=1&sn=09d6a85f621d11dd6ab3badf9553992e&scene=18#wechat_redirect">
+        <div class="tab_item">
+          <img src="./../../../static/img/travel/icon9.png" alt="">
+          <div>海安视频</div>
+        </div>
+      </a>
+    </div>
+    <div class="tab_list">
+      <a href="http://mp.weixin.qq.com/mp/homepage?__biz=MzA4ODY3ODcxNA==&hid=2&sn=9a42f501f08a449396bae3c387a6440f&scene=18#wechat_redirect">
+        <div class="tab_item">
+          <img src="./../../../static/img/travel/icon7.png" alt="">
+          <div>美文海安</div>
+        </div>
+      </a>
+      <a href="https://mp.weixin.qq.com/mp/homepage?__biz=MzA4ODY3ODcxNA%3D%3D&hid=13&sn=7979b716f54250277c8562b3dc2d331e&scene=18">
+        <div class="tab_item">
+          <img src="./../../../static/img/travel/icon3.png" alt="">
           <div>旅游路线</div>
         </div>
-        <div class="tab_item" @click="toList('zhly_techan')">
-          <img src="./../../../static/img/travel/icon2.png" alt="">
-          <div>特产</div>
+      </a>
+    </div>
+    <div class="tab_list">
+      <a href="https://mp.weixin.qq.com/mp/homepage?__biz=MzA4ODY3ODcxNA%3D%3D&hid=8&sn=fd630feafc8d25508f7bc3f09acc4eb4&scene=18">
+        <div class="tab_item">
+          <img src="./../../../static/img/travel/icon10.png" alt="">
+          <div>海安特产</div>
         </div>
-      </div>
-      <div class="tab_list">
-        <div class="tab_item" @click="toList('zhly_chihe')">
-          <img src="./../../../static/img/travel/icon3.png" alt="">
-          <div>吃喝</div>
+      </a>
+    </div>
+    <div class="line"></div>
+    <div class="title">
+      吃喝玩乐
+    </div>
+    <div class="tab_list">
+      <a href="https://mp.weixin.qq.com/mp/homepage?__biz=MzA4ODY3ODcxNA%3D%3D&hid=4&sn=797754554feeb40f30e16f569f20b79d&scene=18">
+        <div class="tab_item">
+          <img src="./../../../static/img/travel/icon1.png" alt="">
+          <div>美食</div>
         </div>
-        <div class="tab_item" @click="toList('zhly_jingdian')">
-          <img src="./../../../static/img/travel/icon4.png" alt="">
-          <div>景点</div>
-        </div>
-      </div>
-      <div class="tab_list">
-        <div class="tab_item" @click="toList('zhly_zhusu')">
+      </a>
+      <a href="http://mp.weixin.qq.com/mp/homepage?__biz=MzA4ODY3ODcxNA==&hid=5&sn=0d5d0d081e8a45c1aba15860054d5f04&scene=18#wechat_redirect">
+        <div class="tab_item">
           <img src="./../../../static/img/travel/icon5.png" alt="">
           <div>住宿</div>
         </div>
-      </div>
+      </a>
     </div>
+    <div class="tab_list">
+      <a href="https://mp.weixin.qq.com/mp/homepage?__biz=MzA4ODY3ODcxNA%3D%3D&hid=6&sn=e8feeb2578af9051c4508f48c8131c8f&scene=18">
+        <div class="tab_item">
+          <img src="./../../../static/img/travel/icon2.png" alt="">
+          <div>景点</div>
+        </div>
+      </a>
+      <a href="https://mp.weixin.qq.com/mp/homepage?__biz=MzA4ODY3ODcxNA%3D%3D&hid=7&sn=169f11462dbc46826462db7b35df23ad&scene=18">
+        <div class="tab_item">
+          <img src="./../../../static/img/travel/icon8.png" alt="">
+          <div>乡村旅游点</div>
+        </div>
+      </a>
+    </div>
+    <div class="tab_list">
+      <a href="https://mp.weixin.qq.com/mp/homepage?__biz=MzA4ODY3ODcxNA%3D%3D&hid=9&sn=2913af3b439369347287213332224ac4&scene=18">
+        <div class="tab_item">
+          <img src="./../../../static/img/travel/icon4.png" alt="">
+          <div>节庆活动</div>
+        </div>
+      </a>
+    </div>
+  </div>
 </template>
 
 
 <script>
   import axios from "axios"
-  import swiper from "swiper"
-      export default {
-      name: "index",
-      data(){
-          return{
-            swiper:{},
-            list:[]
-          }
-      },
-      mounted(){
 
-        axios.get('/myha-server/public/catalog/querySource.do?catalogAlias=lunbo_zhihuilvyou&sourceType=02').then(res=>{
-          this.list = res.data.data;
-          this.$nextTick(()=>{
-            this.swiper = new swiper('.swiper-container', {
-              autoplay: true,//可选选项，自动滑动
-              loop:true,
-              slidesPerView: 1,
-              centeredSlides: true,
-            })
-          })
-        })
-
-
-      },
-      methods:{
-        toList(url){
-          this.$router.push("/travel/list/"+url);
-        }
+  export default {
+    name: "index",
+    data() {
+      return {
+        list: []
       }
-    }
+    },
+    mounted() {
+
+    },
+    methods: {}
+  }
 </script>
 
 <style scoped>
-  .swiper-slide{
+  .swiper-slide {
     width: 100%;
     color: #fff;
-    font-size: 46px;
+    font-size: 32px;
     text-align: center;
   }
-  .swiper-slide img{
+
+  .swiper-slide img {
     width: 100%;
     height: 400px;
   }
-  .tab_list{
+
+  .tab_list {
     display: flex;
-    border-bottom: 1px solid #eee;
     padding-left: 32px;
   }
 
-  .tab_item{
+  .tab_item {
     width: 343px;
     display: flex;
     box-sizing: border-box;
     align-items: center;
     padding: 32px 0 32px 32px;
-    font-size: 32px;
     color: #333;
   }
-  .tab_list .tab_item:first-child{
-    border-right: 1px solid #eee;
-  }
-  .tab_item img{
+
+  .tab_item img {
     width: 88px;
     height: 88px;
-    margin-right: 22px;
+    margin-right: 32px;
+  }
+
+  .tab_item div {
+    font-size: 32px;
+  }
+
+  .title {
+    margin-left: 32px;
+    font-size: 30px;
+    padding: 23px 32px;
+    border-bottom: 1px solid #eee;
+  }
+
+  .line {
+    height: 20px;
+    background: #f5f5f5;
   }
 </style>

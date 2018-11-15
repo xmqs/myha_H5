@@ -3,14 +3,12 @@
     <div class="content">
       <div class="item" @click="change(index)" v-for="(item,index) in list">
         <div class="title">
-          <div>{{item.name}}</div>
+          <div>{{item.setLocation}}</div>
           <img src="./../../../static/img/normal/down_icon.png" alt="">
         </div>
         <div class="txt">
-          <div>公司名称：{{item.name}}</div>
-          <div>法人代表：{{item.corporation}}</div>
-          <div>联系电话：{{item.phone}}</div>
-          <div>工商注册所在地：{{item.serviceArea}}</div>
+          <div>地址：{{item.setLocation}}</div>
+          <div>联系人：{{item.name}}</div>
         </div>
       </div>
     </div>
@@ -20,30 +18,35 @@
 <script>
   import axios from "axios"
   import "./../../../static/js/jquery.min"
-  export default {
-    name: "managementRank",
-    data(){
-        return{
-          list:[]
+    export default {
+        name: "propertyListDetail",
+      data(){
+          return{
+            list:[]
+          }
+      },
+      methods:{
+        change(index){
+          if($($('.item')[index]).hasClass('active')){
+            $($('.item')[index]).removeClass("active");
+            $($('.item .txt')[index]).removeClass("txt2");
+          }else{
+            $($('.item')[index]).addClass("active");
+            $($('.item .txt')[index]).addClass("txt2");
+          }
         }
-    },
-    methods:{
-      change(index){
-        if($($('.item')[index]).hasClass('active')){
-          $($('.item')[index]).removeClass("active");
-          $($('.item .txt')[index]).removeClass("txt2");
-        }else{
-          $($('.item')[index]).addClass("active");
-          $($('.item .txt')[index]).addClass("txt2");
-        }
+      },
+      mounted(){
+          axios.post('/myha-server/property/guid.do',{
+            "category":this.$route.params.type
+          }).then(res=>{
+            this.list = res.data.data;
+            for(let i = 0;i<this.list.length;i++){
+              this.list[i].active = false;
+            }
+          })
       }
-    },
-    mounted(){
-      axios.get('/myha-server/property/rank.do').then(res=>{
-        this.list = res.data.data;
-      })
     }
-  }
 </script>
 
 <style scoped>

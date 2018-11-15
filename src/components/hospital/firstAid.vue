@@ -16,8 +16,10 @@
           <p style="color: #1e78f2">紧急呼救</p>
         </div>
         <div>
-          <img src="./../../../static/img/hostipal/icon2.png" alt="">
-          <p>注意事项</p>
+          <a href="http://58.221.196.5:11001/myha-server/s//h/20181109/F8533A4CCC784075ABDBB649168E2A7F.htm">
+            <img src="./../../../static/img/hostipal/icon2.png" alt="">
+            <p>注意事项</p>
+          </a>
         </div>
         <div @click="toUserInfo">
           <img src="./../../../static/img/hostipal/icon3.png" alt="">
