@@ -19,6 +19,8 @@ export default {
         userName:"",
         userId:"",
         mobile:"",
+        token:"",
+        type:""
       }
     }
   },
@@ -44,6 +46,13 @@ export default {
       return arr[id]
     },
     getparam() {
+
+      this.token=this.getUrlParam('token')!==undefined?this.getUrlParam('token'):'';
+      sessionStorage.setItem("token", this.token);
+
+      this.type=this.getUrlParam('type')!==undefined?this.getUrlParam('type'):'';
+      sessionStorage.setItem("type", this.type);
+
       if(sessionStorage.getItem("userId")){
 
         this.$store.commit("setCardId",sessionStorage.getItem("idcard"));
@@ -57,6 +66,7 @@ export default {
         this.userName=this.getUrlParam('znmh_userName')!==undefined?this.getUrlParam('znmh_userName'):'';
         this.userId=this.getUrlParam('userId')!==undefined?this.getUrlParam('userId'):'';
         this.mobile=this.getUrlParam('znmh_mobile')!==undefined?this.getUrlParam('znmh_mobile'):'';
+
 
         axios.post("/myha-server/public/rsa/getRsaUser.do",{
           userid: this.userId,

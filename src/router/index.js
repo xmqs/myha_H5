@@ -96,8 +96,20 @@ const birthHistory = ()=>import('@/components/birth/birthHistory'/*webpackChunkN
 /*解锁电话+热线*/
 const unlockLine = ()=>import('@/components/unlockLine'/*webpackChunkName: "unlockLine"*/)
 
+/*妇幼健康*/
+const pcMain = () => import ("../components/parentChild/pcMain"/*webpackChunkName: "parentChild"*/)
+const healthExamination = () => import ("../components/parentChild/healthExamination"/*webpackChunkName: "parentChild"*/)
+const childDetails = () => import ("../components/parentChild/childDetails"/*webpackChunkName: "parentChild"*/)
+const motherDetails = () => import ("../components/parentChild/motherDetails"/*webpackChunkName: "parentChild"*/)
+const importantTime = () => import ("../components/parentChild/importantTime"/*webpackChunkName: "parentChild"*/)
+const selHospital = () => import ("../components/parentChild/selHospital"/*webpackChunkName: "parentChild"*/)
+const selOffice = () => import ("../components/parentChild/selOffice"/*webpackChunkName: "parentChild"*/)
+const popularization = () => import ("../components/parentChild/popularization"/*webpackChunkName: "parentChild"*/)
+
 /*服务中心*/
 const serviceCenter = ()=>import('@/components/serviceCenter'/*webpackChunkName: "serviceCenter"*/)
+/*服务中心*/
+const busLine = ()=>import('@/components/busLine'/*webpackChunkName: "busLine"*/)
 
 /*公共特殊页面*/
 const normalList = () => import ("../components/public/normalList"/*webpackChunkName: "static"*/)
@@ -475,6 +487,53 @@ export default new Router({
       path: '/serviceCenter',/*serviceCenter*/
       name: 'serviceCenter',
       component: serviceCenter,
+    },
+    /*公交查询*/
+    {
+      path: '/busLine',/*公交查询*/
+      name: 'busLine',
+      component: busLine,
+    },
+    /*妇幼健康*////////////////////////////////////////////////
+    {
+      path: '/parentChild/pcMain',
+      name: 'pcMain',
+      component: pcMain,
+    },
+    {
+      path: '/parentChild/healthExamination/:id',/*传入用户id查询体检表*/
+      name: 'healthExamination',
+      component: healthExamination,
+    },
+    {
+      path: '/parentChild/childDetails/:mchId/:id',/*妇幼id和id跳转对应妇幼对应的表详情*/
+      name: 'childDetails',
+      component: childDetails,
+    },
+    {
+      path: '/parentChild/motherDetails/:mchId/:id',/*妇幼id和id跳转对应妇幼对应的表详情*/
+      name: 'motherDetails',
+      component: motherDetails,
+    },
+    {
+      path: '/parentChild/importantTime',/*parentChild*/
+      name: 'importantTime',
+      component: importantTime,
+    },
+    {
+      path: '/parentChild/selHospital',/*parentChild*/
+      name: 'selHospital',
+      component: selHospital,
+    },
+    {
+      path: '/parentChild/selOffice',/*parentChild*/
+      name: 'selOffice',
+      component: selOffice,
+    },
+    {
+      path: '/parentChild/popularization',/*parentChild*/
+      name: 'popularization',
+      component: popularization,
     },
 
 

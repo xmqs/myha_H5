@@ -15,30 +15,36 @@
         </div>
       </div>
       <div class="tab_list">
-        <div class="tab_item" @click="toList">
-          <img src="./../../../static/img/management/icon13.png" alt="">
-          <div>小区物业<br>基本信息</div>
-        </div>
+
         <div class="tab_item" @click="toRank">
-          <img src="./../../../static/img/management/icon14.png" alt="">
-          <div>物业公司<br>排名</div>
+          <img src="./../../../static/img/management/icon13.png" alt="">
+          <div>物业公司<br>基本信息</div>
         </div>
-      </div>
-      <div class="tab_list">
+
         <div class="tab_item" @click="topropertyList">
           <img src="./../../../static/img/management/icon15.png" alt="">
           <div>便民机构<br>查询</div>
         </div>
-        <div class="tab_item" @click="fundDetail">
-          <img src="./../../../static/img/management/icon16.png" alt="">
-          <div>维修基金<br>查询表决</div>
-        </div>
+        <!--<div class="tab_item" @click="toList">
+          <img src="./../../../static/img/management/icon13.png" alt="">
+          <div>小区物业<br>基本信息</div>
+        </div>-->
+
       </div>
       <div class="tab_list">
+
         <div class="tab_item" @click="topropertyList2">
           <img src="./../../../static/img/management/icon17.png" alt="">
-          <div>文化场所</div>
+          <div>便民<br>疏导点</div>
         </div>
+
+        <!--<div class="tab_item" @click="fundDetail">
+          <img src="./../../../static/img/management/icon16.png" alt="">
+          <div>维修基金<br>查询表决</div>
+        </div>-->
+      </div>
+      <div class="tab_list">
+
       </div>
     </div>
   </div>
