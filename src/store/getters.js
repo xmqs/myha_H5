@@ -18,3 +18,7 @@ export const  getChildInfo = (state) => {
   return state.childInfo;
 }
 
+export const  getAuditAddress = (state) => {
+  return state.auditAddress;
+}
+

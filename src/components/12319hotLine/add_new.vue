@@ -148,37 +148,37 @@
       removeImg(n){
         this.data.suggestPic.splice(n,1);
       },
-      myImg(id) {
-        if(this.data.suggestPic.length>5){
-          mui.toast('最多上传六张照片',{ duration:'short', type:'div' });
-          return
-        }
-        var oldUrl = window.location.href;
+        myImg(id) {
+          if(this.data.suggestPic.length>5){
+            mui.toast('最多上传六张照片',{ duration:'short', type:'div' });
+            return
+          }
+          var oldUrl = window.location.href;
 
-        /*判断ios  Android*/
-        var u = navigator.userAgent;
-        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
-        var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+          /*判断ios  Android*/
+          var u = navigator.userAgent;
+          var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+          var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 
-        if (isAndroid) {
-          window.location.href += '#uploadImgByClient?imgNum=0&serverurl=http://58.221.196.5:11001/user/myhaUpload&selectPhotoType=photoAll&isEdit=0';
-        }
+          if (isAndroid) {
+            window.location.href += '#uploadImgByClient?imgNum=0&serverurl=http://58.221.196.5:11001/user/myhaUpload&selectPhotoType=photoAll&isEdit=0';
+          }
 
-        if (isiOS) {
-          window.location.href = '#uploadImgByClient?imgNum=0&serverurl=http://58.221.196.5:11001/user/myhaUpload&selectPhotoType=photoAll&isEdit=0';
-        }
+          if (isiOS) {
+            window.location.href = '#uploadImgByClient?imgNum=0&serverurl=http://58.221.196.5:11001/user/myhaUpload&selectPhotoType=photoAll&isEdit=0';
+          }
 
-        var that = this;
+          var that = this;
 
-        window.uploadImgOver = function (str) {
-          that.data.suggestPic.push(JSON.parse(str).data);
-        }
+          window.uploadImgOver = function (str) {
+            that.data.suggestPic.push(JSON.parse(str).data);
+          }
 
-        if (isAndroid) {
-          this.$router.go(-1);
-        }
+          if (isAndroid) {
+            this.$router.go(-1);
+          }
 
-      },
+        },
     },
     beforeRouteEnter (to, from, next) {
       if(from.name=="hotLineTip19"){

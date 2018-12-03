@@ -15,5 +15,8 @@ export default {
   },
   [types.setChildInfo](state,childInfo){
     state.childInfo = childInfo;
+  },
+  [types.setAuditAddress](state,auditAddress){
+    state.auditAddress = auditAddress;
   }
 }
