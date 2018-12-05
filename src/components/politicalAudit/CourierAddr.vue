@@ -110,6 +110,9 @@
 
           this.$store.commit("setAuditAddress",backAddress);
           /*选择上门地址*/
+        }else if(this.$route.params.type=='page1'){
+          /*选择首页地址*/
+          this.$store.commit("setPageAddress",address.receiveStreetCode);
         }else{
           /*选择寄送地址*/
           backAddress.backAddress.sendStrectM = address.receiveStreetCode;

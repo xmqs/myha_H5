@@ -22,3 +22,7 @@ export const  getAuditAddress = (state) => {
   return state.auditAddress;
 }
 
+export const  getPageAddress = (state) => {
+  return state.pageAddress;
+}
+

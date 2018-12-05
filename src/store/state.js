@@ -65,7 +65,8 @@ const state = {
       sendProvM: "",//	发件区域省份
       sendStrectM: ""//	发件详细地址
     },
-  }
+  },
+  pageAddress:""
 }
 
 export default state;

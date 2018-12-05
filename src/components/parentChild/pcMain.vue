@@ -2,7 +2,7 @@
 	<div>
 		<!--头部信息-->
 	   <div id="top">
-	   	  <div  style="margin-right: 16px"><img src="../../../static/img/parentChild/Fill 112@2x.png" alt=""/></div>
+	   	  <div><img src="../../../static/img/parentChild/2.png" alt="" /></div>
 	   	  <table>
 	   	  	 <tbody>
 	   	  	 	<tr>
@@ -26,14 +26,14 @@
 	   	  <!--模块一体检与关爱提醒-->
 	      <div>
 	   	     <div>体检与关爱提醒</div>
-	   	     <div @click="jumpHealth(datas.id)"><img src="../../../static/img/parentChild/Fill 116@2x.png" alt="" />体检报告</div>
-	   	     <div @click="jumpTime"><img src="../../../static/img/parentChild/Fill 113@2x.png" alt="" />重要事件提醒</div>
+	   	     <div @click="jumpHealth(datas.id)"><img src="../../../static/img/parentChild/4.png" alt="" />体检报告</div>
+	   	     <div @click="jumpTime"><img src="../../../static/img/parentChild/5.png" alt="" />重要事件提醒</div>
 	      </div>
 	      <!--模块二在线健康咨询-->
 	      <div>
 	   	     <div>在线健康咨询</div>
-	   	     <div @click="jumpHospital"><img src="../../../static/img/parentChild/Fill 117@2x.png" alt="" />医院、医生介绍</div>
-	   	     <div @click="jumpPopularization"><img src="../../../static/img/parentChild/Fill 114@2x.png" alt="" />科普宣传</div>
+	   	     <div @click="jumpHospital"><img src="../../../static/img/parentChild/1.png" alt="" />医院、医生介绍</div>
+	   	     <div @click="jumpPopularization"><img src="../../../static/img/parentChild/6.png" alt="" />科普宣传</div>
 	      </div>
 	   </div>
 	</div>
@@ -64,7 +64,7 @@
 		  },
 		  //跳转到选择医院
 		  jumpHospital(){
-        window.location = "znmh://module/ha_city_yygh"
+		  	 this.$router.push("/parentChild/selHospital")
 		  },
 		  //跳转到科普宣传
 		  jumpPopularization(){
@@ -85,14 +85,14 @@
            this.data.userId = this.getUserId;
            //妇幼健康用户查询
            axios.post("/myha-server/mch/getHaMchUser.do",
-              {userId:this.getUserId}
+              {userId:this.data.userId}
            )
            .then(res=>{
            	console.log(res);
 		       this.datas=res.data.data;
 		   })
         },
-
+		
 	}
 </script>
 
@@ -149,6 +149,7 @@
 	/*模块样式*/
 	#model{
 		width:100%;
+		padding:0 10px;
 		height:100%;
 		overflow: hidden;
 		font-size: 30px;
@@ -159,7 +160,7 @@
 		height:200px;
 		display: flex;
 		flex-wrap: wrap;
-
+		
 	}
 	#model div div:first-child{
 		width:100%;
@@ -179,9 +180,8 @@
 	}
 	#model>div>div:not(first-child)>img{
 		height:60px;
-    margin:0 8px;
 	}
-
-
-
+	
+	
+	
 </style>

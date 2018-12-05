@@ -105,6 +105,9 @@ const importantTime = () => import ("../components/parentChild/importantTime"/*w
 const selHospital = () => import ("../components/parentChild/selHospital"/*webpackChunkName: "parentChild"*/)
 const selOffice = () => import ("../components/parentChild/selOffice"/*webpackChunkName: "parentChild"*/)
 const popularization = () => import ("../components/parentChild/popularization"/*webpackChunkName: "parentChild"*/)
+const pcIndex = () => import ("../components/parentChild/pcIndex"/*webpackChunkName: "parentChild"*/)
+const pcText = () => import ("../components/parentChild/pcText"/*webpackChunkName: "parentChild"*/)
+
 
 /*服务中心*/
 const serviceCenter = () => import('@/components/serviceCenter'/*webpackChunkName: "serviceCenter"*/)
@@ -513,39 +516,49 @@ export default new Router({
       component: pcMain,
     },
     {
-      path: '/parentChild/healthExamination/:id', /*传入用户id查询体检表*/
+      path: '/parentChild/healthExamination/:id',/*传入用户id查询体检表*/
       name: 'healthExamination',
       component: healthExamination,
     },
     {
-      path: '/parentChild/childDetails/:mchId/:id', /*妇幼id和id跳转对应妇幼对应的表详情*/
+      path: '/parentChild/childDetails/:mchId/:id',/*妇幼id和id跳转对应妇幼对应的表详情*/
       name: 'childDetails',
       component: childDetails,
     },
     {
-      path: '/parentChild/motherDetails/:mchId/:id', /*妇幼id和id跳转对应妇幼对应的表详情*/
+      path: '/parentChild/motherDetails/:mchId/:id',/*妇幼id和id跳转对应妇幼对应的表详情*/
       name: 'motherDetails',
       component: motherDetails,
     },
     {
-      path: '/parentChild/importantTime', /*parentChild*/
+      path: '/parentChild/importantTime',/*parentChild*/
       name: 'importantTime',
       component: importantTime,
     },
     {
-      path: '/parentChild/selHospital', /*parentChild*/
+      path: '/parentChild/selHospital',/*parentChild*/
       name: 'selHospital',
       component: selHospital,
     },
     {
-      path: '/parentChild/selOffice', /*parentChild*/
+      path: '/parentChild/selOffice',/*parentChild*/
       name: 'selOffice',
       component: selOffice,
     },
     {
-      path: '/parentChild/popularization', /*parentChild*/
+      path: '/parentChild/popularization',/*parentChild*/
       name: 'popularization',
       component: popularization,
+    },
+    {
+      path: '/parentChild',/*妇幼知识主页*/
+      name: 'pcIndex',
+      component: pcIndex,
+    },
+    {
+      path: '/parentChild/pcText/:i',/*妇幼知识文档显示页*/
+      name: 'pcText',
+      component: pcText,
     },
 
     /*行政审批*/

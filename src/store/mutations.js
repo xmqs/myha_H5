@@ -18,5 +18,8 @@ export default {
   },
   [types.setAuditAddress](state,auditAddress){
     state.auditAddress = auditAddress;
+  },
+  [types.setPageAddress](state,pageAddress){
+    state.pageAddress = pageAddress;
   }
 }

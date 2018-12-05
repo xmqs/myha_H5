@@ -23,6 +23,9 @@
       </div>
       <!--办件进度-->
       <div id="steps" class="detail" v-show="page==1">
+        <div class="projectProcesslist" v-show="data.projectProcesslist.nodeList.length==0">
+          暂未开始受理
+        </div>
         <ul id="ico">
           <li v-for="(val,index) in data.projectProcesslist.nodeList" :style="lastIco(index)">
             <div>
@@ -68,7 +71,7 @@
             </li>
             <li class="list_li" v-if="data.applyertype==10">
               <div class="word">统一社会信用代码</div>
-              <div class="add_inp">{{data.certtype}}</div>
+              <div class="add_inp">{{data.applyercertnum}}</div>
             </li>
             <li class="list_li" v-if="data.applyertype==10">
               <div class="word">法人姓名</div>
@@ -564,5 +567,12 @@
     font-size: 25px;
     color: #fff;
     border-radius: 10px;
+  }
+
+  .projectProcesslist{
+    text-align: center;
+    padding:16px 32px;
+    color: #888;
+    font-size: 32px;
   }
 </style>

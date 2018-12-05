@@ -94,12 +94,7 @@
       }
     },
     mounted() {
-      alert(sessionStorage.getItem("token"));
-      alert(sessionStorage.getItem("type"));
-      axios.get('/myha-server/token/getUserByToken.do?token='+sessionStorage.getItem("token")+"&type="+sessionStorage.getItem("type")).then(res=>{
-        alert(res);
-        alert(JSON.stringify(res))
-      })
+
     },
     methods: {}
   }

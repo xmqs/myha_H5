@@ -25,7 +25,7 @@
     <div class="wall">
       <img src="./../../../static/img/politicalAudit/1212@3x.png" alt="">
       <p class="p1">您申办的事项已被受理</p>
-      <p class="p2">你可以通过<span class="blue" @click="toMyEvent">“我的办事”</span>查看办理进度</p>
+      <p class="p2">您可以通过<span class="blue" @click="toMyEvent">“我的办件”</span>查看办理进度</p>
 
     </div>
 

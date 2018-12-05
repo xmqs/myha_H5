@@ -3,7 +3,7 @@
     <!--搜索框-->
     <div id="search">
       <input type="text" placeholder="请输入部门或业务名称" v-model="requestData.searchCondition" v-on:keyup.13="search()"/>
-      <img src="../../../static/img/politicalAudit/search.png" @click="getData()"/>
+      <img src="../../../static/img/politicalAudit/search.png" @click="search()"/>
     </div>
     <div id="listMsg">
       <!--市发展改革委员会-->
@@ -42,8 +42,8 @@
   export default {
     data() {
       return {
+      	isInit:true,//是否执行activated
         shixiangList: {},
-        searchKey: "",
         requestData: {
           "allowApp": "",
           "currentPage": "0",
@@ -59,30 +59,35 @@
       }
     },
     activated() {
-      this.requestData.ouGuid = this.$route.params.ouGuid;
-      this.requestData.dictId = this.$route.params.dictId;
-      if(this.$route.params.searchCondition!=='null'){
-        this.requestData.searchCondition = this.$route.params.searchCondition;
-      }
-      this.requestData.allowApp = this.$route.params.allowApp;
-      this.getData();
+    	  if(this.isInit){
+    	  	  this.requestData.ouGuid = this.$route.params.ouGuid;
+			      this.requestData.dictId = this.$route.params.dictId;
+			      if(this.$route.params.searchCondition!=='null'){
+			          this.requestData.searchCondition = this.$route.params.searchCondition;
+			      }
+		    	  this.requestData.allowApp = this.$route.params.allowApp
+			      this.getData();
+    	  }
     },
     beforeRouteLeave(to,from,next){
       if(to.name=="politicalMain"){
         this.shixiangList = [];
         this.requestData.searchCondition = "";
+        this.isInit=true;
         window.scrollTo(0,0);
+      }else if(to.name=="shenbanMsg"){
+      	this.isInit=false;
       }
       next();
     },
     methods: {
-      /*search() {
+      search() {
         this.requestData.ouGuid = "";
         this.requestData.dictId = "";
         this.requestData.allowApp = "";
         console.log(this.requestData)
         this.getData();
-      },*/
+      },
       getData() {
         axios.post("/myha-server/govService/taskList.do", this.requestData)
           .then(res => {
@@ -93,19 +98,20 @@
       jumpshenban(taskguid, allowapp) {
           console.log(taskguid)
           this.$router.push("/politicalAudit/shenbanMsg/" + taskguid + "/" + allowapp)
+      },
+      init(){
+      	this.requestData.allowApp="";
+      	this.requestData.currentPage="0";
+        this.requestData.pageSize="1500";
+        this.requestData.ouGuid="";
+        this.requestData.dictId="";
+        this.requestData.userType= "";
+        this.requestData.onlineHandle= "0";
+        this.requestData.areaCode="320621";
+        this.requestData.searchCondition="";
+        this.requestData.isHome= false;
       }
     },
-
-//  beforeRouteLeave(to, from, next) {
-//  	if(to.name=="shenbanMsg"){
-//  		 from.meta.keepAlive=true;
-//  	}else{
-//  		 from.meta.keepAlive=false;
-//  	}
-//  	console.log(from.meta.keepAlive)
-//    next();
-//  },
-
   }
 </script>
 

@@ -41,7 +41,7 @@
 					userName:"",
 					userId:"",
 				}
-
+			
 			}
 		},
 		methods:{
@@ -49,12 +49,12 @@
 	        this.page = n;
 	        window.scrollTo(0,0);
 	      },
-	      //获取体检报告列表
+	      //获取体检报告列表 
 	      gethealth(){
 	      	var mchId=this.$route.params.id
 	      	axios.post("/myha-server/mch/getHaPeReportList.do",{mchId}).then(res=>{
 		       this.chpeList=res.data.data.chpeList;
-		       this.pwpeList=res.data.data.pwpeList;
+		       this.pwpeList=res.data.data.pwpeList;  
 		       console.log(this.chpeList)
 		       console.log(this.pwpeList)
 		    })
@@ -77,7 +77,7 @@
            this.data.phone = this.getUserPhone;
            this.data.userName = this.getUserName;
            this.data.userId = this.getUserId;
-
+           
            this.gethealth()
         }
 	}
@@ -112,7 +112,7 @@
   }
   /*详情*/
   #main{
-  	padding-top: 87px;
+  	margin-top: 87px;
   }
   .model{
   	width:100%;
