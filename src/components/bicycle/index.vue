@@ -8,6 +8,7 @@
         <img src="./../../../static/img/bicycle/Group9@3x.png" style="width:40px;"/>
         <p>须知</p>
       </div>
+      <div></div>
       <div class="middle" @click="getAddr">
         <img src="./../../../static/img/bicycle/Page11@3x.png" style="width:40px;"/>
         <p>办卡点</p>
