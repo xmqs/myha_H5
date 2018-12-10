@@ -1,5 +1,9 @@
 <template>
   <div id="myEvent">
+    <div class="showNo" v-show="datas.length==0">
+      <img src="./../../../static/img/hotline/nodata.png" alt="" class="noData">
+      <p>暂无办件</p>
+    </div>
     <div class="event" v-for="data in datas">
       <div>{{data.projectname}}</div>
       <div>申请时间：{{data.applydate}}</div>
@@ -28,7 +32,7 @@
           userName: "",
           userId: "",
         },
-        datas: {}
+        datas: []
       }
     },
     computed: {
@@ -104,7 +108,6 @@
 
 <style scoped>
   #myEvent {
-    background: #f2f2f2;
     color: #666;
   }
 
@@ -156,5 +159,18 @@
     color: #fff;
     font-size: 24px;
     border-radius: 8px;
+  }
+
+  .noData{
+    width: 260px;
+  }
+  .showNo{
+    text-align: center;
+    padding-top: 260px;
+  }
+  .showNo p{
+    margin-top: 36px;
+    font-size: 36px;
+    color: #666;
   }
 </style>

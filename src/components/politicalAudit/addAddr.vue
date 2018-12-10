@@ -4,7 +4,7 @@
     <div id="add">
       <div class="addrList">
         <li class="list_li">
-          <div class="word">收货人</div>
+          <div class="word">收件人</div>
           <input type="text" name="" placeholder="请填写收货人" class="add_inp" v-model="receiveInfo.receivePerson">
         </li>
         <li class="list_li">

@@ -16,7 +16,7 @@
         </div>
         <div class="share_body">
           <div class="ma"><img src="../../../static/img/shareHaian/ma.jpg" alt=""/></div>
-          <div>扫一扫二维码即可下载“智慧海安”</div>
+          <div>扫一扫二维码即可下载“我的海安”</div>
         </div>
       </div>
 
