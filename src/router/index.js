@@ -119,6 +119,7 @@ const normalList = () => import ("../components/public/normalList"/*webpackChunk
 const newsList = () => import ("../components/public/newsList"/*webpackChunkName: "static"*/)
 const normalList2 = () => import ("../components/public/normalList2"/*webpackChunkName: "static"*/)
 const scrollList = () => import ("../components/public/scrollList"/*webpackChunkName: "static"*/)
+const userAddress = () => import ("../components/public/userAddress"/*webpackChunkName: "static"*/)
 
 /*行政审批*/
 const politicalMain = () => import ("../components/politicalAudit/politicalMain"/*webpackChunkName: "politicalAudit"*/)
@@ -133,6 +134,16 @@ const successCommit = () => import ("../components/politicalAudit/successCommit"
 const eventDetails = () => import ("../components/politicalAudit/eventDetails"/*webpackChunkName: "politicalAudit"*/)
 
 const showPage = () => import ("../components/politicalAudit/showPage"/*webpackChunkName: "politicalAudit"*/)
+
+/*驾考模拟*/
+const test = () => import ("../components/driveTest/test"/*webpackChunkName: "driveTest"*/)
+const driveMain = () => import ("../components/driveTest/driveMain"/*webpackChunkName: "driveTest"*/)
+const driveSel = () => import ("../components/driveTest/driveSel"/*webpackChunkName: "driveTest"*/)
+const specialList = () => import ("../components/driveTest/specialList"/*webpackChunkName: "driveTest"*/)
+
+/*分享*/
+const shareHaian = () => import ("../components/shareHaian/shareHaian"/*webpackChunkName: "shareHaian"*/)
+
 
 
 Vue.use(Router)
@@ -629,8 +640,41 @@ export default new Router({
       component: shenbanInstru,
     },
 
+    /*驾考模拟*/
+    {
+      path: '/driveTest/test/:Number/:type/:examId',/*考试*/
+      name: 'test',
+      component: test,
+    },
+    {
+      path: '/driveTest',/*考试*/
+      name: 'driveMain',
+      component: driveMain,
+    },
+    {
+      path: '/driveTest/driveSel',/*考试*/
+      name: 'driveSel',
+      component: driveSel,
+    },
+    {
+      path: '/driveTest/specialList',/*考试*/
+      name: 'specialList',
+      component: specialList,
+    },
+    /*分享*/
+    {
+      path: '/shareHaian',/*考试*/
+      name: 'shareHaian',
+      component: shareHaian,
+    },
 
 
+    /*公共模块*/
+    {
+      path: '/userAddress', /*普通列表*/
+      name: 'userAddress',
+      component: userAddress,
+    },
     /*特殊公共样式*/
     {
       path: '/list/normalList/:key1?/:key2?/:key3?', /*普通列表*/

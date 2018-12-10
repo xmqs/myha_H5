@@ -9,11 +9,11 @@
         </li>
         <li class="list_li">
           <div class="word">联系电话</div>
-          <input type="text" name="" placeholder="请填写联系电话" class="add_inp" v-model="receiveInfo.contactPhone">
+          <input type="number" name="" placeholder="请填写联系电话" class="add_inp" v-model="receiveInfo.contactPhone">
         </li>
         <li class="list_li">
           <div class="word">备用电话</div>
-          <input type="text" name="" placeholder="请填写备用电话" class="add_inp" v-model="receiveInfo.backupTelephone">
+          <input type="number" name="" placeholder="请填写备用电话" class="add_inp" v-model="receiveInfo.backupTelephone">
         </li>
         <li class="list_li" :class="{'choseArea':receiveInfo.receiveStreetCode==''}">
           <div class="word">所在区域</div>
@@ -107,12 +107,44 @@
         })
       },
       saveReceiveInfo(){
-        axios.post("/myha-server/receiveInfo/saveReceiveInfo.do",this.receiveInfo).then(res=>{
-          if(res.data.result==1){
-            mui.toast('提交成功',{ duration:'short', type:'div' });
-            this.$router.go(-1);
-          }
-        })
+        if(this.receiveInfo.receivePerson==''){
+          mui.toast('请填写收货人', {duration: 'short', type: 'div'});
+          return
+        }
+        if(this.receiveInfo.contactPhone==''){
+          mui.toast('请填写联系电话', {duration: 'short', type: 'div'});
+          return
+        }
+        let myReg = /^[1][3,4,5,7,8][0-9]{9}$/;
+        if (!myReg.test(this.receiveInfo.contactPhone)) {
+          mui.toast('请填写正确的电话号码', {duration: 'short', type: 'div'});
+          return false;
+        }
+        if(this.receiveInfo.receiveStreetCode==''){
+          mui.toast('请选择所在区域', {duration: 'short', type: 'div'});
+          return
+        }
+        if(this.receiveInfo.receiveAddress==''){
+          mui.toast('请填写详细地址', {duration: 'short', type: 'div'});
+          return
+        }
+
+
+        if(this.$route.params.id){
+          axios.post("/myha-server/receiveInfo/updateReceiveInfo.do",this.receiveInfo).then(res=>{
+            if(res.data.result==1){
+              mui.toast('修改成功',{ duration:'short', type:'div' });
+              this.$router.go(-1);
+            }
+          })
+        }else{
+          axios.post("/myha-server/receiveInfo/saveReceiveInfo.do",this.receiveInfo).then(res=>{
+            if(res.data.result==1){
+              mui.toast('提交成功',{ duration:'short', type:'div' });
+              this.$router.go(-1);
+            }
+          })
+        }
       }
     }
   }
@@ -188,6 +220,7 @@
     font-size: 36px;
     text-align: center;
     line-height: 100px;
+    z-index: 900;
   }
 
   .list_li {

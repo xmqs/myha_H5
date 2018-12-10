@@ -20,7 +20,8 @@ export default {
         userId:"",
         mobile:"",
         token:"",
-        type:""
+        type:"",
+        isLogin:""
       }
     }
   },
@@ -60,22 +61,24 @@ export default {
         this.$store.commit("setUserName",sessionStorage.getItem("userName"));
         this.$store.commit("setUserId",sessionStorage.getItem("userId"));
         this.$store.commit("setUserPhone",sessionStorage.getItem("tel"));
+        this.$store.commit("setIsLogin",sessionStorage.getItem("isLogin"));
 
       }else{
         this.idNumber=this.getUrlParam('znmh_idNumber')!==undefined?this.getUrlParam('znmh_idNumber'):'';
         this.userName=this.getUrlParam('znmh_userName')!==undefined?this.getUrlParam('znmh_userName'):'';
         this.userId=this.getUrlParam('userId')!==undefined?this.getUrlParam('userId'):'';
         this.mobile=this.getUrlParam('znmh_mobile')!==undefined?this.getUrlParam('znmh_mobile'):'';
-
+        this.isLogin=this.getUrlParam('znmh_isLogin')!==undefined?this.getUrlParam('znmh_isLogin'):'';
 
         axios.post("/myha-server/public/rsa/getRsaUser.do",{
           userid: this.userId,
           idcard: this.idNumber,
           username: this.userName,
           tel: this.mobile,
-          rsaKey:"basic_des_key"
+          rsaKey:"basic_des_key",
+          isLogin:this.isLogin,
         }).then(res=>{
-          console.log(res.data.data);
+
           let data = res.data.data;
 
           this.$store.commit("setCardId",data.idcard);
@@ -83,11 +86,14 @@ export default {
           this.$store.commit("setUserName",data.userName);
           this.$store.commit("setUserId",data.userId);
           this.$store.commit("setUserPhone",data.tel);
+          this.$store.commit("setIsLogin",data.isLogin);
 
           sessionStorage.setItem("idcard", data.idcard);
           sessionStorage.setItem("userName", data.userName);
           sessionStorage.setItem("userId", data.userId);
           sessionStorage.setItem("tel", data.tel);
+          sessionStorage.setItem("isLogin", data.isLogin);
+
         })
       }
     }

@@ -93,6 +93,45 @@
               <div class="word">电话</div>
               <div class="add_inp">{{data.contactmobile}}</div>
             </li>
+            <li class="list_li" v-show="!noPaper">
+              <div class="word">材料送达方式</div>
+              <div class="add_inp" v-show="way=='1'">自行邮寄</div>
+              <div class="add_inp" v-show="way=='2'">快递上门</div>
+              <div class="add_inp" v-show="way=='3'">窗口递交</div>
+            </li>
+            <li class="list_li" v-show="way=='1'">
+              <div class="word">EMS单号</div>
+              <div class="add_inp">{{thirdGovernmentProject.mailNum}}</div>
+            </li>
+            <li class="list_li" v-show="way=='2'">
+              <div class="word">快递上门联系人</div>
+              <div class="add_inp">{{thirdGovernmentProject.sendNameM}}</div>
+            </li>
+            <li class="list_li" v-show="way=='2'">
+              <div class="word">快递上门联系电话</div>
+              <div class="add_inp">{{thirdGovernmentProject.mobileM}}</div>
+            </li>
+            <li class="list_li" v-show="way=='2'">
+              <div class="word">快递上门地址</div>
+              <div class="add_inp">{{thirdGovernmentProject.sendStrectM}}</div>
+            </li>
+            <li class="list_li">
+              <div class="word">证件领取方式</div>
+              <div class="add_inp" v-show="way2=='1'">邮寄到家</div>
+              <div class="add_inp" v-show="way2=='2'">自行领取</div>
+            </li>
+            <li class="list_li" v-show="way2=='1'">
+              <div class="word">邮寄到家联系人</div>
+              <div class="add_inp">{{thirdGovernmentProject.rcvName}}</div>
+            </li>
+            <li class="list_li" v-show="way2=='1'">
+              <div class="word">邮寄到家联系电话</div>
+              <div class="add_inp">{{thirdGovernmentProject.rcvPhone}}</div>
+            </li>
+            <li class="list_li" v-show="way2=='1'">
+              <div class="word">邮寄到家地址</div>
+              <div class="add_inp">{{thirdGovernmentProject.rcvStreet}}</div>
+            </li>
           </div>
         </div>
         <div class="fireList">
@@ -134,6 +173,10 @@
             nodeList: []
           }
         },
+        thirdGovernmentProject:{},
+        way:"",
+        way2:"",
+        materiallist:[]
       }
     },
     methods: {
@@ -148,7 +191,6 @@
       }
     },
     mounted() {
-      console.log(this.$route.params.projectguid)
       //获取办件详情
       axios.post("/myha-server/govService/projectDetail.do", {
         //"projectGuid": "c3fcd17b-ffcb-4410-aad1-8427218e8109",
@@ -157,6 +199,29 @@
       }).then(res => {
         this.data = res.data.data;
         this.steps = res.data.data.projectProcesslist.nodeList.length;
+
+        this.materiallist = res.data.data.materialList;
+
+
+        this.thirdGovernmentProject = res.data.data.thirdGovernmentProject;
+
+        this.way2 = res.data.data.thirdGovernmentProject.ifExpress;
+
+
+        if (this.thirdGovernmentProject.ifExpressMa == '1'&&this.thirdGovernmentProject.is_send == '2') {
+          this.way = '1';
+        }
+
+        if (this.thirdGovernmentProject.ifExpressMa == '1'&&this.thirdGovernmentProject.is_send == '1') {
+          this.way = '2';
+        }
+
+        if (this.thirdGovernmentProject.ifExpressMa == '2') {
+          this.way = '3';
+        }
+
+
+
       })
     },
     computed: {
@@ -172,6 +237,22 @@
             }
           }
         }
+      },
+      noTxT() {
+        for (let i = 0; i < this.materiallist.length; i++) {
+          if (this.materiallist[i].submittypecode == 10 || this.materiallist[i].submittypecode == 35 || this.materiallist[i].submittypecode == 40) {
+            return false;
+          }
+        }
+        return true;
+      },
+      noPaper() {
+        for (let i = 0; i < this.materiallist.length; i++) {
+          if (this.materiallist[i].submittypecode == 20 || this.materiallist[i].submittypecode == 35 || this.materiallist[i].submittypecode == 40) {
+            return false;
+          }
+        }
+        return true;
       }
     }
   }

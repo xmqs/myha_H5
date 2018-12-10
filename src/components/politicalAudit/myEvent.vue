@@ -5,7 +5,7 @@
       <div>申请时间：{{data.applydate}}</div>
       <div>
         <div>
-          <span class="sparetime" v-if="data.currentstatus!=='待提交'">{{data.sparetime}}</span>
+          <!--<span class="sparetime" v-if="data.currentstatus!=='待提交'">{{data.sparetime}}</span>-->
           <span class="currentstatus">{{data.currentstatus}}</span>
         </div>
         <i @click="jumpDetails(data.projectguid,data.currentstatus,data.taskguid)"><span
@@ -37,40 +37,58 @@
         "getUserName",
         "getCardId",
         "getUserPhone",
+        "getIsLogin",
       ])
     },
     mounted() {
+
       this.userMsg.phone = this.getUserPhone;
       this.userMsg.userName = this.getUserName;
       this.userMsg.userId = this.getUserId;
 
-      let time = setInterval(()=>{
-        if(this.getCardId!==""){
-          clearInterval(time);
-          axios.post("/myha-server/govService/getAccountGuid.do", {
-            //"idNum":"3e9dff50-54a8-46af-88cf-52ef2d8c8cc3"
-            "idNum": this.getCardId
-          })
-            .then(res => {
-              this.accountguid = res.data.data.IdList[0].accountguid;
-              //获取办事列表
-              axios.post("/myha-server/govService/myProjects.do", {
-                "currentPage": "0",//当前页
-                "pageSize": "100",//每页数目
-                "keyword": "",//搜索内容
-                "status": "0",//办件状态
-                "accountGuid": res.data.data.IdList[0].accountguid,
-                //"accountGuid":this.accountguid,//身份唯一标识，身份验证接口拿到
-                "areaCode": "320621"
-              }).then(res => {
-                this.datas = res.data.data;
-              })
+      if(this.getIsLogin=="0"||this.getIsLogin==0){
+        let time = setInterval(()=>{
+          if(this.getCardId!==""){
+            clearInterval(time);
+            axios.post("/myha-server/govService/getAccountGuid.do", {
+              //"idNum":"3e9dff50-54a8-46af-88cf-52ef2d8c8cc3"
+              "idNum": this.getCardId
             })
+              .then(res => {
+                if(res.data.result==1){
+                  this.accountguid = res.data.data.IdList[0].accountguid;
+                  //获取办事列表
+                  axios.post("/myha-server/govService/myProjects.do", {
+                    "currentPage": "0",//当前页
+                    "pageSize": "100",//每页数目
+                    "keyword": "",//搜索内容
+                    "status": "0",//办件状态
+                    "accountGuid": res.data.data.IdList[0].accountguid,
+                    //"accountGuid":this.accountguid,//身份唯一标识，身份验证接口拿到
+                    "areaCode": "320621"
+                  }).then(res => {
+                    this.datas = res.data.data;
+                  })
+                }else{
+                  mui.toast('网络出了点小差错，请稍后尝试或联系管理人员', {duration: 'short', type: 'div'});
+                }
+              })
+          }
+        }, 200);
+      }else{
+        var u = navigator.userAgent;
+        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+        var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+
+        if (isAndroid) {
+          window.location.href += '&needLogin=true&toLocalLogin=true';
         }
-      }, 200);
 
+        if (isiOS) {
+          window.location.href = '&needLogin=true';
+        }
+      }
 
-      //身份验证
     },
     methods: {
       jumpDetails(projectguid, type, taskguid) {

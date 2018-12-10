@@ -21,5 +21,8 @@ export default {
   },
   [types.setPageAddress](state,pageAddress){
     state.pageAddress = pageAddress;
+  },
+  [types.setIsLogin](state,isLogin){
+    state.isLogin = isLogin;
   }
 }

@@ -6,8 +6,6 @@
         <div class="mui-slider-group">
           <div class="mui-slider-item"><a href="#"><img src="../../../static/img/politicalAudit/demo.png"/></a></div>
           <div class="mui-slider-item"><a href="#"><img src="../../../static/img/politicalAudit/demo.png"/></a></div>
-          <div class="mui-slider-item"><a href="#"><img src="../../../static/img/politicalAudit/demo.png"/></a></div>
-          <div class="mui-slider-item"><a href="#"><img src="../../../static/img/politicalAudit/demo.png"/></a></div>
         </div>
       </div>
     </div>
@@ -20,7 +18,8 @@
       <div id="shenbanMain">
         <div v-for="val in zhanshiList.data" @click="jumpshenban(val.taskguid)">
           <div><img :src="val.imgUrl"/></div>
-          <div class="c26" style="width:100%">{{val.taskname.length>8?val.taskname.slice(0,8)+"..." : val.taskname}}</div>
+          <div class="c26" style="width:100%">{{val.taskname.length>8?val.taskname.slice(0,8)+"..." : val.taskname}}
+          </div>
         </div>
       </div>
     </div>
@@ -53,6 +52,7 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
   import axios from "axios"
 
   export default {
@@ -81,30 +81,54 @@
         }
       }
     },
+    computed: {
+      ...mapGetters([
+        "getUserId",
+        "getUserName",
+        "getCardId",
+        "getUserPhone",
+        "getIsLogin",
+      ])
+    },
     mounted() {
-      //获得slider插件对象
-      var gallery = mui('.mui-slider');
-      gallery.slider({
-        interval: 2000//自动轮播周期，若为0则不自动播放，默认为0；
-      });
-      //加载部门分类
-      axios.post("/myha-server/govService/departments.do", {"areaCode": "320621"})
-        .then(res => {
-          this.bumen = res.data.data;
-        })
-      //加载主题分类
-      axios.post("/myha-server/govService/themes.do", {"userType": "10"})
-        .then(res => {
-          this.zhuti = res.data.data
-          console.log(this.zhuti)
-        })
-      //事项展示
-      axios.post("/myha-server/govService/taskList.do", this.requestData)
-        .then(res => {
-          this.zhanshiList = res.data;
-          console.log("事项展示数据")
-          console.log(res.data)
-        })
+
+      if (this.getIsLogin == "0" || this.getIsLogin == 0) {
+        //获得slider插件对象
+        var gallery = mui('.mui-slider');
+        gallery.slider({
+          interval: 2000//自动轮播周期，若为0则不自动播放，默认为0；
+        });
+        //加载部门分类
+        axios.post("/myha-server/govService/departments.do", {"areaCode": "320621"})
+          .then(res => {
+            this.bumen = res.data.data;
+          })
+        //加载主题分类
+        axios.post("/myha-server/govService/themes.do", {"userType": "10"})
+          .then(res => {
+            this.zhuti = res.data.data
+            console.log(this.zhuti)
+          })
+        //事项展示
+        axios.post("/myha-server/govService/taskList.do", this.requestData)
+          .then(res => {
+            this.zhanshiList = res.data;
+            console.log("事项展示数据")
+            console.log(res.data)
+          })
+      } else {
+        var u = navigator.userAgent;
+        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+        var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+
+        if (isAndroid) {
+          window.location.href += '&needLogin=true&toLocalLogin=true';
+        }
+
+        if (isiOS) {
+          window.location.href = '&needLogin=true';
+        }
+      }
     },
     methods: {
       toPage(n) {
@@ -256,7 +280,8 @@
   .accordion div:first-child {
     width: 100px;
     height: 100%;
-    background: url("./../../../static/img/politicalAudit/Group4.png") no-repeat;
+    background: url("./../../../static/img/politicalAudit/Group10.png") no-repeat;
+    background-size: 36px;
     background-position: center;
   }
 
@@ -322,7 +347,7 @@
       height:800px;
       overflow:auto;
   }*/
-  .c26{
+  .c26 {
     font-size: 26px;
   }
 </style>

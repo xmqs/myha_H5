@@ -26,3 +26,7 @@ export const  getPageAddress = (state) => {
   return state.pageAddress;
 }
 
+export const  getIsLogin = (state) => {
+  return state.isLogin;
+}
+

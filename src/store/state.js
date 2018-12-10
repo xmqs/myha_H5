@@ -48,6 +48,8 @@ const state = {
     spouseHistory:[],
   },
 
+  isLogin:"",
+
   auditAddress:{
     fromAddress:{
       rcvCity: "",//	收件人城市
@@ -60,6 +62,8 @@ const state = {
 
     /*接收地址*/
     backAddress:{
+      mobileM:"",//发件人手机号码
+      sendNameM:"",//发件人姓名
       sendCityM: "",//	发件区域城市
       sendCountryM: "",//	发件区域区县
       sendProvM: "",//	发件区域省份

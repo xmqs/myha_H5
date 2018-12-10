@@ -9,7 +9,7 @@
             <div>{{item.contactPhone}}</div>
             <div class="ico" v-show="item.isDefault==1">默认</div>
           </div>
-          <div>{{item.receiveAddress}}</div>
+          <div>{{item.receiveStreetCode}} {{item.receiveAddress}}</div>
         </div>
         <div class="right">
           <div>
@@ -100,22 +100,28 @@
         backAddress.fromAddress.rcvName = this.getAuditAddress.fromAddress.rcvName;
         backAddress.fromAddress.rcvPhone = this.getAuditAddress.fromAddress.rcvPhone;
         backAddress.fromAddress.rcvStreet = this.getAuditAddress.fromAddress.rcvStreet;
+
+        backAddress.backAddress.mobileM = this.getAuditAddress.backAddress.mobileM;
+        backAddress.backAddress.sendNameM = this.getAuditAddress.backAddress.sendNameM;
         backAddress.backAddress.sendStrectM = this.getAuditAddress.backAddress.sendStrectM;
 
         if(this.$route.params.type=='page3'){
 
-          backAddress.fromAddress.rcvName = address.receivePerson;
-          backAddress.fromAddress.rcvPhone = address.contactPhone;
-          backAddress.fromAddress.rcvStreet = address.receiveStreetCode;
+          backAddress.backAddress.sendNameM = address.receivePerson;
+          backAddress.backAddress.mobileM = address.contactPhone;
+          backAddress.backAddress.sendStrectM = address.receiveStreetCode + " " +address.receiveAddress;
 
           this.$store.commit("setAuditAddress",backAddress);
           /*选择上门地址*/
         }else if(this.$route.params.type=='page1'){
           /*选择首页地址*/
-          this.$store.commit("setPageAddress",address.receiveStreetCode);
+          this.$store.commit("setPageAddress",address.receiveStreetCode +" "+ address.receiveAddress);
         }else{
           /*选择寄送地址*/
-          backAddress.backAddress.sendStrectM = address.receiveStreetCode;
+          backAddress.fromAddress.rcvName = address.receivePerson;
+          backAddress.fromAddress.rcvPhone = address.contactPhone;
+          backAddress.fromAddress.rcvStreet = address.receiveStreetCode + " " +address.receiveAddress;
+
           this.$store.commit("setAuditAddress",backAddress);
         }
        this.$router.go(-1);

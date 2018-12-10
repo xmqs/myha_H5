@@ -92,11 +92,9 @@
         axios.post("/myha-server/govService/taskList.do", this.requestData)
           .then(res => {
             this.shixiangList = res.data.data;
-            console.log(res.data.data)
           })
       },
       jumpshenban(taskguid, allowapp) {
-          console.log(taskguid)
           this.$router.push("/politicalAudit/shenbanMsg/" + taskguid + "/" + allowapp)
       },
       init(){

@@ -58,17 +58,24 @@
             {{data.idCard}}
           </div>
         </li>
-        <li class="list_li" v-show="data.applyerType==20">
+        <li class="list_li" v-show="data.applyerType==20" @click="toAddressList('page1')" style="border-bottom: 0">
           <div class="word">联系地址</div>
-          <input type="text" name="" value="" placeholder="请填写联系地址" class="add_inp" v-model="data.address">
+        </li>
+        <li class="list_li" v-show="data.applyerType==20" @click="toAddressList('page1')">
+          <div class="add_inp3" v-show="getPageAddress==''">
+            请选联系地址
+          </div>
+          <div class="add_inp3" v-show="getPageAddress!==''">
+            {{getPageAddress}}
+          </div>
         </li>
         <li class="list_li" v-show="data.applyerType==20">
           <div class="word">邮编</div>
-          <input type="text" name="" value="" placeholder="请填写邮编" class="add_inp" v-model="data.postCode">
+          <input type="number" name="" value="" placeholder="请填写邮编" class="add_inp" v-model="data.postCode">
         </li>
         <li class="list_li" v-show="data.applyerType==20">
           <div class="word">电话</div>
-          <input type="text" name="" value="" placeholder="请填写电话" class="add_inp" v-model="data.contactMobile">
+          <input type="number" name="" value="" placeholder="请填写电话" class="add_inp" v-model="data.contactMobile">
         </li>
         <!--法人-->
         <li class="list_li" v-show="data.applyerType==10">
@@ -93,17 +100,24 @@
           </div>
           <!--<input type="text" name="" value="" placeholder="请填写法人身份证号码" class="add_inp" v-model="data.contactIdNum">-->
         </li>
-        <li class="list_li" v-show="data.applyerType==10">
+        <li class="list_li" v-show="data.applyerType==10" @click="toAddressList('page1')" style="border-bottom: 0">
           <div class="word">联系地址</div>
-          <input type="text" name="" value="" placeholder="请填写联系地址" class="add_inp" v-model="data.address">
+        </li>
+        <li class="list_li" v-show="data.applyerType==10" @click="toAddressList('page1')">
+          <div class="add_inp3" v-show="getPageAddress==''">
+            请选联系地址
+          </div>
+          <div class="add_inp3" v-show="getPageAddress!==''">
+            {{getPageAddress}}
+          </div>
         </li>
         <li class="list_li" v-show="data.applyerType==10">
           <div class="word">邮编</div>
-          <input type="text" name="" value="" placeholder="请填写邮编" class="add_inp" v-model="data.postCode">
+          <input type="number" name="" value="" placeholder="请填写邮编" class="add_inp" v-model="data.postCode">
         </li>
         <li class="list_li" v-show="data.applyerType==10">
           <div class="word">电话</div>
-          <input type="text" name="" value="" placeholder="请填写电话" class="add_inp" v-model="data.contactMobile">
+          <input type="number" name="" value="" placeholder="请填写电话" class="add_inp" v-model="data.contactMobile">
         </li>
       </div>
       <div class="page" v-show="step==2">
@@ -112,7 +126,9 @@
           <div class="coll">
             <div class="photoTitle">{{item.projectmaterialname}}<span class="red" v-show="item.necessary==1">*</span>
             </div>
-            <a :href="item.exampleattachguid"><div class="showExample">查看样例</div></a>
+            <a @click="toImg(item.exampleattachguid)">
+              <div class="showExample">查看样例</div>
+            </a>
           </div>
           <div class="c33">
             <div class="mustChose" v-show="item.necessary==1">必选</div>
@@ -140,36 +156,36 @@
           <li class="list_li">
             <div class="word2">材料送达方式</div>
           </li>
-          <li class="list_li" @click="way=1"
-              v-show="data.projectInfo.initIfExpress==1&&(data.projectInfo.expressType==1||data.projectInfo.expressType==12||data.projectInfo.expressType==21)">
+          <li class="list_li" @click="way='1'"
+              v-show="data.projectInfo.initIfExpress==1&&(data.projectInfo.expressType=='1'||data.projectInfo.expressType=='1,2'||data.projectInfo.expressType=='2,1')">
             <div class="word">自行邮寄</div>
-            <img src="./../../../static/img/politicalAudit/check.png" alt="" class="checkbox" v-show="way!==1">
-            <img src="./../../../static/img/politicalAudit/stepOver.png" alt="" class="checkbox" v-show="way==1">
+            <img src="./../../../static/img/politicalAudit/check.png" alt="" class="checkbox" v-show="way!=='1'">
+            <img src="./../../../static/img/politicalAudit/stepOver.png" alt="" class="checkbox" v-show="way=='1'">
           </li>
-          <li class="list_li" v-show="way==1" @click="way=1">
-            <input type="text" name="" value="" placeholder="请填EMS单号" class="add_inp2" v-model="data.mailName">
+          <li class="list_li" v-show="way=='1'" @click="way='1'">
+            <input type="text" name="" value="" placeholder="请填EMS单号" class="add_inp2" v-model="data.mailNum">
           </li>
-          <li class="list_li" @click="way=2"
-              v-show="data.projectInfo.initIfExpress==1&&(data.projectInfo.expressType==1||data.projectInfo.expressType==12||data.projectInfo.expressType==21)">
+          <li class="list_li" @click="way='2'"
+              v-show="data.projectInfo.initIfExpress==1&&(data.projectInfo.expressType=='1'||data.projectInfo.expressType=='1,2'||data.projectInfo.expressType=='2,1')">
             <div class="word">快递上门</div>
-            <img src="./../../../static/img/politicalAudit/check.png" alt="" class="checkbox" v-show="way!==2">
-            <img src="./../../../static/img/politicalAudit/stepOver.png" alt="" class="checkbox" v-show="way==2">
+            <img src="./../../../static/img/politicalAudit/check.png" alt="" class="checkbox" v-show="way!=='2'">
+            <img src="./../../../static/img/politicalAudit/stepOver.png" alt="" class="checkbox" v-show="way=='2'">
           </li>
-          <li class="list_li2" v-show="way==2" @click="toAddressList('page3')">
-            <div class="flexLR" v-show="getAuditAddress.fromAddress.rcvName!==''">
-              <div>收件人：{{getAuditAddress.fromAddress.rcvName}}</div>
-              <div>{{getAuditAddress.fromAddress.rcvPhone}}</div>
+          <li class="list_li2" v-show="way=='2'" @click="toAddressList('page3')">
+            <div class="flexLR" v-show="getAuditAddress.backAddress.sendNameM!==''">
+              <div>收件人：{{getAuditAddress.backAddress.sendNameM}}</div>
+              <div>{{getAuditAddress.backAddress.mobileM}}</div>
             </div>
-            <div class="addressDetail" v-show="getAuditAddress.fromAddress.rcvName!==''">
-              <div>{{getAuditAddress.fromAddress.rcvStreet}}</div>
+            <div class="addressDetail" v-show="getAuditAddress.backAddress.sendNameM!==''">
+              <div>{{getAuditAddress.backAddress.sendStrectM}}</div>
               <img src="./../../../static/img/politicalAudit/Group 21@3x.png" alt="" class="editAddress">
             </div>
-            <div class="noAddress" v-show="getAuditAddress.fromAddress.rcvName==''">点击添加地址</div>
+            <div class="noAddress" v-show="getAuditAddress.backAddress.sendNameM==''">点击添加地址</div>
           </li>
-          <li class="list_li line30" @click="way=3">
+          <li class="list_li line30" @click="way='3'">
             <div class="word">窗口递交</div>
-            <img src="./../../../static/img/politicalAudit/check.png" alt="" class="checkbox" v-show="way!==3">
-            <img src="./../../../static/img/politicalAudit/stepOver.png" alt="" class="checkbox" v-show="way==3">
+            <img src="./../../../static/img/politicalAudit/check.png" alt="" class="checkbox" v-show="way!=='3'">
+            <img src="./../../../static/img/politicalAudit/stepOver.png" alt="" class="checkbox" v-show="way=='3'">
           </li>
           <li class="list_li">
             <div class="word2">纸质材料清单</div>
@@ -186,8 +202,8 @@
                 <div class="submittype">{{item.submittype}}</div>
               </div>
               <div>
-                <a :href="item.exampleattachguid"><img  src="../../../static/img/politicalAudit/Group 5@2x.png"/>&nbsp;&nbsp;预览</a>
-                <a @click="load(item.templateattachguid)"><img  src="../../../static/img/politicalAudit/Fill 1@2x.png"/>&nbsp;&nbsp;下载</a>
+                <a @click="toImg(item.exampleattachguid)"><img src="../../../static/img/politicalAudit/Group 5@2x.png"/>&nbsp;&nbsp;预览</a>
+                <a @click="load(item.templateattachguid)"><img src="../../../static/img/politicalAudit/Fill 1@2x.png"/>&nbsp;&nbsp;下载</a>
                 <!--<a><img src="../../../static/img/politicalAudit/Group 5@2x.png"/>&nbsp;&nbsp;预览</a>
                 <a><img src="../../../static/img/politicalAudit/Fill 1@2x.png"/>&nbsp;&nbsp;下载</a>-->
               </div>
@@ -200,22 +216,21 @@
           <div class="word2">证件领取方式</div>
         </li>
         <li class="list_li" @click="way2='1'"
-            v-show="data.projectInfo.initIfExpress==1&&(data.projectInfo.expressType==2||data.projectInfo.expressType==12||data.projectInfo.expressType==21)">
+            v-show="data.projectInfo.initIfExpress==1&&(data.projectInfo.expressType=='2'||data.projectInfo.expressType=='1,2'||data.projectInfo.expressType=='2,1')">
           <div class="word">邮寄到家</div>
-          <img src="./../../../static/img/politicalAudit/check.png" alt="" class="checkbox" v-show="way2!==1">
-          <img src="./../../../static/img/politicalAudit/stepOver.png" alt="" class="checkbox" v-show="way2==1">
+          <img src="./../../../static/img/politicalAudit/check.png" alt="" class="checkbox" v-show="way2!=='1'">
+          <img src="./../../../static/img/politicalAudit/stepOver.png" alt="" class="checkbox" v-show="way2=='1'">
         </li>
         <li class="list_li2" v-show="way2=='1'" @click="toAddressList('page4')">
-          <div class="flexLR" v-show="getAuditAddress.backAddress.sendStrectM!==''">
-            <div v-show="data.applyerType=='10'">收件人：{{data.applyerName}}</div>
-            <div v-show="data.applyerType=='20'">收件人：{{data.contactName}}</div>
-            <div>{{data.contactMobile}}</div>
+          <div class="flexLR" v-show="getAuditAddress.fromAddress.rcvName!==''">
+            <div>收件人：{{getAuditAddress.fromAddress.rcvName}}</div>
+            <div>{{getAuditAddress.fromAddress.rcvPhone}}</div>
           </div>
-          <div class="addressDetail" v-show="getAuditAddress.backAddress.sendStrectM!==''">
-            <div>{{getAuditAddress.backAddress.sendStrectM}}</div>
+          <div class="addressDetail" v-show="getAuditAddress.fromAddress.rcvName!==''">
+            <div>{{getAuditAddress.fromAddress.rcvStreet}}</div>
             <img src="./../../../static/img/politicalAudit/Group 21@3x.png" alt="" class="editAddress">
           </div>
-          <div class="noAddress" v-show="getAuditAddress.backAddress.sendStrectM==''" @click="toAddressList('page4')">
+          <div class="noAddress" v-show="getAuditAddress.fromAddress.rcvName==''" @click="toAddressList('page4')">
             点击添加地址
           </div>
         </li>
@@ -240,6 +255,9 @@
         <span v-show="step!==4">下一步</span>
       </div>
     </div>
+    <input style='opacity: 0;bottom:0; position:fixed;z-index: -1' id="input" type="text"/>
+    <div class="mask" v-show="loading"></div>
+    <img class="loading" src="./../../../static/img/politicalAudit/loading.png" alt="" v-show="loading">
   </div>
 </template>
 
@@ -256,6 +274,7 @@
         "getCardId",
         "getUserPhone",
         "getAuditAddress",
+        "getPageAddress"
       ]),
       noTxT() {
         for (let i = 0; i < this.materiallist.length; i++) {
@@ -299,7 +318,7 @@
           ifExpressMa: '',//是否使用物流寄送申报材料1是2否，填写是时需要填写寄送信息
           is_send: '',//是否已寄送1否2是
           legal: "",// 法人代表
-          mailName: '',//快递单号
+          mailNum: '',//快递单号
           orgNameM: '',//办理部门
           postCode: "",// 邮编
           projectGuid: "", // 办件的唯一标识
@@ -313,11 +332,13 @@
 
           remark: "",//备注
 
+          mobileM:"",//发件人手机号码
+          sendNameM:"",//发件人姓名
           sendCityM: "",//	发件区域城市
           sendCountryM: "",//	发件区域区县
           sendProvM: "",//	发件区域省份
           sendStrectM: "",//	发件详细地址
-          taskId: "",//事项业务唯一标识
+          taskGuid: "",//事项业务唯一标识
 
           projectInfo: {
             initIfExpress: "",//是否支持物流快递1是2否
@@ -332,20 +353,20 @@
         way2: '',//物流类型 1申报材料快递2证照批文快递 3两者都不支持
         if_express: '',//是否支持物流快递1是2否
         express_type: '',//物流类型 1申报材料快递2证照批文快递 3两者都不支持
+        loading: false,
       }
     },
     mounted() {
 
     },
     beforeRouteLeave(to, from, next) {
-      if (to.name == "shenbanMsg"||to.name == "successCommit"||to.name == "myEvent") {
+      if (to.name == "shenbanMsg" || to.name == "successCommit" || to.name == "myEvent") {
         this.init();
       }
       next();
     },
     activated() {
       if (this.step == 2) {
-        alert(2);
         /*非入口进入初始化所有值*/
         this.init();
         /**判断是否是草稿修改*/
@@ -355,50 +376,6 @@
             areaCode: '320621',
             projectGuid: this.$route.params.projectguid
           }).then(res => {
-            /*let result = res.data.data
-            /!*转大小写*!/
-            this.data.areaCode = result.areacode?result.areacode:"";// 区域代码
-            this.data.companyRowGuid = result.companyrowguid?result.companyrowguid:"";// 获取当前企业的主键标companyguid
-            this.data.isMobile = result.ismobile?result.ismobile:"";// 是否手机端申报参数
-            this.data.orgaleGalIdMumber = result.orgalegalidmumber?result.orgalegalidmumber:"";// 法人代表身份证
-            this.data.accountGuid = result.accountguid?result.accountguid:"";// 身份唯一标识
-            this.data.address = result.address?result.address:"";//地址
-            this.data.applyerName = result.applyername?result.applyername:"";// 申请人姓名
-            this.data.applyerType = result.applyertype?result.applyertype:"";// 申请人类型 10企业 20个人
-            this.data.certType = result.certtype?result.certtype:"";// 证照类型  	证照类型身份22 ；组织机构代码证 14；统一社会信用代码 16；港澳台证件 23
-            this.data.chkCode = result.chkcode?result.chkcode:"";//取件验证码(使用物流寄送审批结果时需要传递)
-            this.data.contactName = result.contactname?result.contactname:"";// 联系人姓名
-            this.data.contactMobile = result.contactmobile?result.contactmobile:"";// 联系人手机
-            this.data.contactPhone = result.contactphone?result.contactphone:"";// 联系人电话
-            this.data.contactIdNum = result.contactidnum?result.contactidnum:"";// 联系人身份证
-            this.data.email = result.email?result.email:"";// 邮箱
-            this.data.idCard = result.applyercertnum?result.applyercertnum:"";// 申请人证照编号
-            this.data.ifExpress = "";// 是否使用物流 1是 2否 要填写物流信息
-            this.data.ifExpressMa = "";//是否使用物流寄送申报材料1是2否，填写是时需要填写寄送信息
-            this.data.is_send = '';//是否已寄送1否2是
-            this.data.legal = result.legal?result.legal:""// 法人代表
-            this.data.mailName = result.mailname?result.mailname:""//快递单号
-            this.data.orgNameM = result.orgnamem?result.orgnamem:""//办理部门
-            this.data.postCode = result.contactpostcode?result.contactpostcode:""// 邮编
-            this.data.projectGuid = this.$route.params.projectguid; // 办件的唯一标识
-
-            this.data.rcvCity = result.rcvcity?result.rcvcity:""//	收件人城市
-            this.data.rcvCoutry = result.rcvcoutry?result.rcvcoutry:""//		收件人区县
-            this.data.rcvName = result.rcvname?result.rcvname:""//		收件人姓名
-            this.data.rcvPhone = result.rcvphone?result.rcvphone:""//		收件人电话
-            this.data.rcvProv = result.rcvprov?result.rcvprov:""//		收件人省份
-            this.data.rcvStreet = result.rcvstreet?result.rcvstreet:""//		收件人详细地址
-
-            this.data.remark = result.remark?result.remark:""//备注
-
-            this.data.sendCityM = result.sendcitym?result.sendcitym:""//	发件区域城市
-            this.data.sendCountryM = result.sendcountrym?result.sendcountrym:""//	发件区域区县
-            this.data.sendProvM = result.sendprovm?result.sendprovm:""//	发件区域省份
-            this.data.sendStrectM = result.sendstrectm?result.sendstrectm:""//	发件详细地址
-            this.data.taskId = result.taskid?result.taskid:""//事项业务唯一标识
-
-            this.data.projectInfo = result.projectInfo?result.projectInfo:""*/
-
 
             this.data = res.data.data.thirdGovernmentProject;
             this.data.projectInfo = res.data.data.projectInfo;
@@ -406,12 +383,47 @@
             this.way2 = res.data.data.thirdGovernmentProject.ifExpress;
 
 
-            if(this.data.ifExpressMa == 1){
-              this.way = 1;
+            if (this.data.ifExpressMa == '1'&&this.data.is_send == '2') {
+              this.way = '1';
             }
-            if(this.data.ifExpressMa == 2){
-              this.way = 3
+            if (this.data.ifExpressMa == '2') {
+              this.way = '3';
             }
+            if (this.data.ifExpressMa == '3'&&this.data.is_send == '1') {
+              this.way = '1';
+            }
+
+            /*TODO 获取已经选择地址接口*/
+
+            this.$store.commit("setPageAddress", res.data.data.thirdGovernmentProject.address);
+
+            let backAddress = {
+              fromAddress: {
+                rcvCity: "",//	收件人城市
+                rcvCoutry: "",//		收件人区县
+                rcvName: "",//		收件人姓名
+                rcvPhone: "",//		收件人电话
+                rcvProv: "",//		收件人省份
+                rcvStreet: ""//		收件人详细地址
+              },
+              /*接收地址*/
+              backAddress: {
+                sendCityM: "",//	发件区域城市
+                sendCountryM: "",//	发件区域区县
+                sendProvM: "",//	发件区域省份
+                sendStrectM: ""//	发件详细地址
+              },
+            }
+
+            backAddress.fromAddress.rcvName = res.data.data.thirdGovernmentProject.rcvName;
+            backAddress.fromAddress.rcvPhone = res.data.data.thirdGovernmentProject.rcvPhone;
+            backAddress.fromAddress.rcvStreet = res.data.data.thirdGovernmentProject.rcvStreet;
+
+            backAddress.backAddress.sendNameM = res.data.data.thirdGovernmentProject.sendStrectM;
+            backAddress.backAddress.mobileM = res.data.data.thirdGovernmentProject.mobileM;
+            backAddress.backAddress.sendStrectM = res.data.data.thirdGovernmentProject.sendStrectM;
+
+            this.$store.commit("setAuditAddress", backAddress);
 
             this.materiallist = res.data.data.materialList;
           })
@@ -423,7 +435,7 @@
             username: this.getUserName
           }).then(res => {
             this.data.accountGuid = res.data.data.IdList[0].accountguid;
-            this.data.taskId = this.$route.params.taskGuid;
+            this.data.taskGuid = this.$route.params.taskGuid;
             axios.post('/myha-server/govService/initProjectReturnMaterials.do', {
               //初始化信息接口
               accountGuid: res.data.data.IdList[0].accountguid,
@@ -449,11 +461,41 @@
           axios.post('/myha-server/receiveInfo/queryDefaultInfo.do', {
             userId: this.getUserId,
           }).then(res => {
-            console.log(res.data.data.receiveInfo);
+            if (res.data.message !== '该用户下暂无默认地址') {
+              this.$store.commit("setPageAddress", res.data.data.receiveInfo.receiveStreetCode + " " + res.data.data.receiveInfo.receiveAddress);
 
+              let backAddress = {
+                fromAddress: {
+                  rcvCity: "",//	收件人城市
+                  rcvCoutry: "",//		收件人区县
+                  rcvName: "",//		收件人姓名
+                  rcvPhone: "",//		收件人电话
+                  rcvProv: "",//		收件人省份
+                  rcvStreet: ""//		收件人详细地址
+                },
+                /*接收地址*/
+                backAddress: {
+                  sendCityM: "",//	发件区域城市
+                  sendCountryM: "",//	发件区域区县
+                  sendProvM: "",//	发件区域省份
+                  sendStrectM: ""//	发件详细地址
+                },
+              }
+
+              backAddress.fromAddress.rcvName = res.data.data.receiveInfo.receivePerson;
+              backAddress.fromAddress.rcvPhone = res.data.data.receiveInfo.contactPhone;
+              backAddress.fromAddress.rcvStreet = res.data.data.receiveInfo.receiveStreetCode+" "+res.data.data.receiveInfo.receiveAddress;
+
+              backAddress.backAddress.sendNameM = res.data.data.receiveInfo.receivePerson;
+              backAddress.backAddress.mobileM = res.data.data.receiveInfo.contactPhone;
+              backAddress.backAddress.sendStrectM = res.data.data.receiveInfo.receiveStreetCode+" "+res.data.data.receiveInfo.receiveAddress;
+
+              this.$store.commit("setAuditAddress", backAddress);
+
+            }
           })
         }
-      } else if(this.step == 1&&this.data.projectGuid == ""){
+      } else if (this.step == 1 && this.data.projectGuid == "") {
         this.init();
         /**判断是否是草稿修改*/
         if (this.$route.params.projectguid) {
@@ -462,50 +504,7 @@
             areaCode: '320621',
             projectGuid: this.$route.params.projectguid
           }).then(res => {
-            /*let result = res.data.data
-            /!*转大小写*!/
-            this.data.areaCode = result.areacode?result.areacode:"";// 区域代码
-            this.data.companyRowGuid = result.companyrowguid?result.companyrowguid:"";// 获取当前企业的主键标companyguid
-            this.data.isMobile = result.ismobile?result.ismobile:"";// 是否手机端申报参数
-            this.data.orgaleGalIdMumber = result.orgalegalidmumber?result.orgalegalidmumber:"";// 法人代表身份证
 
-            this.data.accountGuid = result.accountguid?result.accountguid:"";// 身份唯一标识
-            this.data.address = result.address?result.address:"";//地址
-            this.data.applyerName = result.applyername?result.applyername:"";// 申请人姓名
-            this.data.applyerType = result.applyertype?result.applyertype:"";// 申请人类型 10企业 20个人
-            this.data.certType = result.certtype?result.certtype:"";// 证照类型  	证照类型身份22 ；组织机构代码证 14；统一社会信用代码 16；港澳台证件 23
-            this.data.chkCode = result.chkcode?result.chkcode:"";//取件验证码(使用物流寄送审批结果时需要传递)
-            this.data.contactName = result.contactname?result.contactname:"";// 联系人姓名
-            this.data.contactMobile = result.contactmobile?result.contactmobile:"";// 联系人手机
-            this.data.contactPhone = result.contactphone?result.contactphone:"";// 联系人电话
-            this.data.contactIdNum = result.contactidnum?result.contactidnum:"";// 联系人身份证
-            this.data.email = result.email?result.email:"";// 邮箱
-            this.data.idCard = result.applyercertnum?result.applyercertnum:"";// 申请人证照编号
-            this.data.ifExpress = "";// 是否使用物流 1是 2否 要填写物流信息
-            this.data.ifExpressMa = "";//是否使用物流寄送申报材料1是2否，填写是时需要填写寄送信息
-            this.data.is_send = '';//是否已寄送1否2是
-            this.data.legal = result.legal?result.legal:""// 法人代表
-            this.data.mailName = result.mailname?result.mailname:""//快递单号
-            this.data.orgNameM = result.orgnamem?result.orgnamem:""//办理部门
-            this.data.postCode = result.contactpostcode?result.contactpostcode:""// 邮编
-            this.data.projectGuid = this.$route.params.projectguid; // 办件的唯一标识
-
-            this.data.rcvCity = result.rcvcity?result.rcvcity:""//	收件人城市
-            this.data.rcvCoutry = result.rcvcoutry?result.rcvcoutry:""//		收件人区县
-            this.data.rcvName = result.rcvname?result.rcvname:""//		收件人姓名
-            this.data.rcvPhone = result.rcvphone?result.rcvphone:""//		收件人电话
-            this.data.rcvProv = result.rcvprov?result.rcvprov:""//		收件人省份
-            this.data.rcvStreet = result.rcvstreet?result.rcvstreet:""//		收件人详细地址
-
-            this.data.remark = result.remark?result.remark:""//备注
-
-            this.data.sendCityM = result.sendcitym?result.sendcitym:""//	发件区域城市
-            this.data.sendCountryM = result.sendcountrym?result.sendcountrym:""//	发件区域区县
-            this.data.sendProvM = result.sendprovm?result.sendprovm:""//	发件区域省份
-            this.data.sendStrectM = result.sendstrectm?result.sendstrectm:""//	发件详细地址
-            this.data.taskId = result.taskid?result.taskid:""//事项业务唯一标识
-
-            this.data.projectInfo = result.projectInfo?result.projectInfo:""*/
 
             this.data = res.data.data.thirdGovernmentProject;
             this.data.projectInfo = res.data.data.projectInfo;
@@ -513,12 +512,47 @@
             this.way2 = res.data.data.thirdGovernmentProject.ifExpress;
 
 
-            if(this.data.ifExpressMa == 1){
-              this.way = 1;
+            if (this.data.ifExpressMa == '1'&&this.data.is_send == '2') {
+              this.way = '1';
             }
-            if(this.data.ifExpressMa == 2){
-              this.way = 3
+            if (this.data.ifExpressMa == '2') {
+              this.way = '3';
             }
+            if (this.data.ifExpressMa == '1'&&this.data.is_send == '1') {
+              this.way = '2';
+            }
+
+            /*TODO 获取已经选择地址接口*/
+            this.$store.commit("setPageAddress", res.data.data.thirdGovernmentProject.address);
+
+
+            let backAddress = {
+              fromAddress: {
+                rcvCity: "",//	收件人城市
+                rcvCoutry: "",//		收件人区县
+                rcvName: "",//		收件人姓名
+                rcvPhone: "",//		收件人电话
+                rcvProv: "",//		收件人省份
+                rcvStreet: ""//		收件人详细地址
+              },
+              /*接收地址*/
+              backAddress: {
+                sendCityM: "",//	发件区域城市
+                sendCountryM: "",//	发件区域区县
+                sendProvM: "",//	发件区域省份
+                sendStrectM: ""//	发件详细地址
+              },
+            }
+
+            backAddress.fromAddress.rcvName = res.data.data.thirdGovernmentProject.rcvName;
+            backAddress.fromAddress.rcvPhone = res.data.data.thirdGovernmentProject.rcvPhone;
+            backAddress.fromAddress.rcvStreet = res.data.data.thirdGovernmentProject.rcvStreet;
+
+            backAddress.backAddress.sendNameM = res.data.data.thirdGovernmentProject.sendNameM;
+            backAddress.backAddress.mobileM = res.data.data.thirdGovernmentProject.mobileM;
+            backAddress.backAddress.sendStrectM = res.data.data.thirdGovernmentProject.sendStrectM;
+
+            this.$store.commit("setAuditAddress", backAddress);
 
             this.materiallist = res.data.data.materialList;
           })
@@ -530,7 +564,7 @@
             username: this.getUserName
           }).then(res => {
             this.data.accountGuid = res.data.data.IdList[0].accountguid;
-            this.data.taskId = this.$route.params.taskGuid;
+            this.data.taskGuid = this.$route.params.taskGuid;
             axios.post('/myha-server/govService/initProjectReturnMaterials.do', {
               //初始化信息接口
               accountGuid: res.data.data.IdList[0].accountguid,
@@ -556,19 +590,60 @@
           axios.post('/myha-server/receiveInfo/queryDefaultInfo.do', {
             userId: this.getUserId,
           }).then(res => {
+            if (res.data.message !== '该用户下暂无默认地址') {
+              this.$store.commit("setPageAddress", res.data.data.receiveInfo.receiveStreetCode + " " + res.data.data.receiveInfo.receiveAddress);
 
-            console.log(res.data.data.receiveInfo);
+              let backAddress = {
+                fromAddress: {
+                  rcvCity: "",//	收件人城市
+                  rcvCoutry: "",//		收件人区县
+                  rcvName: "",//		收件人姓名
+                  rcvPhone: "",//		收件人电话
+                  rcvProv: "",//		收件人省份
+                  rcvStreet: ""//		收件人详细地址
+                },
+                /*接收地址*/
+                backAddress: {
+                  sendCityM: "",//	发件区域城市
+                  sendCountryM: "",//	发件区域区县
+                  sendProvM: "",//	发件区域省份
+                  sendStrectM: ""//	发件详细地址
+                },
+              }
 
+              backAddress.fromAddress.rcvName = res.data.data.receiveInfo.receivePerson;
+              backAddress.fromAddress.rcvPhone = res.data.data.receiveInfo.contactPhone;
+              backAddress.fromAddress.rcvStreet = res.data.data.receiveInfo.receiveStreetCode+" "+res.data.data.receiveInfo.receiveAddress;
+
+              backAddress.backAddress.sendNameM = res.data.data.receiveInfo.receivePerson;
+              backAddress.backAddress.mobileM = res.data.data.receiveInfo.contactPhone;
+              backAddress.backAddress.sendStrectM = res.data.data.receiveInfo.receiveStreetCode+" "+res.data.data.receiveInfo.receiveAddress;
+
+              this.$store.commit("setAuditAddress", backAddress);
+            }
           })
         }
       }
     },
     methods: {
-      load(templateattachguid){
+      toImg(img){
+        var u = navigator.userAgent;
+        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+        var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+
+        if (isAndroid) {
+          window.location.href = img;
+        }
+
+        if (isiOS) {
+          window.location.href = img+"&hanNewH5";
+        }
+      },
+      load(templateattachguid) {
         mui.init();
-        mui.alert('申请材料文本已生成', '复制链接通过浏览器下载','复制链接' ,function() {
+        mui.alert('申请材料文本已生成', '复制链接通过浏览器下载', '复制链接', function () {
           let input = document.getElementById("input");
-          input.value =templateattachguid; // 修改文本框的内容
+          input.value = templateattachguid; // 修改文本框的内容
           input.select(); // 选中文本
           input.setSelectionRange(0, input.value.length),
             document.execCommand('Copy');
@@ -579,25 +654,29 @@
       changeCommitMsg() {
         /*是否使用物流寄送结果*/
         /*TODO 注意 is_send 1否2是*/
-        if (this.way == 1) {
+        if (this.way == '1') {
           /*step3自行邮寄*/
-          this.data.ifExpressMa = 1;
-          this.data.is_send = 2;
-        } else if (this.way == 3) {
+          this.data.ifExpressMa = '1';
+          this.data.is_send = '2';
+        } else if (this.way == '3') {
           /*step3窗口提交*/
-          this.data.ifExpressMa = 2;
-          this.data.is_send = 1;
-        } else if (this.way == 2) {
+          this.data.ifExpressMa = '2';
+          this.data.is_send = '1';
+        } else if (this.way == '2') {
           /*step3快递上门 需要快递单号*/
           /*填写rcv信息*/
-          this.data.rcvName = this.getAuditAddress.fromAddress.rcvName;
-          this.data.rcvPhone = this.getAuditAddress.fromAddress.rcvPhone;
-          this.data.rcvStreet = this.getAuditAddress.fromAddress.rcvStreet;
+          this.data.ifExpressMa = '1';
+          this.data.is_send = '1';
+          this.data.sendNameM = this.getAuditAddress.backAddress.sendNameM;
+          this.data.mobileM = this.getAuditAddress.backAddress.mobileM;
+          this.data.sendStrectM = this.getAuditAddress.backAddress.sendStrectM;
         }
 
         this.data.ifExpress = this.way2;
         if (this.way2 == 1) {
-          this.data.sendStrectM = this.getAuditAddress.backAddress.sendStrectM;
+          this.data.rcvName = this.getAuditAddress.fromAddress.rcvName;
+          this.data.rcvPhone = this.getAuditAddress.fromAddress.rcvPhone;
+          this.data.rcvStreet = this.getAuditAddress.fromAddress.rcvStreet;
         }
       },
       init() {
@@ -625,7 +704,7 @@
           ifExpressMa: '',//是否使用物流寄送申报材料1是2否，填写是时需要填写寄送信息
           is_send: '',//是否已寄送1否2是
           legal: "",// 法人代表
-          mailName: '',//快递单号
+          mailNum: '',//快递单号
           orgNameM: '',//办理部门
           postCode: "",// 邮编
           projectGuid: "", // 办件的唯一标识
@@ -639,11 +718,13 @@
 
           remark: "",//备注
 
+          mobileM:"",//发件人手机号码
+          sendNameM:"",//发件人姓名
           sendCityM: "",//	发件区域城市
           sendCountryM: "",//	发件区域区县
           sendProvM: "",//	发件区域省份
           sendStrectM: "",//	发件详细地址
-          taskId: "",//事项业务唯一标识
+          taskGuid: "",//事项业务唯一标识
           projectInfo: {
             initIfExpress: "",//是否支持物流快递1是2否
             expressType: ""//物流类型 1申报材料快递2证照批文快递 3两者都不支持
@@ -653,6 +734,7 @@
         this.materiallist = [];//申报材料列表
         this.way = '';//是否支持物流快递1是2否
         this.way2 = '';//物流类型 1申报材料快递2证照批文快递 3两者都不支持
+        this.loading = false;//物流类型 1申报材料快递2证照批文快递 3两者都不支持
 
         this.$store.commit("setAuditAddress", {
 
@@ -674,19 +756,26 @@
           },
         });
 
-        this.$store.commit("setPageAddress","");
+        this.$store.commit("setPageAddress", "");
       },
 
       /*保存草稿*/
       saveProjectInfo() {
         this.changeCommitMsg();
+
+        this.data.address = this.getPageAddress;
         this.data.materiallist = this.materiallist;
 
-        console.log(this.data);
-        axios.post('/myha-server/govService/saveProjectInfo.do',this.data).then(res => {
+        this.loading = true;
+
+        axios.post('/myha-server/govService/saveProjectInfo.do', this.data).then(res => {
           if (res.data.result == 1) {
+            this.loading = false;
             mui.toast('保存成功', {duration: 'short', type: 'div'});
             this.$router.go(-1);
+          } else {
+            this.loading = false;
+            mui.toast('网络出了点小差错，请稍后尝试或联系管理人员', {duration: 'short', type: 'div'});
           }
         })
       },
@@ -694,6 +783,8 @@
       changeType(n) {
         this.data.applyerType = n;
         if (n == 20) {
+          this.data.contactName = "";
+          this.data.contactIdNum = "";
           this.data.applyerName = this.getUserName;
           this.data.idCard = this.getCardId;
         } else {
@@ -730,6 +821,8 @@
                 mui.toast('暂未获取到申请人身份证号码', {duration: 'short', type: 'div'});
                 return
               }
+
+              this.data.address = this.getPageAddress;
               if (this.data.address == "") {
                 mui.toast('请填写联系地址', {duration: 'short', type: 'div'});
                 return
@@ -775,6 +868,7 @@
                 return
               }
 
+              this.data.address = this.getPageAddress;
               if (this.data.address == "") {
                 mui.toast('请填写联系地址', {duration: 'short', type: 'div'});
                 return
@@ -812,6 +906,11 @@
               }
             }
 
+            if (this.way == '1' && this.data.mailNum == '') {
+              mui.toast('请填写EMS单号', {duration: 'short', type: 'div'});
+              return
+            }
+
             if (this.way2 == "") {
               mui.toast('请选择领取证件方式', {duration: 'short', type: 'div'});
               return
@@ -824,12 +923,17 @@
             }
             this.changeCommitMsg();
             this.data.materiallist = this.materiallist;
+            this.loading = true;
             /*提交信息*/
             axios.post('/myha-server/govService/submitProjectByTaskguid.do', this.data).then(res => {
               if (res.data.result == 1) {
+                this.loading = false;
                 mui.toast('申请成功', {duration: 'short', type: 'div'});
                 this.init();
                 this.$router.replace('/politicalAudit/successCommit');
+              } else {
+                this.loading = false;
+                mui.toast('网络出了点小差错，请稍后尝试或联系管理人员', {duration: 'short', type: 'div'});
               }
             })
           } else {
@@ -841,18 +945,17 @@
       /*上传图片*/
       myImg(id) {
         var oldUrl = window.location.href;
-
         /*判断ios  Android*/
         var u = navigator.userAgent;
         var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
         var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 
         if (isAndroid) {
-          window.location.href += '#uploadImgByClient?imgNum=0&serverurl=http://58.221.196.5:11001/user/myhaUpload&selectPhotoType=photoAll&isEdit=0';
+          window.location.href += '#uploadImgByClient?imgNum=0&serverurl=http://58.221.196.5:11001/file-server/upload/upload.do&selectPhotoType=photoAll&isEdit=0';
         }
 
         if (isiOS) {
-          window.location.href = '#uploadImgByClient?imgNum=0&serverurl=http://58.221.196.5:11001/user/myhaUpload&selectPhotoType=photoAll&isEdit=0';
+          window.location.href = '#uploadImgByClient?imgNum=0&serverurl=http://58.221.196.5:11001/file-server/upload/upload.do&selectPhotoType=photoAll&isEdit=0';
         }
 
         let that = this;
@@ -870,7 +973,6 @@
         }
 
       },
-
       removeImg(line, index) {
         this.materiallist[line].imgList.splice(index, 1);
         this.$forceUpdate();
@@ -981,7 +1083,7 @@
   .word {
     color: #666;
     font-size: 30px;
-    padding-left: 40px;
+    padding-left:40px;
     width: 100%;
     line-height: 98px;
     white-space: nowrap;
@@ -990,14 +1092,13 @@
   .word2 {
     color: #666;
     font-size: 32px;
-    padding-left: 32px;
+    padding-left:32px;
     width: 100%;
     line-height: 98px;
     white-space: nowrap;
   }
 
   .add_inp {
-    height: 98px;
     margin-bottom: 0;
     padding: 20px 16px;
     -webkit-user-select: text;
@@ -1011,7 +1112,18 @@
   }
 
   .add_inp2 {
-    height: 98px;
+    margin-bottom: 0;
+    padding: 20px 40px;
+    -webkit-user-select: text;
+    border: 0;
+    outline: 0;
+    background-color: #fff;
+    font-size: 30px;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  .add_inp3 {
     margin-bottom: 0;
     padding: 20px 32px;
     -webkit-user-select: text;
@@ -1021,6 +1133,7 @@
     font-size: 30px;
     box-sizing: border-box;
     width: 100%;
+    line-height: 58px;
   }
 
   .add_choseLine {
@@ -1245,8 +1358,8 @@
   }
 
   .noAddress {
-    padding: 16px 0 16px 40px;
-    font-size: 32px;
+    padding: 20px 0 20px 40px;
+    font-size: 30px;
   }
 
   .noTxT {
@@ -1259,4 +1372,48 @@
   .line30 {
     border-bottom: 30px solid #f2f2f2;
   }
+
+  .mask {
+    position: fixed;
+    z-index: 1001;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: #333;
+    opacity: 0.4;
+  }
+
+  @-webkit-keyframes rotation {
+
+    from {
+      -webkit-transform: rotate(0deg);
+    }
+
+    to {
+      -webkit-transform: rotate(360deg);
+    }
+
+  }
+
+  .loading {
+    position: fixed;
+    z-index: 1002;
+    top: 580px;
+    left: 335px;
+    bottom: 0;
+    width: 80px;
+    height: 80px;
+
+    -webkit-transform: rotate(360deg);
+
+    animation: rotation 3s linear infinite;
+
+    -moz-animation: rotation 3s linear infinite;
+
+    -webkit-animation: rotation 3s linear infinite;
+
+    -o-animation: rotation 3s linear infinite;
+  }
+
 </style>
