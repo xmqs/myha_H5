@@ -8,7 +8,6 @@
         <img src="./../../../static/img/bicycle/Group9@3x.png" style="width:40px;"/>
         <p>须知</p>
       </div>
-      <div></div>
       <div class="middle" @click="getAddr">
         <img src="./../../../static/img/bicycle/Page11@3x.png" style="width:40px;"/>
         <p>办卡点</p>
@@ -109,7 +108,80 @@
         location.href = "http://58.221.196.5:11001/image/common/publicBike.jpg"
       },
       getAddr() {
+      	let vue=this;
         this.map.setCenter([120.466456, 32.530996]);
+	        let startIcon = new AMap.Icon({
+	        // 图标尺寸
+	        size: new AMap.Size(40, 40),
+	        // 图标的取图地址
+	        image: './static/img/bicycle/copy@3x.png',
+	        // 图标所用图片大小
+	        imageSize: new AMap.Size(40, 40),
+	        // 图标取图偏移量
+	      });
+	      let marker = new AMap.Marker({
+	        map: vue.map,
+	        position: [120.466456, 32.530996],
+	        icon: startIcon,
+	      });
+	      AMap.event.addListener(marker, 'click', function () {
+	        infoWindow.open(vue.map, marker.getPosition());
+	      });
+	      let title2 = "海安政务中心一楼大厅25号"
+	      let content2 = ["周一至周六8:30-12:00 14:00-17:30", "办理新卡、充值"];
+	      let infoWindow = new AMap.InfoWindow({
+	        isCustom: true,  //使用自定义窗体
+	        content: createInfoWindow(title2, content2.join("<br/>")),
+	        offset: new AMap.Pixel(16, -25)
+	      });
+	    
+	      function createInfoWindow(title, content) {
+	        let info2 = document.createElement("div");
+	        info2.className = "custom-info input-card content-window-card";
+	        //可以通过下面的方式修改自定义窗体的宽高
+	        //info.style.width = "400px";
+	        // 定义顶部标题
+	        let top = document.createElement("div");
+	        let titleD = document.createElement("div");
+	        let closeX = document.createElement("img");
+	        top.className = "info-top";
+	        titleD.innerHTML = title;
+	        top.style.backgroundColor = 'white';
+	        top.style.display = "flex";
+	        top.style.padding = "10px 10px";
+	        top.style.alignItems = "center";
+	        top.style.justifyContent = "space-between";
+	        closeX.src = "./static/img/bicycle/close.png";
+	        closeX.style.width = "15px";
+	        closeX.onclick = closeInfoWindow;
+	        top.appendChild(titleD);
+	        top.appendChild(closeX);
+	        info2.appendChild(top);
+	        // 定义中部内容
+	        let middle = document.createElement("div");
+	        middle.className = "info-middle";
+	        middle.style.backgroundColor = 'white';
+	        middle.innerHTML = content;
+	        middle.style.padding = "5px 20px";
+	        info2.appendChild(middle);
+	        
+	        // 定义底部内容
+			    var bottom = document.createElement("div");
+			    bottom.className = "info-bottom";
+			    bottom.style.position = 'relative';
+			    bottom.style.top = '0px';
+			    bottom.style.left = '130px';
+			    bottom.style.margin = '0 auto';
+			    var sharp = document.createElement("img");
+			    sharp.src = "https://webapi.amap.com/images/sharp.png";
+			    bottom.appendChild(sharp);
+			    info2.appendChild(bottom);
+	        return info2;
+	      }
+	      infoWindow.open(vue.map, marker.getPosition());
+	      function closeInfoWindow() {
+	        vue.map.clearInfoWindow();
+	      }
       },
     }
     ,
@@ -142,69 +214,6 @@
           clearInterval(time);
         },5000 );
       }
-
-
-      let startIcon = new AMap.Icon({
-        // 图标尺寸
-        size: new AMap.Size(40, 40),
-        // 图标的取图地址
-        image: './static/img/bicycle/copy@3x.png',
-        // 图标所用图片大小
-        imageSize: new AMap.Size(40, 40),
-        // 图标取图偏移量
-      });
-      let marker = new AMap.Marker({
-        map: vue.map,
-        position: [120.466456, 32.530996],
-        icon: startIcon,
-      });
-      AMap.event.addListener(marker, 'click', function () {
-        infoWindow.open(vue.map, marker.getPosition());
-      });
-      let title2 = "海安政务中心一楼大厅25号"
-      let content2 = ["周一至周六8:30-12:00 14:00-17:30", "办理新卡、充值"];
-      let infoWindow = new AMap.InfoWindow({
-        isCustom: true,  //使用自定义窗体
-        content: createInfoWindow(title2, content2.join("<br/>")),
-        offset: new AMap.Pixel(16, -45)
-      });
-
-      function createInfoWindow(title, content) {
-        let info2 = document.createElement("div");
-        info2.className = "custom-info input-card content-window-card";
-        //可以通过下面的方式修改自定义窗体的宽高
-        //info.style.width = "400px";
-        // 定义顶部标题
-        let top = document.createElement("div");
-        let titleD = document.createElement("div");
-        let closeX = document.createElement("img");
-        top.className = "info-top";
-        titleD.innerHTML = title;
-        top.style.backgroundColor = 'white';
-        top.style.display = "flex";
-        top.style.padding = "10px 10px";
-        top.style.alignItems = "center";
-        top.style.justifyContent = "space-between";
-        closeX.src = "./static/img/bicycle/close.png";
-        closeX.style.width = "15px";
-        closeX.onclick = closeInfoWindow;
-        top.appendChild(titleD);
-        top.appendChild(closeX);
-        info2.appendChild(top);
-        // 定义中部内容
-        let middle = document.createElement("div");
-        middle.className = "info-middle";
-        middle.style.backgroundColor = 'white';
-        middle.innerHTML = content;
-        middle.style.padding = "5px 20px";
-        info2.appendChild(middle);
-        return info2;
-      }
-
-      function closeInfoWindow() {
-        vue.map.clearInfoWindow();
-      }
-
       axios.post("/myha-server/publicBike/getAllBike.do").then(res => {
         console.log(res.data.data)
         this.list = res.data.data;
@@ -233,7 +242,7 @@
               let infoWindow = new AMap.InfoWindow({
                 isCustom: true,  //使用自定义窗体
                 content: createInfoWindow(vue.list[i].SITE_NAME, "可用数目:" + result.data.data.SITE_INFO.BIKE_LEFT + "<br>" + "空位数目:" + result.data.data.SITE_INFO.BIKE_EMPTY),
-                offset: new AMap.Pixel(16, -45)
+                offset: new AMap.Pixel(16, -35)
               });
 
               infoWindow.open(vue.map, marker.getPosition());
@@ -274,12 +283,85 @@
             middle.innerHTML = content;
             middle.style.padding = "5px 20px";
             info.appendChild(middle);
+            
             return info;
           }
 
         }
       })
-
+      //*****************办卡点坐标开始*****************************
+      let startIcon = new AMap.Icon({
+	        // 图标尺寸
+	        size: new AMap.Size(40, 40),
+	        // 图标的取图地址
+	        image: './static/img/bicycle/copy@3x.png',
+	        // 图标所用图片大小
+	        imageSize: new AMap.Size(40, 40),
+	        // 图标取图偏移量
+	      });
+	      let marker = new AMap.Marker({
+	        map: vue.map,
+	        position: [120.466456, 32.530996],
+	        icon: startIcon,
+	      });
+	      AMap.event.addListener(marker, 'click', function () {
+	        infoWindow.open(vue.map, marker.getPosition());
+	      });
+	      let title2 = "海安政务中心一楼大厅25号"
+	      let content2 = ["周一至周六8:30-12:00 14:00-17:30", "办理新卡、充值"];
+	      let infoWindow = new AMap.InfoWindow({
+	        isCustom: true,  //使用自定义窗体
+	        content: createInfoWindow(title2, content2.join("<br/>")),
+	        offset: new AMap.Pixel(16, -25)
+	      });
+	    
+	      function createInfoWindow(title, content) {
+	        let info2 = document.createElement("div");
+	        info2.className = "custom-info input-card content-window-card";
+	        //可以通过下面的方式修改自定义窗体的宽高
+	        //info.style.width = "400px";
+	        // 定义顶部标题
+	        let top = document.createElement("div");
+	        let titleD = document.createElement("div");
+	        let closeX = document.createElement("img");
+	        top.className = "info-top";
+	        titleD.innerHTML = title;
+	        top.style.backgroundColor = 'white';
+	        top.style.display = "flex";
+	        top.style.padding = "10px 10px";
+	        top.style.alignItems = "center";
+	        top.style.justifyContent = "space-between";
+	        closeX.src = "./static/img/bicycle/close.png";
+	        closeX.style.width = "15px";
+	        closeX.onclick = closeInfoWindow;
+	        top.appendChild(titleD);
+	        top.appendChild(closeX);
+	        info2.appendChild(top);
+	        // 定义中部内容
+	        let middle = document.createElement("div");
+	        middle.className = "info-middle";
+	        middle.style.backgroundColor = 'white';
+	        middle.innerHTML = content;
+	        middle.style.padding = "5px 20px";
+	        info2.appendChild(middle);
+	        
+	        // 定义底部内容
+			    var bottom = document.createElement("div");
+			    bottom.className = "info-bottom";
+			    bottom.style.position = 'relative';
+			    bottom.style.top = '0px';
+			    bottom.style.left = '130px';
+			    bottom.style.margin = '0 auto';
+			    var sharp = document.createElement("img");
+			    sharp.src = "https://webapi.amap.com/images/sharp.png";
+			    bottom.appendChild(sharp);
+			    info2.appendChild(bottom);
+	        return info2;
+	      }
+	      function closeInfoWindow() {
+	        vue.map.clearInfoWindow();
+	      }
+      //******************办卡点坐标结束************************
       let time = setInterval(() => {
         if (this.getCardId !== "") {
           clearInterval(time);

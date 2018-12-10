@@ -54,7 +54,7 @@
             "examId": ""
           },
           "pageNo": "1",
-          "pageSize": "100"
+          "pageSize": "10000"
         },
         datas: {},
         swiper: {},
@@ -68,7 +68,6 @@
       }
     },
     mounted() {
-      //this.$route.params.Number == 'null' ? this.obj.pageSize = 10 : this.obj.pageSize = this.$route.params.Number
       this.$route.params.type == 'null' ? this.obj.params.type = "" : this.obj.params.type = this.$route.params.type;
       this.$route.params.examId == 'null' ? this.obj.params.examId = "" : this.obj.params.examId = this.$route.params.examId;
       this.getDate()

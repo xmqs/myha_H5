@@ -140,7 +140,7 @@ const test = () => import ("../components/driveTest/test"/*webpackChunkName: "dr
 const driveMain = () => import ("../components/driveTest/driveMain"/*webpackChunkName: "driveTest"*/)
 const driveSel = () => import ("../components/driveTest/driveSel"/*webpackChunkName: "driveTest"*/)
 const specialList = () => import ("../components/driveTest/specialList"/*webpackChunkName: "driveTest"*/)
-
+const driveExam = () => import ("../components/driveTest/driveExam"/*webpackChunkName: "driveTest"*/)
 /*分享*/
 const shareHaian = () => import ("../components/shareHaian/shareHaian"/*webpackChunkName: "shareHaian"*/)
 
@@ -642,7 +642,7 @@ export default new Router({
 
     /*驾考模拟*/
     {
-      path: '/driveTest/test/:Number/:type/:examId',/*考试*/
+      path: '/driveTest/test/:type/:examId',/*考试*/
       name: 'test',
       component: test,
     },
@@ -660,6 +660,11 @@ export default new Router({
       path: '/driveTest/specialList',/*考试*/
       name: 'specialList',
       component: specialList,
+    },
+    {
+      path: '/driveTest/driveExam/:Number',/*考试*/
+      name: 'driveExam',
+      component: driveExam,
     },
     /*分享*/
     {

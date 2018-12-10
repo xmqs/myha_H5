@@ -5,7 +5,7 @@
 			</div>
 			<div id="content">
 				<div>
-					<a href="#/driveTest/test/100/null/null" class="t1">模拟考试</a>
+					<a href="#/driveTest/driveExam/101" class="t1">模拟考试</a>
 					<a href="#/driveTest/driveSel" class="t2">专项练习</a>
 					<a href="#/driveTest/specialList" class="t3">题型专攻</a>
 				</div>

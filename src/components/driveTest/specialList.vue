@@ -40,7 +40,7 @@
 		methods:{
 			show(i,children,examId){
 				if(children==null){
-					this.$router.push("/driveTest/test/"+null+"/"+null+"/"+examId)
+					this.$router.push("/driveTest/test/"+null+"/"+examId)
 				}{
 					this.datas[i].isshow=!this.datas[i].isshow;
 			        this.$forceUpdate();
@@ -61,7 +61,7 @@
 				clearTimeout(t)
 				t = setTimeout(()=>{
 				    console.log('执行了');
-				    this.$router.push("/driveTest/test/"+null+"/"+null+"/"+examId)
+				    this.$router.push("/driveTest/test/"+null+"/"+examId)
 				}, 100);
 
 			},

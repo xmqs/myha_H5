@@ -1,8 +1,8 @@
 <template>
 	    <div id="sel">
 			<div>
-				<a href="#/driveTest/test/null/1/null" class="t1">判断题</a>
-				<a href="#/driveTest/test/null/2/null" class="t2">选择题</a>
+				<a href="#/driveTest/test/1/null" class="t1">判断题</a>
+				<a href="#/driveTest/test/2/null" class="t2">选择题</a>
 			</div>
 		</div>
 </template>
