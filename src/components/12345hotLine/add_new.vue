@@ -355,7 +355,7 @@
   }
 
 
-  .remove{
+  .remove {
     position: absolute;
     right: -50px;
     top: -50px;
@@ -365,6 +365,7 @@
     width: 100px;
     height: 100px;
     text-align: center;
-    transform:rotate(225deg);
+    transform: rotate(225deg);
+    line-height: 45px;
   }
 </style>

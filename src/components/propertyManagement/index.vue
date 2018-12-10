@@ -31,21 +31,21 @@
         </div>-->
 
       </div>
-      <div class="tab_list">
+      <!--<div class="tab_list">
 
         <div class="tab_item" @click="topropertyList2">
           <img src="./../../../static/img/management/icon17.png" alt="">
           <div>便民<br>疏导点</div>
         </div>
 
-        <!--<div class="tab_item" @click="fundDetail">
+        &lt;!&ndash;<div class="tab_item" @click="fundDetail">
           <img src="./../../../static/img/management/icon16.png" alt="">
           <div>维修基金<br>查询表决</div>
-        </div>-->
+        </div>&ndash;&gt;
       </div>
       <div class="tab_list">
 
-      </div>
+      </div>-->
     </div>
   </div>
 </template>
