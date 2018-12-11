@@ -135,7 +135,7 @@
       	}else{
       		let str=arr.join("、");
       		let vue=this;
-      	    mui.confirm("您当前还有"+str+"题未答题","是否继续提交？",["否","是"],function(e){
+      	    mui.confirm("您当前还有第"+str+"题未答题","是否继续提交？",["否","是"],function(e){
       	    	if(e.index==1){
       	    		vue.isshow=true;
       	    	}

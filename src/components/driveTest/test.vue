@@ -8,7 +8,7 @@
           <div class="c2" @click="next(index)">下一题</div>
         </div>
         <div class="main">
-          <div v-html="data.question"></div>
+          <div v-html="index+1+'、'+data.question"></div>
           <div v-show="data.imgUrl!=undefined">
             <img v-for="val in data.imgUrl"  :src="val" alt=""/>
           </div>

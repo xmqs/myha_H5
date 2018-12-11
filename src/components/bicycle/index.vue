@@ -132,7 +132,7 @@
 	      let infoWindow = new AMap.InfoWindow({
 	        isCustom: true,  //使用自定义窗体
 	        content: createInfoWindow(title2, content2.join("<br/>")),
-	        offset: new AMap.Pixel(16, -25)
+	        offset: new AMap.Pixel(16, -40)
 	      });
 	    
 	      function createInfoWindow(title, content) {
@@ -165,17 +165,6 @@
 	        middle.style.padding = "5px 20px";
 	        info2.appendChild(middle);
 	        
-	        // 定义底部内容
-			    var bottom = document.createElement("div");
-			    bottom.className = "info-bottom";
-			    bottom.style.position = 'relative';
-			    bottom.style.top = '0px';
-			    bottom.style.left = '130px';
-			    bottom.style.margin = '0 auto';
-			    var sharp = document.createElement("img");
-			    sharp.src = "https://webapi.amap.com/images/sharp.png";
-			    bottom.appendChild(sharp);
-			    info2.appendChild(bottom);
 	        return info2;
 	      }
 	      infoWindow.open(vue.map, marker.getPosition());
@@ -242,7 +231,7 @@
               let infoWindow = new AMap.InfoWindow({
                 isCustom: true,  //使用自定义窗体
                 content: createInfoWindow(vue.list[i].SITE_NAME, "可用数目:" + result.data.data.SITE_INFO.BIKE_LEFT + "<br>" + "空位数目:" + result.data.data.SITE_INFO.BIKE_EMPTY),
-                offset: new AMap.Pixel(16, -35)
+                offset: new AMap.Pixel(16, -40)
               });
 
               infoWindow.open(vue.map, marker.getPosition());
@@ -312,7 +301,7 @@
 	      let infoWindow = new AMap.InfoWindow({
 	        isCustom: true,  //使用自定义窗体
 	        content: createInfoWindow(title2, content2.join("<br/>")),
-	        offset: new AMap.Pixel(16, -25)
+	        offset: new AMap.Pixel(16, -40)
 	      });
 	    
 	      function createInfoWindow(title, content) {
@@ -346,16 +335,16 @@
 	        info2.appendChild(middle);
 	        
 	        // 定义底部内容
-			    var bottom = document.createElement("div");
-			    bottom.className = "info-bottom";
-			    bottom.style.position = 'relative';
-			    bottom.style.top = '0px';
-			    bottom.style.left = '130px';
-			    bottom.style.margin = '0 auto';
-			    var sharp = document.createElement("img");
-			    sharp.src = "https://webapi.amap.com/images/sharp.png";
-			    bottom.appendChild(sharp);
-			    info2.appendChild(bottom);
+//			    var bottom = document.createElement("div");
+//			    bottom.className = "info-bottom";
+//			    bottom.style.position = 'relative';
+//			    bottom.style.top = '0px';
+//			    bottom.style.left = '130px';
+//			    bottom.style.margin = '0 auto';
+//			    var sharp = document.createElement("img");
+//			    sharp.src = "https://webapi.amap.com/images/sharp.png";
+//			    bottom.appendChild(sharp);
+//			    info2.appendChild(bottom);
 	        return info2;
 	      }
 	      function closeInfoWindow() {
