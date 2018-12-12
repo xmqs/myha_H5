@@ -35,6 +35,7 @@ const selectPlane = () => import('@/components/flight/selectPlane'/*webpackChunk
 
 /*智慧旅游*/
 const travel = () => import('@/components/travel'/*webpackChunkName: "travel"*/)
+const travelNew = () => import('@/components/travel/indexNew'/*webpackChunkName: "travel"*/)
 const travelList = () => import('@/components/travel/list'/*webpackChunkName: "travel"*/)
 
 /*公共自行车*/
@@ -277,6 +278,12 @@ export default new Router({
       path: '/travel/list/:key', /*普通列表*/
       name: 'travelList',
       component: travelList,
+    },
+
+    {
+      path: '/travelNew', /*普通列表*/
+      name: 'travelNew',
+      component: travelNew,
     },
     /*公共自行车*/
     {

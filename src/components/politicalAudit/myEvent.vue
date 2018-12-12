@@ -117,6 +117,7 @@
     background: #fff;
     padding: 20px 32px;
     margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
   }
 
   .event div:first-child {

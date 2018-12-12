@@ -41,57 +41,57 @@
           <div class="page">
             <li class="list_li">
               <div class="word">申请人类别</div>
-              <div class="add_inp">{{data.applyertype==20?"自然人":"法人"}}</div>
+              <div class="add_inp">{{thirdGovernmentProject.applyerType==20?"自然人":"法人"}}</div>
             </li>
             <!--申请人为自然人-->
-            <li class="list_li" v-if="data.applyertype==20">
+            <li class="list_li" v-if="thirdGovernmentProject.applyerType=='20'">
               <div class="word">申请人</div>
-              <div class="add_inp">{{data.applyername}}</div>
+              <div class="add_inp">{{thirdGovernmentProject.applyerName}}</div>
             </li>
-            <li class="list_li" v-if="data.applyertype==20">
+            <li class="list_li" v-if="thirdGovernmentProject.applyerType=='20'">
               <div class="word">身份证号码</div>
-              <div class="add_inp">{{data.applyercertnum}}</div>
+              <div class="add_inp">{{thirdGovernmentProject.idCard}}</div>
             </li>
-            <li class="list_li" v-if="data.applyertype==20">
+            <li class="list_li" v-if="thirdGovernmentProject.applyerType=='20'">
               <div class="word">联系地址</div>
-              <div class="add_inp">{{data.address}}</div>
+              <div class="add_inp">{{thirdGovernmentProject.address}}</div>
             </li>
-            <li class="list_li" v-if="data.applyertype==20">
+            <li class="list_li" v-if="thirdGovernmentProject.applyerType=='20'">
               <div class="word">邮编</div>
-              <div class="add_inp">{{data.contactpostcode}}</div>
+              <div class="add_inp">{{thirdGovernmentProject.postCode}}</div>
             </li>
-            <li class="list_li" v-if="data.applyertype==20">
+            <li class="list_li" v-if="thirdGovernmentProject.applyerType=='20'">
               <div class="word">电话</div>
-              <div class="add_inp">{{data.contactmobile}}</div>
+              <div class="add_inp">{{thirdGovernmentProject.contactMobile}}</div>
             </li>
             <!--申请人为法人-->
-            <li class="list_li" v-if="data.applyertype==10">
+            <li class="list_li" v-if="thirdGovernmentProject.applyerType=='10'">
               <div class="word">申请单位</div>
-              <div class="add_inp">{{data.applyername}}</div>
+              <div class="add_inp">{{thirdGovernmentProject.applyerName}}</div>
             </li>
-            <li class="list_li" v-if="data.applyertype==10">
+            <li class="list_li" v-if="thirdGovernmentProject.applyerType=='10'">
               <div class="word">统一社会信用代码</div>
-              <div class="add_inp">{{data.applyercertnum}}</div>
+              <div class="add_inp">{{thirdGovernmentProject.idCard}}</div>
             </li>
-            <li class="list_li" v-if="data.applyertype==10">
+            <li class="list_li" v-if="thirdGovernmentProject.applyerType=='10'">
               <div class="word">法人姓名</div>
-              <div class="add_inp">{{data.contactperson}}</div>
+              <div class="add_inp">{{thirdGovernmentProject.contactName}}</div>
             </li>
-            <li class="list_li" v-if="data.applyertype==10">
+            <li class="list_li" v-if="thirdGovernmentProject.applyerType=='10'">
               <div class="word">法人身份证号码</div>
-              <div class="add_inp">{{data.contactcertnum}}</div>
+              <div class="add_inp">{{thirdGovernmentProject.contactIdNum}}</div>
             </li>
-            <li class="list_li" v-if="data.applyertype==10">
+            <li class="list_li" v-if="thirdGovernmentProject.applyerType=='10'">
               <div class="word">联系地址</div>
-              <div class="add_inp">{{data.address}}</div>
+              <div class="add_inp">{{thirdGovernmentProject.address}}</div>
             </li>
-            <li class="list_li" v-if="data.applyertype==10">
+            <li class="list_li" v-if="thirdGovernmentProject.applyerType=='10'">
               <div class="word">邮编</div>
-              <div class="add_inp">{{data.contactpostcode}}</div>
+              <div class="add_inp">{{thirdGovernmentProject.postCode}}</div>
             </li>
-            <li class="list_li" v-if="data.applyertype==10">
+            <li class="list_li" v-if="thirdGovernmentProject.applyerType=='10'">
               <div class="word">电话</div>
-              <div class="add_inp">{{data.contactmobile}}</div>
+              <div class="add_inp">{{thirdGovernmentProject.contactMobile}}</div>
             </li>
             <li class="list_li" v-show="!noPaper">
               <div class="word">材料送达方式</div>
