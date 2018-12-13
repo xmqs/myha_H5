@@ -42,6 +42,8 @@ const sceneryList = () => import('@/components/travel/sceneryList'/*webpackChunk
 const travelList = () => import('@/components/travel/travelList'/*webpackChunkName: "travel"*/)
 const lineList = () => import('@/components/travel/lineList'/*webpackChunkName: "travel"*/)
 
+const travelNew = () => import('@/components/travel/indexNew'/*webpackChunkName: "travel"*/)
+const travelList = () => import('@/components/travel/list'/*webpackChunkName: "travel"*/)
 
 /*公共自行车*/
 const bicycle = () => import('@/components/bicycle'/*webpackChunkName: "bicycle"*/)
@@ -311,8 +313,12 @@ export default new Router({
       component: lineList,
     },
     
-    
-    
+
+    {
+      path: '/travelNew', /*普通列表*/
+      name: 'travelNew',
+      component: travelNew,
+    },
     /*公共自行车*/
     {
       path: '/bicycle',
