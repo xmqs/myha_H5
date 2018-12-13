@@ -35,12 +35,19 @@ const selectPlane = () => import('@/components/flight/selectPlane'/*webpackChunk
 
 /*智慧旅游*/
 const travel = () => import('@/components/travel'/*webpackChunkName: "travel"*/)
-const travelList = () => import('@/components/travel/list'/*webpackChunkName: "travel"*/)
+const foodDetails = () => import('@/components/travel/foodDetails'/*webpackChunkName: "travel"*/)
+const foodList = () => import('@/components/travel/foodList'/*webpackChunkName: "travel"*/)
+const sceneryDetails = () => import('@/components/travel/sceneryDetails'/*webpackChunkName: "travel"*/)
+const sceneryList = () => import('@/components/travel/sceneryList'/*webpackChunkName: "travel"*/)
+const travelList = () => import('@/components/travel/travelList'/*webpackChunkName: "travel"*/)
+const lineList = () => import('@/components/travel/lineList'/*webpackChunkName: "travel"*/)
+
 
 /*公共自行车*/
 const bicycle = () => import('@/components/bicycle'/*webpackChunkName: "bicycle"*/)
-const mapCondition = () => import('@/components/bicycle/map'/*webpackChunkName: "bicycle"*/)
-const bicycleList = () => import('@/components/bicycle/bicycleList'/*webpackChunkName: "bicycle"*/)
+const cardSearch = () => import('@/components/bicycle/cardSearch'/*webpackChunkName: "bicycle"*/)
+const cardIntro = () => import('@/components/bicycle/cardIntro'/*webpackChunkName: "bicycle"*/)
+
 
 /*物业管理*/
 const propertyManagement = () => import('@/components/propertyManagement'/*webpackChunkName: "propertyManagement"*/)
@@ -272,28 +279,57 @@ export default new Router({
       path: '/travel', /*普通列表*/
       name: 'travel',
       component: travel,
+    },   
+    {
+      path: '/travel/foodDetails', /*美食详情*/
+      name: 'foodDetails',
+      component: foodDetails,
     },
     {
-      path: '/travel/list/:key', /*普通列表*/
+      path: '/travel/foodList', /*美食列表*/
+      name: 'foodList',
+      component: foodList,
+    },
+    {
+      path: '/travel/sceneryDetails', /*景点详情*/
+      name: 'sceneryDetails',
+      component: sceneryDetails,
+    },
+    {
+      path: '/travel/sceneryList', /*景点列表*/
+      name: 'sceneryList',
+      component: sceneryList,
+    },
+    {
+      path: '/travel/travelList', /*旅行社列表*/
       name: 'travelList',
       component: travelList,
     },
+    {
+      path: '/travel/lineList', /*路线列表*/
+      name: 'lineList',
+      component: lineList,
+    },
+    
+    
+    
     /*公共自行车*/
     {
-      path: '/bicycle', /**/
+      path: '/bicycle',
       name: 'bicycle',
       component: bicycle,
     },
     {
-      path: '/mapCondition', /*监控*/
-      name: 'mapCondition',
-      component: mapCondition,
+      path: '/bicycle/cardSearch', 
+      name: 'cardSearch',
+      component: cardSearch,
     },
     {
-      path: '/bicycleList', /**/
-      name: 'bicycleList',
-      component: bicycleList,
+      path: '/bicycle/cardIntro', 
+      name: 'cardIntro',
+      component: cardIntro,
     },
+    
     /*物业管理*/
     {
       path: '/propertyManagement',

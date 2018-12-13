@@ -4,7 +4,7 @@
     <div id="container"></div>
     <!--左上三个图标-->
     <div class="ico">
-      <div class="top" @click="jumpIntru">
+      <div class="top" @click="jumpIntro">
         <img src="./../../../static/img/bicycle/Group9@3x.png" style="width:40px;"/>
         <p>须知</p>
       </div>
@@ -12,9 +12,9 @@
         <img src="./../../../static/img/bicycle/Page11@3x.png" style="width:40px;"/>
         <p>办卡点</p>
       </div>
-      <div class="bottom">
+      <div class="bottom" @click="jumpSearch()">
         <img src="./../../../static/img/bicycle/Fill12@3x.png" style="width:40px;"/>
-        <p><a href="tel:0513-88897056 ">热线</a></p>
+        <p>钱包</p>
       </div>
     </div>
     <!--扫码开锁和办卡须知-->
@@ -104,8 +104,11 @@
           this.map.setCenter(vue.userPosition);
         }
       },
-      jumpIntru() {
-        location.href = "http://58.221.196.5:11001/image/common/publicBike.jpg"
+      jumpIntro() {
+        this.$router.push("/bicycle/cardIntro")
+      },
+      jumpSearch(){
+      	this.$router.push("/bicycle/cardSearch")
       },
       getAddr() {
       	let vue=this;
@@ -204,7 +207,7 @@
         },5000 );
       }
       axios.post("/myha-server/publicBike/getAllBike.do").then(res => {
-        console.log(res.data.data)
+        //console.log(res.data.data)
         this.list = res.data.data;
         for (let i = 0; i < this.list.length; i++) {
           let startIcon = new AMap.Icon({
@@ -362,6 +365,7 @@
                 console.log(res.data.data.isOk)
                 if (res.data.data.isOk == 1) {
                   this.isshow = true;
+                  
                 }
               } else {
                 mui.toast('网络出了点小差错，请稍后尝试或联系管理人员', {duration: 'short', type: 'div'});
