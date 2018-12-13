@@ -38,7 +38,7 @@
 	    name: "cardSearch",
 	    data() {
 	      return {
-	         isshow:true,
+	         isshow:false,
 	         data:{},
 	      }
 	    },
@@ -72,12 +72,16 @@
 		    }  
 //**********************测试测试测试测试测试测试测试测试**************************
 //          axios.post("/myha-server/publicBike/getUserInfo.do", {
-//		            "certNum": "320521197210249134"
+//		            "certNum": "320882199111104835"
 //		    }).then(res => {
 //		        if (res.data.result == 1) {
-//		            this.data=res.data.data
-//		            this.isshow=true;
-//		            console.log(this.data)
+//		        	console.log(res.data.data)
+//		        	if (res.data.data.isOk == 1) {
+//		                  this.isshow=true;
+//		                  console.log(this.data)
+//		                  this.data=res.data.data
+//		                }
+//		            
 //		          
 //		        } else {
 //		            mui.toast('网络出了点小差错，请稍后尝试或联系管理人员', {duration: 'short', type: 'div'});
