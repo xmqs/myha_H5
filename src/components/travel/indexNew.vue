@@ -16,41 +16,42 @@
     </div>
     <div class="navigation_box">
       <ul class="line">
-        <li class="line-box">
+        <li class="line-box" @click="toList('1')">
           <img src="./../../../static/img/travel/1.png" class="box-img"/>
           <p class="nav_title">美食</p>
         </li>
-        <li class="line-box">
+        <li class="line-box" @click="toList('1')">
           <img src="./../../../static/img/travel/2.png" class="box-img"/>
           <p class="nav_title">景区景点</p>
         </li>
-        <li class="line-box">
+        <li class="line-box" @click="toList('1')">
           <img src="./../../../static/img/travel/3.png" class="box-img"/>
           <p class="nav_title">酒店</p>
         </li>
-        <li class="line-box">
+        <li class="line-box" @click="toList('1')">
           <img src="./../../../static/img/travel/4.png" class="box-img"/>
           <p class="nav_title">乡村旅游点</p>
         </li>
       </ul>
-      <ul class="line line2">
-        <li class="line-box">
+      <ul class="line">
+        <li class="line-box" @click="toList('1')">
           <img src="./../../../static/img/travel/5.png" class="box-img"/>
           <p class="nav_title">海安特产</p>
         </li>
-        <li class="line-box">
+        <li class="line-box" @click="toList('1')">
           <img src="./../../../static/img/travel/6.png" class="box-img"/>
           <p class="nav_title">旅游路线</p>
         </li>
-        <li class="line-box">
+        <li class="line-box" @click="toList('1')">
           <img src="./../../../static/img/travel/7.png" class="box-img"/>
           <p class="nav_title">节庆活动</p>
         </li>
-        <li class="line-box">
+        <li class="line-box" @click="toList('1')">
           <img src="./../../../static/img/travel/8.png" class="box-img"/>
           <p class="nav_title">旅行社</p>
         </li>
       </ul>
+      <div class="line2"></div>
     </div>
     <div class="city_interesting_box">
       <h3 class="city_title">城市好玩点</h3>
@@ -136,6 +137,9 @@
     methods:{
       changePage(n){
         this.page = n;
+      },
+      toList(type){
+        this.$router.push("")
       }
     }
   }
@@ -236,7 +240,7 @@
   .navigation_box {
 
     width: 100%;
-    padding:40px 26px;
+    padding:40px 0;
     border-radius: 16px 16px 0 0;
     background: #ffffff;
     position: relative;
@@ -244,6 +248,8 @@
     overflow: hidden;
   }
   .line2{
+    width: 686px;
+    margin-left: 32px;
     border-bottom: 1px solid #eee;
   }
 
@@ -353,7 +359,7 @@
   }
 
   .city_title{
-    padding:0 0 6px 26px;
+    padding:0 26px 6px 26px;
     font-size:42px;
     font-weight:500;
     display: inline-block;

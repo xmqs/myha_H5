@@ -900,7 +900,7 @@
               return
             }
             if (this.way == '2') {
-              if (this.getAuditAddress.backAddress.rcvName == "") {
+              if (this.getAuditAddress.backAddress.sendNameM == "") {
                 mui.toast('请填写上门收件信息', {duration: 'short', type: 'div'});
                 return
               }
@@ -916,7 +916,7 @@
               return
             }
             if (this.way2 == '1') {
-              if (this.getAuditAddress.backAddress.sendStrectM == "") {
+              if (this.getAuditAddress.fromAddress.rcvName == "") {
                 mui.toast('请填写寄送信息', {duration: 'short', type: 'div'});
                 return
               }
