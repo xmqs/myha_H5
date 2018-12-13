@@ -1,15 +1,16 @@
 <template>
 	<div id="main">
-		<!--一个单元-->
-		<div class="List">
-			<div class="List_left"><img src="" alt="" /></div>
-			<div class="List_right">
-				<div>德信食品</div>
-				<div class="l1">
-					<span class="icon">海安特产</span>
-				</div>
-				<div class="l2">南通市德心食品有限公司诞生于二十世纪九十 年代末，公司位于海安市曲塘镇，328国道…</div>
-			</div>
+		<div>
+			<div><img src="../../../static/img/travel/food1.jpg" alt="" /></div>
+			<div class="f1">白汁河豚</div>
+		</div>
+		<div>
+			<div><img src="../../../static/img/travel/food1.jpg" alt="" /></div>
+			<div class="f1">白汁河豚</div>
+		</div>
+		<div>
+			<div><img src="../../../static/img/travel/food1.jpg" alt="" /></div>
+			<div class="f1">白汁河豚</div>
 		</div>
 	</div>
 </template>
@@ -19,49 +20,31 @@
 
 <style scoped>
 	#main{
-		padding:0 46px 0 26px;
-	}
-	.List{
-		width:100%;
-		padding:22px 0 22px 0;
-		min-height:216px;
-		float: left;
-		border-bottom: 1px solid #eee;
-	}
-	.List_left{
-		width:172px;
-		height:172px;
-		float: left;
-		border:1px solid #eee;
-		margin-right:26px;
-	}
-	.List_right{
-		width:480px;
-		min-height: 172px;
-		float: right;
+		padding:20px;
+		background:rgba(245,245,245,1);
 		display: flex;
-		flex-direction: column;
+		flex-wrap: wrap;
 		justify-content: space-between;
 	}
-	.List_right div:first-child{
+	#main>div{
+		width:345px;
+		height:426px;
+		border-radius:8px;
+		margin-bottom: 20px;
+		background:rgba(255,255,255,1);
+	}
+	#main img{
+		width:345px;
+        height:348px;
+	}
+	.f1{
+		width:100%;
+		height:78px;
 		font-size:30px;
+		font-weight:400;
 		color:rgba(51,51,51,1);
-		line-height:30px;
-		padding-bottom: 20px;
-	}
-	.List_right .l1{
-		padding-bottom: 18px;
-	}
-	.List_right .icon{
-		border-radius:4px;
-		border:1px solid rgba(255,170,0,1);
-		font-size:20px;
-		color:rgba(255,170,0,1);
-		padding:5px 10px;
-	}
-	.List_right .l2{
-		font-size:24px;
-		color:rgba(153,153,153,1);
-		line-height:33px;
+		line-height:78px;
+		padding-left:25px;
+		
 	}
 </style>

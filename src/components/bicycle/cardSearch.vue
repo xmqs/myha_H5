@@ -7,11 +7,11 @@
 	   <div class="main1" v-show="isshow">
 	   	    <div>
 	   	    	<div>押金</div>
-	   	    	<div>{{data.DEPOSIT_MONEY}}分</div>
+	   	    	<div>{{DEPOSIT_MONEY}}元</div>
 	   	    </div>
 	   	    <div>
 	   	    	<div>余额</div>
-	   	    	<div>{{data.REMAIN_MONEY}}分</div>
+	   	    	<div>{{REMAIN_MONEY}}元</div>
 	   	    </div>
 	   	    <div>
 	   	    	<div>联系电话</div>
@@ -39,7 +39,8 @@
 	    data() {
 	      return {
 	         isshow:false,
-	         data:{},
+	         DEPOSIT_MONEY:"",
+		     REMAIN_MONEY:"",
 	      }
 	    },
 	    computed: {
@@ -61,7 +62,8 @@
 		                console.log(res.data.data.isOk)
 		                if (res.data.data.isOk == 1) {
 		                  this.isshow=true;
-		                  this.data=res.data.data
+		                  this.DEPOSIT_MONEY=res.data.data.DEPOSIT_MONEY.toFixed(2);
+		                  this.REMAIN_MONEY=res.data.data.REMAIN_MONEY.toFixed(2);
 		                }
 		              } else {
 		                mui.toast('网络出了点小差错，请稍后尝试或联系管理人员', {duration: 'short', type: 'div'});
@@ -72,15 +74,15 @@
 		    }  
 //**********************测试测试测试测试测试测试测试测试**************************
 //          axios.post("/myha-server/publicBike/getUserInfo.do", {
-//		            "certNum": "320882199111104835"
+//		            "certNum": "320521197210249134"
 //		    }).then(res => {
 //		        if (res.data.result == 1) {
 //		        	console.log(res.data.data)
-//		        	if (res.data.data.isOk == 1) {
+//		        	//if (res.data.data.isOk == 1) {
 //		                  this.isshow=true;
-//		                  console.log(this.data)
-//		                  this.data=res.data.data
-//		                }
+//		                  this.DEPOSIT_MONEY=res.data.data.DEPOSIT_MONEY.toFixed(2);
+//		                  this.REMAIN_MONEY=res.data.data.REMAIN_MONEY.toFixed(2);
+//		                //}
 //		            
 //		          
 //		        } else {
