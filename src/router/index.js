@@ -43,7 +43,6 @@ const travelList = () => import('@/components/travel/travelList'/*webpackChunkNa
 const lineList = () => import('@/components/travel/lineList'/*webpackChunkName: "travel"*/)
 
 const travelNew = () => import('@/components/travel/indexNew'/*webpackChunkName: "travel"*/)
-const travelList = () => import('@/components/travel/list'/*webpackChunkName: "travel"*/)
 
 /*公共自行车*/
 const bicycle = () => import('@/components/bicycle'/*webpackChunkName: "bicycle"*/)
@@ -281,7 +280,7 @@ export default new Router({
       path: '/travel', /*普通列表*/
       name: 'travel',
       component: travel,
-    },   
+    },
     {
       path: '/travel/foodDetails', /*美食详情*/
       name: 'foodDetails',
@@ -312,7 +311,7 @@ export default new Router({
       name: 'lineList',
       component: lineList,
     },
-    
+
 
     {
       path: '/travelNew', /*普通列表*/
@@ -326,16 +325,16 @@ export default new Router({
       component: bicycle,
     },
     {
-      path: '/bicycle/cardSearch', 
+      path: '/bicycle/cardSearch',
       name: 'cardSearch',
       component: cardSearch,
     },
     {
-      path: '/bicycle/cardIntro', 
+      path: '/bicycle/cardIntro',
       name: 'cardIntro',
       component: cardIntro,
     },
-    
+
     /*物业管理*/
     {
       path: '/propertyManagement',
