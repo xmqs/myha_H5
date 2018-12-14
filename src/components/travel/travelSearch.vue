@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="top">
-			<input type="text" placeholder="搜索目的地 /关键字" v-model="searchKey"/>
+			<input type="text" placeholder="搜索目的地 /关键字" v-model="searchKey" v-on:keyup.13="search()"/>
 			<div class="s1">取消</div>
 			<div class="search"><img src="../../../static/img/travel/Group 22@3x.png" alt="" /></div>
 		</div>
@@ -43,12 +43,27 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
+  import axios from "axios"
 	export default{
 		data(){
 			return {
 				searchKey:"",
 			}
-		}
+		},
+    computed: {
+      ...mapGetters([
+        "getUserId",
+        "getUserName",
+        "getCardId",
+        "getUserPhone",
+      ])
+    },
+    methods:{
+      search(){
+
+      }
+    }
 	}
 </script>
 <style scoped>

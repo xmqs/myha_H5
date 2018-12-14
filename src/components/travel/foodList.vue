@@ -6,7 +6,7 @@
 			<div class="List_right">
 				<div>{{item.sourceLabel}}</div>
 				<div class="l1">
-					<span class="icon">海安特产</span>
+					<span class="icon">{{$route.params.id=='cyha_hatc'?'海安特产':'旅游路线'}}</span>
 				</div>
 				<div class="l2">{{item.properties.remark}}</div>
 			</div>

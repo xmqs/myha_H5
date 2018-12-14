@@ -5,11 +5,13 @@
 			<div><img src="../../../static/img/travel/Group2@2x.png" alt="" /></div>
 			<div>
 				<div class="t1">{{item.sourceLabel}}</div>
-				<div class="t2"  @click="toMap(item.sourceLabel,item.properties.latitude,item.properties.longitude)">地址：{{item.properties.address}}</div>
-				<div class="t2">联系电话：{{item.properties.mobile}}</div>
-				<div class="t2">负责人：{{item.properties.mobile}}</div>
+				<div class="t2"  @click="toMap(item.sourceLabel,item.properties.latitude,item.properties.longitude)">地址：{{item.properties.dz}}</div>
+				<div class="t2">联系电话：
+          <a :href="'tel:'+item.properties.mobile">{{item.properties.lxdh}}</a>
+        </div>
+				<div class="t2">负责人：{{item.properties.fzr}}</div>
 				<div class="t2">手机号：
-          <a :href="'tel:'+item.properties.mobile">{{item.properties.mobile}}</a>
+          <a :href="'tel:'+item.properties.mobile">{{item.properties.sjhm}}</a>
         </div>
 			</div>
 		</div>
@@ -27,7 +29,7 @@
     },
     mounted(){
       axios.post("/myha-server/public/source/props/queryExt.do",{
-        "catalogAlias" : 'cyha_xcyld'
+        "catalogAlias" : 'cyha_lvxingshe'
       }).then(res=>{
         this.list = res.data.data;
       })
