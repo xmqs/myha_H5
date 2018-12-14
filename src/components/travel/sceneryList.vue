@@ -8,7 +8,7 @@
 				<div class="l1">
 					<span class="icon">{{item.properties.signpost}}</span>
 				</div>
-				<div class="l2">{{item.summary}}</div>
+				<div class="l2">{{item.properties.remark}}</div>
 			    <div class="l3" @click="toMap(item.sourceLabel,item.properties.latitude,item.properties.longitude)">
 			    	<img src="../../../static/img/bicycle/location.png" alt="" />
 			    	<div>{{item.properties.address}}</div>
