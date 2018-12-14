@@ -10,11 +10,11 @@
 				</div>
 				<div class="l2">{{item.properties.remark}}</div>
 			    <div class="l3" @click="toMap(item.sourceLabel,item.properties.latitude,item.properties.longitude)">
-			    	<img src="../../../static/img/bicycle/location.png" alt="" />
+			    	<img src="../../../static/img/travel/Group 3@2x.png" alt="" />
 			    	<div>{{item.properties.address}}</div>
 			    </div>
 			    <div class="l3">
-			    	<img src="../../../static/img/bicycle/S3.png" alt="" />
+			    	<img src="../../../static/img/travel/Group 14@2x.png" alt="" />
 			    	<div>
               <a :href="'tel:'+item.properties.mobile">{{item.properties.mobile}}</a></div>
 			    </div>
@@ -36,6 +36,7 @@
       axios.post("/myha-server/public/source/props/queryExt.do",{
         "catalogAlias" : this.$route.params.id
       }).then(res=>{
+      	console.log(res.data.data)
         this.list = res.data.data;
       })
     },
@@ -97,11 +98,11 @@
 		font-size:30px;
 		color:rgba(51,51,51,1);
 		line-height:30px;
-		padding-bottom: 16px;
+		/*padding-bottom: 16px;*/
 	}
-	.List_right .l1{
+	/*.List_right .l1{
 		padding-bottom: 16px;
-	}
+	}*/
 	.List_right .icon{
 		border-radius:4px;
 		border:1px solid rgba(255,170,0,1);
@@ -118,10 +119,10 @@
 		overflow: hidden;
 		word-break: break-all;
 		word-wrap: break-word;
-    white-space: nowrap;
+        white-space: nowrap;
 		text-align: justify;
-		padding-bottom: 12px;
-    text-overflow: ellipsis;
+		/*padding-bottom: 12px;*/
+        text-overflow: ellipsis;
 	}
 	.List_right .l3{
 		display: flex;
