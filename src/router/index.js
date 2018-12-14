@@ -41,6 +41,7 @@ const sceneryDetails = () => import('@/components/travel/sceneryDetails'/*webpac
 const sceneryList = () => import('@/components/travel/sceneryList'/*webpackChunkName: "travel"*/)
 const travelList = () => import('@/components/travel/travelList'/*webpackChunkName: "travel"*/)
 const lineList = () => import('@/components/travel/lineList'/*webpackChunkName: "travel"*/)
+const travelSearch = () => import('@/components/travel/travelSearch'/*webpackChunkName: "travel"*/)
 
 const travelNew = () => import('@/components/travel/indexNew'/*webpackChunkName: "travel"*/)
 
@@ -311,7 +312,11 @@ export default new Router({
       name: 'lineList',
       component: lineList,
     },
-
+    {
+      path: '/travel/travelSearch', /*搜索页面*/
+      name: 'travelSearch',
+      component: travelSearch,
+    },
 
     {
       path: '/travelNew', /*普通列表*/
