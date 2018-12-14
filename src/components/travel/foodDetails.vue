@@ -1,21 +1,32 @@
 <template>
 	<div id="main">
-		<div>
-			<div><img src="../../../static/img/travel/food1.jpg" alt="" /></div>
-			<div class="f1">白汁河豚</div>
-		</div>
-		<div>
-			<div><img src="../../../static/img/travel/food1.jpg" alt="" /></div>
-			<div class="f1">白汁河豚</div>
-		</div>
-		<div>
-			<div><img src="../../../static/img/travel/food1.jpg" alt="" /></div>
-			<div class="f1">白汁河豚</div>
+		<div v-for="item in list" @click="toDetail(item.url)">
+			<div><img :src="item.cover" alt="" /></div>
+			<div class="f1">{{item.sourceLabel}}</div>
 		</div>
 	</div>
 </template>
 
 <script>
+  import axios from "axios"
+  export default {
+    name:"travelFood",
+    data(){
+      return{
+        list:[]
+      }
+    },
+    mounted(){
+      axios.get("/myha-server/public/catalog/querySource.do?catalogAlias=cyha_hams&sourceType=03").then(res=>{
+        this.list = res.data.data;
+      })
+    },
+    methods:{
+      toDetail(url){
+        window.location = url;
+      }
+    }
+  }
 </script>
 
 <style scoped>
@@ -45,6 +56,6 @@
 		color:rgba(51,51,51,1);
 		line-height:78px;
 		padding-left:25px;
-		
+
 	}
 </style>

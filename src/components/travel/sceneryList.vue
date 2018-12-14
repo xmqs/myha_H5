@@ -1,21 +1,22 @@
 <template>
 	<div id="main">
 		<!--一个单元-->
-		<div class="List">
-			<div class="List_left"><img src="" alt="" /></div>
+		<div class="List" v-for="item in list">
+			<div class="List_left" @click="toDetail(item.properties.pageUrl)"><img :src="item.properties.cover" alt="" class="foodImg"/></div>
 			<div class="List_right">
-				<div>广福禅寺</div>
+				<div @click="toDetail(item.properties.pageUrl)">{{item.sourceLabel}}</div>
 				<div class="l1">
-					<span class="icon">国家AAA级</span>
+					<span class="icon">{{item.properties.signpost}}</span>
 				</div>
-				<div class="l2">广福禅寺座落在海安市东北首，俗称东寺…</div>
-			    <div class="l3">
+				<div class="l2">{{item.summary}}</div>
+			    <div class="l3" @click="toMap(item.sourceLabel,item.properties.latitude,item.properties.longitude)">
 			    	<img src="../../../static/img/bicycle/location.png" alt="" />
-			    	<div>海安市开发区黄海大道南侧</div>
+			    	<div>{{item.properties.address}}</div>
 			    </div>
 			    <div class="l3">
 			    	<img src="../../../static/img/bicycle/S3.png" alt="" />
-			    	<div>0513-81863129</div>
+			    	<div>
+              <a :href="'tel:'+item.properties.mobile">{{item.properties.mobile}}</a></div>
 			    </div>
 			</div>
 		</div>
@@ -23,6 +24,47 @@
 </template>
 
 <script>
+  import axios from "axios"
+  export default {
+    name:"travelFood",
+    data(){
+      return{
+        list:[]
+      }
+    },
+    mounted(){
+      axios.post("/myha-server/public/source/props/queryExt.do",{
+        "catalogAlias" : this.$route.params.id
+      }).then(res=>{
+        this.list = res.data.data;
+      })
+    },
+    methods:{
+      toDetail(url){
+        window.location = url;
+      },
+      toMap(name,lat,lon){
+        if(lat=="暂无"||lat==""){
+          return;
+        }
+        var u = navigator.userAgent;
+        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+        var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+
+        if (isAndroid) {
+          if(sessionStorage.getItem("haveAmap") == "false"){
+            window.location.href = 'http://daohang.amap.com/index.php';
+          }else{
+            window.location.href = 'androidamap://navi?sourceApplication=amap&poiname='+name+'&lat='+lat+'&lon='+lon+'&dev=1&style=2';
+          }
+        }
+        if (isiOS) {
+          window.location = 'iosamap://navi?sourceApplication=amap&poiname='+name+'&lat='+lat+'&lon='+lon+'&dev=1&style=2';
+        }
+
+      },
+    }
+  }
 </script>
 
 <style scoped>
@@ -67,7 +109,7 @@
 		text-align: center;
 		color:rgba(255,170,0,1);
 		padding:5px 10px;
-		
+
 	}
 	.List_right .l2{
 		font-size:24px;
@@ -76,8 +118,10 @@
 		overflow: hidden;
 		word-break: break-all;
 		word-wrap: break-word;
+    white-space: nowrap;
 		text-align: justify;
 		padding-bottom: 12px;
+    text-overflow: ellipsis;
 	}
 	.List_right .l3{
 		display: flex;
@@ -97,4 +141,8 @@
 		height:30px;
 		margin-right:10px;
 	}
+  .foodImg{
+    width: 198px;
+    height: 198px;
+  }
 </style>

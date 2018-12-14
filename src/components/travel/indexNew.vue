@@ -2,7 +2,7 @@
   <div class="bg">
     <div class="header_banner"></div>
     <div class="top_box">
-      <div class="mui-input-row mui-search header_search">
+      <div class="mui-input-row mui-search header_search" @click="toSearch">
         <input type="search" class="mui-input-clear rel_" placeholder="搜索景点／酒店／美食等">
         <span class="haian_input_speech"></span>
       </div>
@@ -16,37 +16,37 @@
     </div>
     <div class="navigation_box">
       <ul class="line">
-        <li class="line-box" @click="toList('1')">
+        <li class="line-box" @click="toList('3','cyha_hams')">
           <img src="./../../../static/img/travel/1.png" class="box-img"/>
           <p class="nav_title">美食</p>
         </li>
-        <li class="line-box" @click="toList('1')">
+        <li class="line-box" @click="toList('1','cyha_hajd')">
           <img src="./../../../static/img/travel/2.png" class="box-img"/>
           <p class="nav_title">景区景点</p>
         </li>
-        <li class="line-box" @click="toList('1')">
+        <li class="line-box" @click="toList('1','cyha_hazs')">
           <img src="./../../../static/img/travel/3.png" class="box-img"/>
           <p class="nav_title">酒店</p>
         </li>
-        <li class="line-box" @click="toList('1')">
+        <li class="line-box" @click="toList('1','cyha_xcyld')">
           <img src="./../../../static/img/travel/4.png" class="box-img"/>
           <p class="nav_title">乡村旅游点</p>
         </li>
       </ul>
       <ul class="line">
-        <li class="line-box" @click="toList('1')">
+        <li class="line-box" @click="toList('2','cyha_hatc')">
           <img src="./../../../static/img/travel/5.png" class="box-img"/>
           <p class="nav_title">海安特产</p>
         </li>
-        <li class="line-box" @click="toList('1')">
+        <li class="line-box" @click="toList('2','cyha_yllx')">
           <img src="./../../../static/img/travel/6.png" class="box-img"/>
           <p class="nav_title">旅游路线</p>
         </li>
-        <li class="line-box" @click="toList('1')">
+        <li class="line-box" @click="toList('4')">
           <img src="./../../../static/img/travel/7.png" class="box-img"/>
           <p class="nav_title">节庆活动</p>
         </li>
-        <li class="line-box" @click="toList('1')">
+        <li class="line-box" @click="toList('5','cyha_xcyld')">
           <img src="./../../../static/img/travel/8.png" class="box-img"/>
           <p class="nav_title">旅行社</p>
         </li>
@@ -138,8 +138,25 @@
       changePage(n){
         this.page = n;
       },
-      toList(type){
-        this.$router.push("")
+      toList(type,key){
+        if(type == 3){
+          this.$router.push("/travel/foodDetails")
+        }
+        if(type == 1){
+          this.$router.push("/travel/sceneryList/"+key);
+        }
+        if(type == 2){
+          this.$router.push("/travel/foodList/"+key);
+        }
+        if(type == 4){
+          window.location = "https://mp.weixin.qq.com/mp/homepage?__biz=MzA4ODY3ODcxNA%3D%3D&hid=9&sn=2913af3b439369347287213332224ac4&scene=18";
+        }
+        if(type == 5){
+          this.$router.push("/travel/travelList");
+        }
+      },
+      toSearch(){
+        this.$router.push("/travel/travelList");
       }
     }
   }

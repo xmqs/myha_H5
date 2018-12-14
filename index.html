@@ -41,5 +41,13 @@
     function moveTo(longitude, latitude) {
       sessionStorage.setItem("userPosition", longitude + "," + latitude);
     }
+
+    sessionStorage.setItem("haveAmap", 'false');
+
+    function navigatorList(baidu,Amap) {
+      if(Amap!=="false"){
+        sessionStorage.setItem("haveAmap", "true");
+      }
+    }
   </script>
 </html>

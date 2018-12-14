@@ -276,6 +276,7 @@ export default new Router({
       }
     },
 
+
     /*旅游模块*/
     {
       path: '/travel', /*普通列表*/
@@ -286,9 +287,12 @@ export default new Router({
       path: '/travel/foodDetails', /*美食详情*/
       name: 'foodDetails',
       component: foodDetails,
+      mate:{
+        keepAlive:true
+      }
     },
     {
-      path: '/travel/foodList', /*美食列表*/
+      path: '/travel/foodList/:id', /*美食列表*/
       name: 'foodList',
       component: foodList,
     },
@@ -298,7 +302,7 @@ export default new Router({
       component: sceneryDetails,
     },
     {
-      path: '/travel/sceneryList', /*景点列表*/
+      path: '/travel/sceneryList/:id', /*景点列表*/
       name: 'sceneryList',
       component: sceneryList,
     },

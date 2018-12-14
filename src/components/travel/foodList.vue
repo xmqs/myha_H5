@@ -1,10 +1,10 @@
 <template>
 	<div id="main">
 		<!--一个单元-->
-		<div class="List">
-			<div class="List_left"><img src="" alt="" /></div>
+		<div class="List" @click="toDetail(item.url)" v-for="item in list">
+			<div class="List_left"><img :src="item.cover" alt="" class="foodImg"/></div>
 			<div class="List_right">
-				<div>德信食品</div>
+				<div>{{item.sourceLabel}}</div>
 				<div class="l1">
 					<span class="icon">海安特产</span>
 				</div>
@@ -15,6 +15,25 @@
 </template>
 
 <script>
+  import axios from "axios"
+  export default {
+    name:"travelFood",
+    data(){
+      return{
+        list:[]
+      }
+    },
+    mounted(){
+      axios.get("/myha-server/public/catalog/querySource.do?catalogAlias="+this.$route.params.id+"&sourceType=03").then(res=>{
+        this.list = res.data.data;
+      })
+    },
+    methods:{
+      toDetail(url){
+        window.location = url;
+      }
+    }
+  }
 </script>
 
 <style scoped>
@@ -64,4 +83,8 @@
 		color:rgba(153,153,153,1);
 		line-height:33px;
 	}
+  .foodImg{
+    width: 172px;
+    height: 172px;
+  }
 </style>
