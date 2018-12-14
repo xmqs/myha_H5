@@ -75,7 +75,6 @@
 		position:absolute;
 		left:46px;
 		top:24px;
-		border-right:2px solid #1A82E2;
 	}
 	.search img{
 		width:34px;
@@ -109,15 +108,14 @@
 	}
 	.h2{
 		padding:0 31px 0 31px;
-		display:flex;
 		flex-wrap: wrap;
-		justify-content: space-between;
 	}
 	.h2>div{
+    display: inline-block;
 		padding:15px 21px;
 		background:rgba(245,245,245,1);
 		border-radius:4px;
-		margin-bottom: 20px;	
+		margin-bottom: 20px;
 		font-size:22px;
 		color:rgba(102,102,102,1);
 		line-height:30px;

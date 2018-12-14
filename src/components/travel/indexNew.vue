@@ -156,7 +156,7 @@
         }
       },
       toSearch(){
-        this.$router.push("/travel/travelList");
+        this.$router.push("/travel/travelSearch");
       }
     }
   }

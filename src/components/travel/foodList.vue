@@ -2,13 +2,13 @@
 	<div id="main">
 		<!--一个单元-->
 		<div class="List" @click="toDetail(item.url)" v-for="item in list">
-			<div class="List_left"><img :src="item.cover" alt="" class="foodImg"/></div>
+			<div class="List_left"><img :src="item.properties.cover" alt="" class="foodImg"/></div>
 			<div class="List_right">
 				<div>{{item.sourceLabel}}</div>
 				<div class="l1">
 					<span class="icon">海安特产</span>
 				</div>
-				<div class="l2">南通市德心食品有限公司诞生于二十世纪九十 年代末，公司位于海安市曲塘镇，328国道…</div>
+				<div class="l2">{{item.properties.remark}}</div>
 			</div>
 		</div>
 	</div>
@@ -24,7 +24,9 @@
       }
     },
     mounted(){
-      axios.get("/myha-server/public/catalog/querySource.do?catalogAlias="+this.$route.params.id+"&sourceType=03").then(res=>{
+      axios.post("/myha-server/public/source/props/queryExt.do",{
+        "catalogAlias" : this.$route.params.id
+      }).then(res=>{
         this.list = res.data.data;
       })
     },
