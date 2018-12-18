@@ -5,18 +5,16 @@
 			<div class="List_left" @click="toDetail(item.properties.pageUrl)"><img :src="item.properties.cover" alt="" class="foodImg"/></div>
 			<div class="List_right">
 				<div @click="toDetail(item.properties.pageUrl)">{{item.sourceLabel}}</div>
-				<div class="l1">
-					<span class="icon">{{item.properties.signpost}}</span>
-				</div>
-				<div class="l2">{{item.properties.remark}}</div>
-			    <div class="l3" @click="toMap(item.sourceLabel,item.properties.latitude,item.properties.longitude)">
-			    	<img src="../../../static/img/travel/Group 3@2x.png" alt="" />
-			    	<div>{{item.properties.address}}</div>
+        <div class="icon" @click="toDetail(item.properties.pageUrl)">{{item.properties.signpost}}</div>
+				<div class="l2" @click="toDetail(item.properties.pageUrl)">{{item.properties.remark}}</div>
+			    <div class="l3">
+			    	<img src="../../../static/img/travel/Group 3@2x.png" alt=""  @click="toMap(item.sourceLabel,item.properties.latitude,item.properties.longitude)"/>
+			    	<div @click="toMap(item.sourceLabel,item.properties.latitude,item.properties.longitude)">{{item.properties.address}}</div>
 			    </div>
 			    <div class="l3">
 			    	<img src="../../../static/img/travel/Group 14@2x.png" alt="" />
 			    	<div>
-              <a :href="'tel:'+item.properties.mobile">{{item.properties.mobile}}</a></div>
+              <a class="phone" :href="'tel:'+item.properties.mobile">{{item.properties.mobile}}</a></div>
 			    </div>
 			</div>
 		</div>
@@ -74,15 +72,15 @@
 	}
 	.List{
 		width:100%;
-		padding:24px 0 36px 0;
+		padding:24px 0 10px 0;
 		min-height:257px;
-		float: left;
 		border-bottom: 1px solid #eee;
+    display: flex;
 	}
 	.List_left{
+    float: left;
 		width:198px;
 		height:198px;
-		float: left;
 		border:1px solid #eee;
 		margin-right:24px;
 	}
@@ -90,10 +88,10 @@
 		width:456px;
 		min-height: 198px;
 		float: right;
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
 	}
+  .List_right>div{
+    margin-bottom: 16px;
+  }
 	.List_right div:first-child{
 		font-size:30px;
 		color:rgba(51,51,51,1);
@@ -104,10 +102,10 @@
 		padding-bottom: 16px;
 	}*/
 	.List_right .icon{
+    display: inline-block;
 		border-radius:4px;
 		border:1px solid rgba(255,170,0,1);
 		font-size:20px;
-		text-align: center;
 		color:rgba(255,170,0,1);
 		padding:5px 10px;
 
@@ -137,6 +135,9 @@
 		word-wrap: break-word;
 		text-align: justify;
 	}
+  .phone{
+    font-size:24px;
+  }
 	.l3 img{
 		width:30px;
 		height:30px;

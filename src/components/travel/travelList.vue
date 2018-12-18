@@ -7,11 +7,12 @@
 				<div class="t1">{{item.sourceLabel}}</div>
 				<div class="t2"  @click="toMap(item.sourceLabel,item.properties.latitude,item.properties.longitude)">地址：{{item.properties.dz}}</div>
 				<div class="t2">联系电话：
-          <a :href="'tel:'+item.properties.mobile">{{item.properties.lxdh}}</a>
+          <span v-if="item.properties.lxdh=='-'">{{item.properties.lxdh}}</span>
+          <a v-else :href="'tel:'+item.properties.lxdh">{{item.properties.lxdh}}</a>
         </div>
 				<div class="t2">负责人：{{item.properties.fzr}}</div>
 				<div class="t2">手机号：
-          <a :href="'tel:'+item.properties.mobile">{{item.properties.sjhm}}</a>
+          <a :href="'tel:'+item.properties.sjhm">{{item.properties.sjhm}}</a>
         </div>
 			</div>
 		</div>

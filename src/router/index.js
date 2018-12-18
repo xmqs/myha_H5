@@ -120,8 +120,6 @@ const pcText = () => import ("../components/parentChild/pcText"/*webpackChunkNam
 
 /*服务中心*/
 const serviceCenter = () => import('@/components/serviceCenter'/*webpackChunkName: "serviceCenter"*/)
-/*服务中心*/
-const busLine = () => import('@/components/busLine'/*webpackChunkName: "busLine"*/)
 
 /*公共特殊页面*/
 const normalList = () => import ("../components/public/normalList"/*webpackChunkName: "static"*/)
@@ -154,6 +152,8 @@ const driveExam = () => import ("../components/driveTest/driveExam"/*webpackChun
 const shareHaian = () => import ("../components/shareHaian/shareHaian"/*webpackChunkName: "shareHaian"*/)
 
 
+/*公交出行*/
+const busLine = () => import('@/components/busLine/indexNew'/*webpackChunkName: "busLine"*/)
 
 Vue.use(Router)
 
@@ -326,6 +326,9 @@ export default new Router({
       path: '/travelNew', /*普通列表*/
       name: 'travelNew',
       component: travelNew,
+      meta:{
+        keepAlive:true
+      }
     },
     /*公共自行车*/
     {

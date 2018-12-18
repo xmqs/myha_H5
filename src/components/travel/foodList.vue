@@ -1,7 +1,6 @@
 <template>
 	<div id="main">
-		<!--一个单元-->
-		<div class="List" @click="toDetail(item.url)" v-for="item in list">
+		<div class="List" @click="toDetail(item.properties.pageUrl)" v-for="item in list">
 			<div class="List_left"><img :src="item.properties.cover" alt="" class="foodImg"/></div>
 			<div class="List_right">
 				<div>{{item.sourceLabel}}</div>
@@ -84,6 +83,13 @@
 		font-size:24px;
 		color:rgba(153,153,153,1);
 		line-height:33px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    /*! autoprefixer: off */
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    /* autoprefixer: on */
 	}
   .foodImg{
     width: 172px;

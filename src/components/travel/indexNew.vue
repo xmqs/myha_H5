@@ -57,11 +57,11 @@
       <h3 class="city_title">城市好玩点</h3>
       <div class="city_tab_box">
         <ul class="city_tab_box_ul">
-          <li class="city_tab_box_li" :class="{'tab_active':page==1}" @click="changePage(1)">
-            景点
-          </li>
           <li class="city_tab_box_li" :class="{'tab_active':page==2}" @click="changePage(2)">
             美食
+          </li>
+          <li class="city_tab_box_li" :class="{'tab_active':page==1}" @click="changePage(1)">
+            景点
           </li>
           <li class="city_tab_box_li" :class="{'tab_active':page==3}" @click="changePage(3)">
             酒店
@@ -71,52 +71,104 @@
           </li>
         </ul>
       </div>
-      <div class="city_interesting_content">
+      <div class="city_interesting_content" v-show="page==1">
         <div class="interesting_content_card">
-          <div class="img_box">
-            <img src="./../../../static/img/travel/banner4.png" alt=""/>
-          </div>
-          <div class="interesting_content_card_content">
-            <div class="interesting_content_card_content_inner">
-              <p class="card_title">国家AAA级旅游景区——广福禅寺</p>
-              <p class="card_content">广福禅寺座落在海安市东北首，俗称东福禅寺座落在海安市东北首，俗称东寺。该寺寺。该寺古名广福教寺，始
-                为唐代鄂国公尉迟恭之子尉迟宝林将军于唐贞观二十年（公元64...</p>
+          <div v-for="(item,index) in list1" v-show="index<3">
+            <div class="img_box">
+              <img :src="item.properties.cover" alt="" @click="toDetail(item.properties.pageUrl)"/>
+            </div>
+            <div class="interesting_content_card_content">
+
+              <div class="interesting_content_card_content_inner">
+                <p class="card_title">{{item.sourceLabel}}</p>
+
+                <div class="l3" @click="toMap(item.sourceLabel,item.properties.latitude,item.properties.longitude)">
+                  <img src="../../../static/img/travel/Group 3@2x.png" alt="" />
+                  <div>{{item.properties.address}}</div>
+                </div>
+                <div class="l3">
+                  <img src="../../../static/img/travel/Group 14@2x.png" alt="" />
+                  <div>
+                    <a :href="'tel:'+item.properties.mobile">{{item.properties.mobile}}</a></div>
+                </div>
+                <!--<p class="card_content">{{item.properties.remark}}</p>-->
+              </div>
             </div>
           </div>
         </div>
+      </div>
+      <div class="city_interesting_content" v-show="page==2">
         <div class="interesting_content_card">
-          <div class="img_box">
-            <img src="./../../../static/img/travel/banner4.png" alt=""/>
-          </div>
-          <div class="interesting_content_card_content">
-            <div class="interesting_content_card_content_inner">
-              <p class="card_title">国家AAA级旅游景区——广福禅寺</p>
-              <p class="card_content">广福禅寺座落在海安市东北首，俗称东福禅寺座落在海安市东北首，俗称东寺。该寺寺。该寺古名广福教寺，始
-                为唐代鄂国公尉迟恭之子尉迟宝林将军于唐贞观二十年（公元64...</p>
+          <div v-for="(item,index) in list2" v-show="index<3"  @click="toDetail(item.url)">
+            <div class="img_box">
+              <img :src="item.cover" alt=""/>
+            </div>
+            <div class="interesting_content_card_content">
+
+              <div class="interesting_content_card_content_inner">
+                <p class="card_title">{{item.sourceLabel}}</p>
+
+                <!--<div class="l3" @click="toMap(item.sourceLabel,item.properties.latitude,item.properties.longitude)">
+                  <img src="../../../static/img/travel/Group 3@2x.png" alt="" />
+                  <div>{{item.properties.address}}</div>
+                </div>-->
+                <!--<div class="l3">
+                  <img src="../../../static/img/travel/Group 14@2x.png" alt="" />
+                  <div>
+                    <a :href="'tel:'+item.properties.mobile">{{item.properties.mobile}}</a></div>
+                </div>-->
+                <p class="card_content">{{item.remark}}</p>
+              </div>
             </div>
           </div>
         </div>
+      </div>
+      <div class="city_interesting_content" v-show="page==3">
         <div class="interesting_content_card">
-          <div class="img_box">
-            <img src="./../../../static/img/travel/banner4.png" alt=""/>
-          </div>
-          <div class="interesting_content_card_content">
-            <div class="interesting_content_card_content_inner">
-              <p class="card_title">国家AAA级旅游景区——广福禅寺</p>
-              <p class="card_content">广福禅寺座落在海安市东北首，俗称东福禅寺座落在海安市东北首，俗称东寺。该寺寺。该寺古名广福教寺，始
-                为唐代鄂国公尉迟恭之子尉迟宝林将军于唐贞观二十年（公元64...</p>
+          <div v-for="(item,index) in list3" v-show="index<3">
+            <div class="img_box">
+              <img :src="item.properties.cover" alt="" @click="toDetail(item.properties.pageUrl)"/>
+            </div>
+            <div class="interesting_content_card_content">
+              <div class="interesting_content_card_content_inner">
+                <p class="card_title">{{item.sourceLabel}}</p>
+                <div class="l3" @click="toMap(item.sourceLabel,item.properties.latitude,item.properties.longitude)">
+                  <img src="../../../static/img/travel/Group 3@2x.png" alt="" />
+                  <div>{{item.properties.address}}</div>
+                </div>
+                <div class="l3">
+                  <img src="../../../static/img/travel/Group 14@2x.png" alt="" />
+                  <div>
+                    <a :href="'tel:'+item.properties.mobile">{{item.properties.mobile}}</a></div>
+                </div>
+                <!--<p class="card_content">{{item.properties.remark}}</p>-->
+              </div>
             </div>
           </div>
         </div>
+      </div>
+      <div class="city_interesting_content" v-show="page==4">
         <div class="interesting_content_card">
-          <div class="img_box">
-            <img src="./../../../static/img/travel/banner4.png" alt=""/>
-          </div>
-          <div class="interesting_content_card_content">
-            <div class="interesting_content_card_content_inner">
-              <p class="card_title">国家AAA级旅游景区——广福禅寺</p>
-              <p class="card_content">广福禅寺座落在海安市东北首，俗称东福禅寺座落在海安市东北首，俗称东寺。该寺寺。该寺古名广福教寺，始
-                为唐代鄂国公尉迟恭之子尉迟宝林将军于唐贞观二十年（公元64...</p>
+          <div v-for="(item,index) in list4" v-show="index<3"  @click="toDetail(item.properties.pageUrl)">
+            <div class="img_box">
+              <img :src="item.properties.cover" alt=""/>
+            </div>
+            <div class="interesting_content_card_content">
+
+              <div class="interesting_content_card_content_inner">
+                <p class="card_title">{{item.sourceLabel}}</p>
+
+                <!--<div class="l3" @click="toMap(item.sourceLabel,item.properties.latitude,item.properties.longitude)">
+                  <img src="../../../static/img/travel/Group 3@2x.png" alt="" />
+                  <div>{{item.properties.address}}</div>
+                </div>-->
+                <!--<div class="l3">
+                  <img src="../../../static/img/travel/Group 14@2x.png" alt="" />
+                  <div>
+                    <a :href="'tel:'+item.properties.mobile">{{item.properties.mobile}}</a></div>
+                </div>-->
+                <p class="card_content">{{item.properties.remark}}</p>
+              </div>
             </div>
           </div>
         </div>
@@ -127,14 +179,62 @@
 </template>
 
 <script>
+  import axios from "axios"
   export default {
     name: "indexNew",
     data(){
       return{
-        page:1
+        page:2,
+        list1:[],
+        list2:[],
+        list3:[],
+        list4:[]
       }
     },
+    mounted(){
+      axios.post("/myha-server/public/source/props/queryExt.do",{
+        "catalogAlias" : "cyha_hajd"
+      }).then(res=>{
+        this.list1 = res.data.data;
+      })
+      axios.post("/myha-server/public/source/props/queryExt.do",{
+        "catalogAlias" : "cyha_hazs"
+      }).then(res=>{
+        this.list3 = res.data.data;
+      })
+      axios.get("/myha-server/public/catalog/querySource.do?catalogAlias=cyha_hams&sourceType=03").then(res=>{
+        this.list2 = res.data.data;
+      })
+      axios.post("/myha-server/public/source/props/queryExt.do",{
+        "catalogAlias" : "cyha_hatc"
+      }).then(res=>{
+        this.list4 = res.data.data;
+      })
+    },
     methods:{
+      toDetail(url){
+        window.location = url;
+      },
+      toMap(name,lat,lon){
+        if(lat=="暂无"||lat==""){
+          return;
+        }
+        var u = navigator.userAgent;
+        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+        var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+
+        if (isAndroid) {
+          if(sessionStorage.getItem("haveAmap") == "false"){
+            window.location.href = 'http://daohang.amap.com/index.php';
+          }else{
+            window.location.href = 'androidamap://navi?sourceApplication=amap&poiname='+name+'&lat='+lat+'&lon='+lon+'&dev=1&style=2';
+          }
+        }
+        if (isiOS) {
+          window.location = 'iosamap://navi?sourceApplication=amap&poiname='+name+'&lat='+lat+'&lon='+lon+'&dev=1&style=2';
+        }
+
+      },
       changePage(n){
         this.page = n;
       },
@@ -351,8 +451,10 @@
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
+    /*! autoprefixer: off */
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    /* autoprefixer: on */
   }
   .line{
     display: flex;
@@ -403,4 +505,30 @@
     color: #FFFFFF;
   }
 
+  .l3{
+    display: flex;
+    margin-top: 8px;
+  }
+  .l3 div{
+    display: inline-block;
+    font-size:24px;
+    font-weight:500;
+    color:rgba(153,153,153,1);
+    line-height:33px;
+    overflow: hidden;
+    word-break: break-all;
+    word-wrap: break-word;
+    text-align: justify;
+  }
+  .l3 img{
+    width:30px;
+    height:30px;
+    margin-right:10px;
+  }
+  .l3 a{
+    font-size:24px;
+    font-weight:500;
+    color:rgba(153,153,153,1);
+    line-height:33px;
+  }
 </style>
