@@ -154,6 +154,9 @@ const shareHaian = () => import ("../components/shareHaian/shareHaian"/*webpackC
 
 /*公交出行*/
 const busLine = () => import('@/components/busLine/indexNew'/*webpackChunkName: "busLine"*/)
+const busSearch = () => import('@/components/busLine/busSearch'/*webpackChunkName: "busLine"*/)
+const pointLine = () => import('@/components/busLine/pointLine'/*webpackChunkName: "busLine"*/)
+const lineDetails = () => import('@/components/busLine/lineDetails'/*webpackChunkName: "busLine"*/)
 
 Vue.use(Router)
 
@@ -572,6 +575,21 @@ export default new Router({
       path: '/busLine', /*公交查询*/
       name: 'busLine',
       component: busLine,
+    },
+    {
+      path: '/busLine/busSearch', /*公交查询*/
+      name: 'busSearch',
+      component: busSearch,
+    },
+    {
+      path: '/busLine/pointLine', /*公交查询*/
+      name: 'pointLine',
+      component: pointLine,
+    },
+    {
+      path: '/busLine/lineDetails', /*公交查询*/
+      name: 'lineDetails',
+      component: lineDetails,
     },
     /*妇幼健康*////////////////////////////////////////////////
     {
