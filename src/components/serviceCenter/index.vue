@@ -19,7 +19,7 @@
         <div class="cell_right_side" v-for="(item,index) in newArr">
           <div class="address">{{item.address}}</div>
           <div class="posisiton">{{item.communityName}}</div>
-          <div class="phone">{{item.contact}}{{item.tel}}</div>
+          <div class="phone">{{item.contact}} <a :href="'tel:'+item.tel">{{item.tel}}</a></div>
         </div>
       </div>
     </div>
@@ -299,6 +299,12 @@
     background: url("./../../../static/img/normal/phone.png") no-repeat;
     background-size: 30px;
     background-position: left;
+  }
+  .phone a{
+    font-size: 28px;
+    color: #666;
+    height: 46px;
+    line-height: 44px;
   }
   .nodata{
     padding-top: 36px;

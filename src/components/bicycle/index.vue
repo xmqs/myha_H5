@@ -137,7 +137,7 @@
 	        content: createInfoWindow(title2, content2.join("<br/>")),
 	        offset: new AMap.Pixel(16, -40)
 	      });
-	    
+
 	      function createInfoWindow(title, content) {
 	        let info2 = document.createElement("div");
 	        info2.className = "custom-info input-card content-window-card";
@@ -167,7 +167,7 @@
 	        middle.innerHTML = content;
 	        middle.style.padding = "5px 20px";
 	        info2.appendChild(middle);
-	        
+
 	        return info2;
 	      }
 	      infoWindow.open(vue.map, marker.getPosition());
@@ -275,7 +275,7 @@
             middle.innerHTML = content;
             middle.style.padding = "5px 20px";
             info.appendChild(middle);
-            
+
             return info;
           }
 
@@ -306,7 +306,7 @@
 	        content: createInfoWindow(title2, content2.join("<br/>")),
 	        offset: new AMap.Pixel(16, -40)
 	      });
-	    
+
 	      function createInfoWindow(title, content) {
 	        let info2 = document.createElement("div");
 	        info2.className = "custom-info input-card content-window-card";
@@ -336,7 +336,7 @@
 	        middle.innerHTML = content;
 	        middle.style.padding = "5px 20px";
 	        info2.appendChild(middle);
-	        
+
 	        // 定义底部内容
 //			    var bottom = document.createElement("div");
 //			    bottom.className = "info-bottom";
@@ -365,7 +365,7 @@
                 console.log(res.data.data.isOk)
                 if (res.data.data.isOk == 1) {
                   this.isshow = true;
-                  
+
                 }
               } else {
                 mui.toast('网络出了点小差错，请稍后尝试或联系管理人员', {duration: 'short', type: 'div'});

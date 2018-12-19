@@ -57,14 +57,14 @@
       <h3 class="city_title">城市好玩点</h3>
       <div class="city_tab_box">
         <ul class="city_tab_box_ul">
-          <li class="city_tab_box_li" :class="{'tab_active':page==2}" @click="changePage(2)">
-            美食
-          </li>
           <li class="city_tab_box_li" :class="{'tab_active':page==1}" @click="changePage(1)">
             景点
           </li>
           <li class="city_tab_box_li" :class="{'tab_active':page==3}" @click="changePage(3)">
             酒店
+          </li>
+          <li class="city_tab_box_li" :class="{'tab_active':page==2}" @click="changePage(2)">
+            美食
           </li>
           <li class="city_tab_box_li" :class="{'tab_active':page==4}" @click="changePage(4)">
             特产
@@ -184,7 +184,7 @@
     name: "indexNew",
     data(){
       return{
-        page:2,
+        page:1,
         list1:[],
         list2:[],
         list3:[],

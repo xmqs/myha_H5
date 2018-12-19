@@ -580,14 +580,17 @@ export default new Router({
       path: '/busLine/busSearch', /*公交查询*/
       name: 'busSearch',
       component: busSearch,
+      meta:{
+        keepAlive:true
+      }
     },
     {
-      path: '/busLine/pointLine', /*公交查询*/
+      path: '/busLine/pointLine/:id', /*公交查询*/
       name: 'pointLine',
       component: pointLine,
     },
     {
-      path: '/busLine/lineDetails', /*公交查询*/
+      path: '/busLine/lineDetails/:id/:dir', /*公交查询*/
       name: 'lineDetails',
       component: lineDetails,
     },
