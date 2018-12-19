@@ -2,15 +2,18 @@
   <div>
     <div class="headerSearch">
       <div class="input" @click="toSearch">
-        <img src="./../../../static/img/hotline/Fill1.png" alt="" class="searchIcon"><div>输入公交线路或站点名称</div>
+        <img src="./../../../static/img/bus/searchIcon.png" alt="" class="searchIcon"><div>输入公交线路或站点名称</div>
       </div>
     </div>
     <div id="container"></div>
-    <div class="busContent" :class="{'close':bottomShow}" v-show="list.length>0">
+    <div class="position" :class="{'up200':!bottomShow}">
+      <img src="./../../../static/img/bus/icon4.png" alt="" @click="moveLocation">
+    </div>
+    <div class="busContent" :class="{'close':bottomShow}"  v-show="list.length>0">
       <div class="busPoint" @click="changeBottom">
         <img src="./../../../static/img/bus/busIcon.png" alt="" class="busIcon">{{station}}
       </div>
-      <div class="busLine">
+      <div class="busLine"  v-show="list.length>0">
         <div class="line" v-for="item in list">
             <div class="nameLine">
               <span class="lineName">{{item.lineName}}</span>
@@ -79,7 +82,6 @@
           "longitude":sessionStorage.getItem("userPosition").split(",")[0],
           "latitude":sessionStorage.getItem("userPosition").split(",")[1]
         }).then(res=>{
-          alert(JSON.stringify(res));
           this.nearStation = res.data.data.busStationList;
 
           let vue = this;
@@ -273,5 +275,23 @@
   }
   .fromLine{
     font-size: 26px;
+  }
+  .position{
+    position:fixed;
+    left: 10px;
+    bottom: 130px;
+    z-index: 80;
+
+    transition: bottom 0.25s ease-out;
+    -moz-transition: bottom 0.25s ease-out; /* Firefox 4 */
+    -webkit-transition: bottom 0.25s ease-out; /* Safari 和 Chrome */
+    -o-transition: bottom 0.25s ease-out; /* Opera */
+  }
+  .up200{
+    bottom: 463px;
+  }
+  .position img{
+    width: 100px;
+    height: 100px;
   }
 </style>

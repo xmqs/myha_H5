@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="top">
-      <input type="text" placeholder="搜索目的地 /关键字" v-model="searchKey" v-on:keyup.13="search()"/>
+      <input type="text" placeholder="搜索景点/酒店/美食等" v-model="searchKey" v-on:keyup.13="search()"/>
       <div class="s1" @click="removeKey">取消</div>
       <div class="search"><img src="../../../static/img/travel/Group 22@3x.png" alt=""/></div>
     </div>
@@ -379,16 +379,17 @@
     border: none;
     font-size: 26px;
     padding-left: 70px;
+
   }
 
   .search {
     position: absolute;
     left: 46px;
-    top: 24px;
+    top: 30px;
   }
 
   .search img {
-    width: 34px;
+    width: 26px;
     margin-right: 6px;
   }
 

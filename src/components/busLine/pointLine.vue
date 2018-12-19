@@ -34,7 +34,10 @@
     methods: {
       sel(i) {
         this.isOn = i;
-      }
+      },
+      toLine(id, dir) {
+        this.$router.push("/busLine/lineDetails/" + id + "/" + dir);
+      },
     },
     mounted(){
       axios.post("/third-server/busInfo/queryLineInfoByStaName.do",{

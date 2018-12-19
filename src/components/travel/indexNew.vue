@@ -3,7 +3,7 @@
     <div class="header_banner"></div>
     <div class="top_box">
       <div class="mui-input-row mui-search header_search" @click="toSearch">
-        <input type="search" class="mui-input-clear rel_" placeholder="搜索景点／酒店／美食等">
+        <input type="search" class="mui-input-clear rel_" placeholder="搜索景点/酒店/美食等">
         <span class="haian_input_speech"></span>
       </div>
       <div class="city_weather_box">

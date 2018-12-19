@@ -7,14 +7,14 @@
       <form action="javascript:return true;" method="post">
         <div class="topSearch">
           <input type="search" v-on:keyup.13="search()" v-model="searchKey" placeholder="请输入关键字"/>
-          <div></div>
+          <div @click="deleteAll"></div>
         </div>
         <!--<input type="search" id="input" class="search" placeholder="请输入搜索内容" v-model="searchKey">-->
       </form>
+      <div class="noSearch" v-show="lineList.length==0&&stationList.length==0">
+        {{tips}}
+      </div>
       <div class="busSearch paddingTop">
-        <div class="noSearch" v-show="lineList.length==0&&stationList.length==0">
-          请输入关键字查询
-        </div>
         <!--公交一个单元-->
         <div v-for="item in lineList" @click="toLine(item.lineId,item.dir)">
           <img class="busImg" src="../../../static/img/bus/组合logo@2x.png" alt=""/>
@@ -123,29 +123,21 @@
     </div>
     <!--我的收藏-->
     <div v-show="isOn==2" class="busSearch" :class="{paddingTop:isOn!=2}">
-      <!--公交一个单元-->
-      <div>
+      <div class="noCollection" v-show="userCollection.length==0">
+        暂无收藏
+      </div>
+      <div v-for="item in userCollection" @click="toLine(item.lineId,item.dir)">
         <img class="busImg" src="../../../static/img/bus/组合logo@2x.png" alt=""/>
         <div class="busMiddle">
-          <div class="busName">116路</div>
-          <div>
-            <div class="t1">汽车站</div>
-            <img src="../../../static/img/bus/23@2x.png" alt=""/>
-            <div class="t1">邓庄</div>
+          <div class="busName">{{item.lineName}}</div>
+          <div class="toLine"><span>{{item.beginStationName}}</span><img src="./../../../static/img/bus/toLine.png"
+                                                                         alt="" class="toLineIcon"><span>{{item.endStationName}}</span>
           </div>
-        </div>
-        <div class="busFoot">
-          <div>
-            <div class="t1">首班车</div>
-            <div class="t2">06:00</div>
-          </div>
-          <div>
-            <div class="t1">末班车</div>
-            <div class="t2">6:00</div>
+          <div class="fromLine">
+            {{item.firstLastTime}}
           </div>
         </div>
       </div>
-      <!--公交一个单元结束-->
     </div>
 
     <!--底部tab-->
@@ -167,15 +159,12 @@
         <div :class="{active:isOn==2}">我的收藏</div>
       </div>
     </div>
-    <!--搜索模态框-->
-    <!--<div class="marsk">
-          <div>历史记录1</div>
-      </div>-->
   </div>
 </template>
 
 <script>
   import axios from "axios"
+  import {mapGetters} from 'vuex'
 
   export default {
     data() {
@@ -184,12 +173,45 @@
         isshow: 1000,//公交路线的展示
         searchKey: "",
         stationList: [],
-        lineList: []
+        lineList: [],
+        tips: "请输入关键字查询",
+        userCollection: []
       }
     },
+    computed: {
+      ...mapGetters([
+        "getUserId",
+        "getUserName",
+        "getCardId",
+        "getUserPhone",
+      ])
+    },
     methods: {
+      init() {
+        this.searchKey = "";
+        this.stationList = [];
+        this.lineList = [];
+        this.tips = "请输入关键字查询";
+        this.userCollection = [];
+      },
+      deleteAll() {
+        this.searchKey = "";
+        this.stationList = [];
+        this.lineList = [];
+        this.tips = "请输入关键字查询";
+      },
       sel(i) {
         this.isOn = i;
+        if (i == 2) {
+          this.queryMyCollection();
+        }
+      },
+      queryMyCollection() {
+        axios.post('/third-server/busInfo/queryMyCollection.do', {
+          "userId": this.getUserId
+        }).then(res => {
+          this.userCollection = res.data.data.collectionList;
+        })
       },
       showLine(i) {
         this.isshow = i;
@@ -201,22 +223,41 @@
         console.log("获取焦点了")
       },
       search() {
+        if (this.searchKey == "") {
+          mui.toast("关键字不能为空", {duration: 'short', type: 'div'});
+          return
+        }
+
         axios.post("/third-server/busInfo/queryBusInfoByLineOrStation.do", {
           "keyWord": this.searchKey
         }).then(res => {
           this.stationList = res.data.data.queryInfo.staList;
           this.lineList = res.data.data.queryInfo.lineList;
+
+          if (this.stationList.length == 0 && this.lineList == 0) {
+            this.tips = "未查询到相关路线和站点信息"
+          }
         })
       },
       toLine(id, dir) {
         this.$router.push("/busLine/lineDetails/" + id + "/" + dir);
       },
-      toPointLine(id){
+      toPointLine(id) {
         this.$router.push("/busLine/pointLine/" + id);
       }
+    },
+    beforeRouteLeave(to, form, next) {
+      if (to.name == 'busLine') {
+        this.init()
+      }
+      next();
+    },
+    mounted() {
+      this.queryMyCollection();
+    },
+    activated() {
+      this.queryMyCollection();
     }
-
-
   }
 </script>
 
@@ -236,7 +277,7 @@
     border-radius: 10px;
     font-size: 28px;
     padding-left: 16px;
-    padding-right: 60px;
+    padding-right: 16px;
     margin-bottom: 0;
     color: #333;
     line-height: 49px;
@@ -266,6 +307,7 @@
 
   .busSearch > div {
     border-top: 20px solid rgba(245, 245, 245, 1);;
+    border-bottom: 1px solid rgba(245, 245, 245, 1);;
     width: 100%;
     display: flex;
     padding: 20px;
@@ -623,5 +665,20 @@
 
   .fromLine {
     font-size: 26px;
+  }
+
+  .noSearch {
+    padding-top: 120px;
+    font-size: 28px;
+    color: #999;
+    text-align: center;
+  }
+
+  .busSearch > div.noCollection {
+    border: 0;
+    text-align: center;
+    display: block;
+    font-size: 28px;
+    color: #999;
   }
 </style>
