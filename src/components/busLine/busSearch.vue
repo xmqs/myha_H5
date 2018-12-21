@@ -44,8 +44,8 @@
             	<iframe id="frame" name="iframe" style="display:none;"></iframe>
 				      <form action="javascript:return true;" method="post">
 				        <div class="inpu">
-				          <input type="search" @focus="showmarsk(0)" @blur="hidemarsk" @input="marskMsg(0)" v-on:keyup.13="searchLine()" v-model="beginStationName"/>
-                  <input type="search" @focus="showmarsk(1)" @blur="hidemarsk" @input="marskMsg(1)" v-on:keyup.13="searchLine()" v-model="endStationName"/>
+				          <input type="search" @focus="showmarsk(0)" @blur="hidemarsk" @input="marskMsg(0)" v-on:keyup.13="searchLine()" v-model="beginStationName" placeholder="请输入出发地"/>
+                  <input type="search" @focus="showmarsk(1)" @blur="hidemarsk" @input="marskMsg(1)" v-on:keyup.13="searchLine()" v-model="endStationName" placeholder="请输入目的地"/>
 				        </div>
 				      </form>
 				      <!--<div class="inpu">
