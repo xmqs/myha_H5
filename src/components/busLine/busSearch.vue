@@ -7,21 +7,21 @@
       <form action="javascript:return true;" method="post">
         <div class="topSearch">
           <input type="search" v-on:keyup.13="search()" v-model="searchKey" placeholder="请输入关键字"/>
-          <div @click="deleteAll"></div>
+          <div></div>
         </div>
         <!--<input type="search" id="input" class="search" placeholder="请输入搜索内容" v-model="searchKey">-->
       </form>
-      <div class="noSearch" v-show="lineList.length==0&&stationList.length==0">
-        {{tips}}
-      </div>
       <div class="busSearch paddingTop">
+        <div class="noSearch" v-show="lineList.length==0&&stationList.length==0">
+          请输入关键字查询
+        </div>
         <!--公交一个单元-->
         <div v-for="item in lineList" @click="toLine(item.lineId,item.dir)">
           <img class="busImg" src="../../../static/img/bus/组合logo@2x.png" alt=""/>
           <div class="busMiddle">
             <div class="busName">{{item.lineName}}</div>
-            <div class="toLine"><span>{{item.beginStationName}}</span><img src="./../../../static/img/bus/toLine.png"
-                                                                           alt="" class="toLineIcon"><span>{{item.endStationName}}</span>
+            <div class="toLine"><span>{{item.beginStationName}}</span>
+            	<img src="./../../../static/img/bus/toLine.png" alt="" class="toLineIcon"><span>{{item.endStationName}}</span>
             </div>
             <div class="fromLine">
               {{item.firstLastTime}}
@@ -39,12 +39,12 @@
       <!--查询头部-->
       <div class="topSearch2">
         <div>
-          <div class="l1">
+          <div class="l1">  
             <div>
-              <input type="text" @focus="marskMsg()"/>
-              <input type="text"/>
+              <input type="text" @focus="showmarsk(0)" @blur="hidemarsk" @input="marskMsg(0)" v-on:keyup.13="searchLine()" v-model="beginStationName"/>
+              <input type="text" @focus="showmarsk(1)" @blur="hidemarsk" @input="marskMsg(1)" v-on:keyup.13="searchLine()" v-model="endStationName"/>
             </div>
-            <img class="l1_img" src="../../../static/img/bus/形状 23@2x.png" alt=""/>
+            <img class="l1_img"  @click="exchange()" src="../../../static/img/bus/形状 23@2x.png" alt=""/>
             <div class="point1"></div>
             <div class="point2"></div>
           </div>
@@ -54,67 +54,68 @@
       <!--查询主体-->
       <div class="lineMain">
         <!--一个单元-->
-        <div>
+        <div v-for="(datas,index) in lineDatas">
           <!--标题栏-->
           <div class="lineTitle">
-            <div class="lineLeft">方案一</div>
+            <div class="lineLeft">{{fangan(index)}}</div>
             <div class="lineRight">
               <div>
-                <span>116路</span>
-                <div class="icon">转</div>
-                <span>112路</span>
+                <span>{{datas.beginLineName}}</span>
+                <div class="icon" v-show="datas.isTranfser==1">转</div>
+                <span v-show="datas.isTranfser==1">{{datas.endLineName}}</span>
               </div>
               <div>
                 <div class="right_last">
                   <div class="color1">途径</div>
-                  <div class="color2">11站</div>
+                  <div class="color2">{{datas.staNum}}站</div>
                 </div>
                 <!--0换成参数index-->
-                <div v-show="isshow!=0" class="mui-icon mui-icon-arrowright" @click="showLine(0)"></div>
-                <div v-show="isshow==0" class="mui-icon mui-icon-arrowdown" @click="closeLine()"></div>
+                <div v-show="isshow!=index" class="mui-icon mui-icon-arrowright" @click="showLine(index)"></div>
+                <div v-show="isshow==index" class="mui-icon mui-icon-arrowdown" @click="closeLine()"></div>
               </div>
             </div>
           </div>
           <!--信息栏-->
-          <div class="busData" v-show="isshow==0">
+          <div class="busData" v-show="isshow==index">
             <div class="endpoint">
               <img src="../../../static/img/bus/组 8@2x.png" alt=""/>
-              <div>邓庄</div>
+              <div>{{datas.proList[0].beginStaName}}</div>
             </div>
             <div class="first">
               <img src="../../../static/img/bus/形状 24@2x.png" alt=""/>
-              <div class="t1">乘坐：115路</div>
-              <div class="score">票价：2元</div>
+              <div class="t1">乘坐：{{datas.proList[0].lineName}}</div>
+              <!--<div class="score">票价：2元</div>-->
             </div>
             <div class="second">
-              <div>上车：邓庄</div>
-              <div>途径：5站</div>
+              <div>上车：{{datas.proList[0].beginStaName}}</div>
+              <div>途径：{{datas.proList[0].staNum}}站</div>
             </div>
             <!--转车循环体，可有可无-->
-            <div>
+            <div v-for="(item,i) in datas.proList" v-show="datas.isTranfser==1 && i!==0">
               <div class="add">
                 <img src="../../../static/img/bus/形状 25@2x.png" alt=""/>
                 <div>
-                  <div>下车：</div>
+                  <div class="t1">下车：{{item.beginStaName}}</div>
                   <div style="display:flex">
-                    <div>转车：112路</div>
-                    <div class="score">票价：2元</div>
+                    <div>转车：{{item.lineName}}</div>
+                    <!--<div class="score">票价：2元</div>-->
                   </div>
                 </div>
               </div>
               <div class="second">
-                <div>上车：邓庄</div>
-                <div>途径：5站</div>
+                <div>上车：{{item.endStaName}}</div>
+                <div>途径：{{item.staNum}}站</div>
               </div>
             </div>
             <!--转车循环体结束-->
             <div class="first">
               <img src="../../../static/img/bus/形状 24@2x.png" alt=""/>
-              <div>下车：海安大桥</div>
+              <div class="t1">下车：{{datas.proList[datas.proList.length-1].endStaName}}</div>
             </div>
             <div class="endpoint">
               <img src="../../../static/img/bus/组 8 拷贝@2x.png" alt=""/>
-              <div>海安大桥</div>
+              
+              <div>{{datas.proList[datas.proList.length-1].endStaName}}</div>
             </div>
           </div>
         </div>
@@ -123,29 +124,36 @@
     </div>
     <!--我的收藏-->
     <div v-show="isOn==2" class="busSearch" :class="{paddingTop:isOn!=2}">
-      <div class="noCollection" v-show="userCollection.length==0">
-        暂无收藏
-      </div>
-      <div v-for="item in userCollection" @click="toLine(item.lineId,item.dir)">
+      <!--公交一个单元-->
+      <div>
         <img class="busImg" src="../../../static/img/bus/组合logo@2x.png" alt=""/>
         <div class="busMiddle">
-          <div class="busName">{{item.lineName}}</div>
-          <div class="toLine"><span>{{item.beginStationName}}</span><img src="./../../../static/img/bus/toLine.png"
-                                                                         alt="" class="toLineIcon"><span>{{item.endStationName}}</span>
+          <div class="busName">116路</div>
+          <div>
+            <div class="t1">汽车站</div>
+            <img src="../../../static/img/bus/23@2x.png" alt=""/>
+            <div class="t1">邓庄</div>
           </div>
-          <div class="fromLine">
-            {{item.firstLastTime}}
+        </div>
+        <div class="busFoot">
+          <div>
+            <div class="t1">首班车</div>
+            <div class="t2">06:00</div>
+          </div>
+          <div>
+            <div class="t1">末班车</div>
+            <div class="t2">6:00</div>
           </div>
         </div>
       </div>
+      <!--公交一个单元结束-->
     </div>
 
     <!--底部tab-->
     <div class="footTab">
       <div @click="sel(0)">
-        <img v-show="isOn!=0" src="../../../static/img/bus/形状 16@2x.png" alt=""/><img v-show="isOn==0"
-                                                                                      src="../../../static/img/bus/tab1.png"
-                                                                                      alt=""/>
+        <img v-show="isOn!=0" src="../../../static/img/bus/形状 16@2x.png" alt=""/>
+        <img v-show="isOn==0" src="../../../static/img/bus/tab1.png" alt=""/>
         <div :class="{active:isOn==0}">公交查询</div>
       </div>
       <div @click="sel(1)">
@@ -159,12 +167,15 @@
         <div :class="{active:isOn==2}">我的收藏</div>
       </div>
     </div>
+    <!--搜索模态框-->
+    <div class="marsk" v-show="ismarsk" :class="{top:istop}">
+          <div v-for="item in staName" @click="changeName(isinput,item.staName)">{{item.staName}}</div>
+    </div>
   </div>
 </template>
 
 <script>
   import axios from "axios"
-  import {mapGetters} from 'vuex'
 
   export default {
     data() {
@@ -174,90 +185,146 @@
         searchKey: "",
         stationList: [],
         lineList: [],
-        tips: "请输入关键字查询",
-        userCollection: []
+        beginStationName:"",
+        endStationName:"",
+        lineDatas:[],
+        isinput:"",//判断哪个输入框获焦点
+        staName:[],//遮罩层搜索结果
+        ismarsk:false,//遮罩层显示隐藏
+        istop:false,//遮罩层向下偏移
       }
-    },
-    computed: {
-      ...mapGetters([
-        "getUserId",
-        "getUserName",
-        "getCardId",
-        "getUserPhone",
-      ])
     },
     methods: {
-      init() {
-        this.searchKey = "";
-        this.stationList = [];
-        this.lineList = [];
-        this.tips = "请输入关键字查询";
-        this.userCollection = [];
-      },
-      deleteAll() {
-        this.searchKey = "";
-        this.stationList = [];
-        this.lineList = [];
-        this.tips = "请输入关键字查询";
-      },
-      sel(i) {
-        this.isOn = i;
-        if (i == 2) {
-          this.queryMyCollection();
-        }
-      },
-      queryMyCollection() {
-        axios.post('/third-server/busInfo/queryMyCollection.do', {
-          "userId": this.getUserId
-        }).then(res => {
-          this.userCollection = res.data.data.collectionList;
-        })
-      },
-      showLine(i) {
-        this.isshow = i;
-      },
-      closeLine() {
-        this.isshow = 1000;
-      },
-      marskMsg() {
-        console.log("获取焦点了")
-      },
-      search() {
-        if (this.searchKey == "") {
-          mui.toast("关键字不能为空", {duration: 'short', type: 'div'});
-          return
-        }
+	      sel(i) {
+	        this.isOn = i;
+	      },
+	      showLine(i) {
+	        this.isshow = i;
+	      },
+	      closeLine() {
+	        this.isshow = 1000;
+	      },
+	      //input输入框内容改变触发事件
+	      marskMsg(i){
+	      	 this.ismarsk=true;
+	      	 let staName="";//根据i确定是哪个输入框
+	      	 if(i==0){
+	      	 	 staName=this.beginStationName
+	      	 }else if(i==1){
+	      	 	 staName=this.endStationName
+	      	 }
+	      	 axios.post("/third-server/busInfo/queryStationInfo.do", {
+	          "staName":staName
+	        }).then(res => {
+	          //console.log(res.data.data.busStationList)
+	          this.staName=res.data.data.busStationList
+	        }) 	 
+	      },
+	      changeName(inp,name){
+	      	//将遮罩层的值填入input，inp确认填入哪个input
+	      	if(inp==0){
+	      		this.beginStationName=name;
+	      	}else if(inp==1){
+	      		this.endStationName=name;
+	      	}
+	      
+	      },
+	      showmarsk(i){
+	      	this.isinput=i;//指示哪个input获取焦点
+	      	if(i==1){
+	      		this.istop=true;
+	      	}else if(i==0){
+	      		this.istop=false;
+	      	}
+	      	this.ismarsk=true;
+	      },
+	      hidemarsk(){
+	      	this.staName=[];//每次失去焦点清空遮罩层内容，防止，change事件没触发还有内容
+	      	this.ismarsk=false;
+	      	this.$nextTick(()=>{   //vue渲染后触发
+						  if(this.beginStationName!="" && this.endStationName!=""){
+	      		       this.searchLine();
+	      	    }
+					})
+	      	
+	      },
+	      search() {
+	        axios.post("/third-server/busInfo/queryBusInfoByLineOrStation.do", {
+	          "keyWord": this.searchKey
+	        }).then(res => {
+	          this.stationList = res.data.data.queryInfo.staList;
+	          this.lineList = res.data.data.queryInfo.lineList;
+	        })
+	      },
+	      toLine(id, dir) {
+	        this.$router.push("/busLine/lineDetails/" + id + "/" + dir);
+	      },
+	      toPointLine(id){
+	        this.$router.push("/busLine/pointLine/" + id);
+	      },
+	      searchLine(){
+	      	console.log(222)
+	      	   if(this.beginStationName==""){
+	      	   	   mui.alert("请输入出发地","提示")
+	      	   	   return;
+	      	   }
+	      	   if(this.endStationName==""){
+	      	   	   mui.alert("请输入目的地","提示")
+	      	   	   return;
+	      	   }
+	      	   console.log(333)
+	      	   axios.post("/third-server/busInfo/queryStationAndStation.do", {
+										//"beginStationName":"开发大道",
+										//"endStationName":"高新区管委会",
+										//"beginStationName":"田庄",
+										//"endStationName":"立发路口",
+										"beginStationName":this.beginStationName,
+										"endStationName":this.endStationName,
+										   
+			        }).then(res => {
+			        	console.log(444)
+			          this.lineDatas=res.data.data.proList
+			          console.log(this.lineDatas)
+			        })
+	      },
+	      exchange(){
+	      	  let tmp;
+						tmp = this.beginStationName;
+						this.beginStationName = this.endStationName;
+						this.endStationName = tmp;
+						this.searchLine();
+	      }
+    },
+    computed:{
+	    fangan(i){
+	      return function(i){
+	         if(i==0){
+	         	  return "方案一"
+	         }else if(i==1){
+	         	  return "方案二"
+	         }else if(i==2){
+	         	  return "方案三"
+	         }else if(i==3){
+	         	  return "方案四"
+	         }else if(i==4){
+	         	  return "方案五"
+	         }else if(i==5){
+	         	  return "方案六"
+	         }else if(i==6){
+	         	  return "方案七"
+	         }else if(i==7){
+	         	  return "方案八"
+	         }else if(i==8){
+	         	  return "方案九"
+	         }else if(i==9){
+	         	  return "方案十"
+	         }
+	      }
+	    },
+	    
+	  },
 
-        axios.post("/third-server/busInfo/queryBusInfoByLineOrStation.do", {
-          "keyWord": this.searchKey
-        }).then(res => {
-          this.stationList = res.data.data.queryInfo.staList;
-          this.lineList = res.data.data.queryInfo.lineList;
 
-          if (this.stationList.length == 0 && this.lineList == 0) {
-            this.tips = "未查询到相关路线和站点信息"
-          }
-        })
-      },
-      toLine(id, dir) {
-        this.$router.push("/busLine/lineDetails/" + id + "/" + dir);
-      },
-      toPointLine(id) {
-        this.$router.push("/busLine/pointLine/" + id);
-      }
-    },
-    beforeRouteLeave(to, form, next) {
-      if (to.name == 'busLine') {
-        this.init()
-      }
-      next();
-    },
-    mounted() {
-      this.queryMyCollection();
-    },
-    activated() {
-      this.queryMyCollection();
-    }
   }
 </script>
 
@@ -277,7 +344,7 @@
     border-radius: 10px;
     font-size: 28px;
     padding-left: 16px;
-    padding-right: 16px;
+    padding-right: 60px;
     margin-bottom: 0;
     color: #333;
     line-height: 49px;
@@ -307,7 +374,6 @@
 
   .busSearch > div {
     border-top: 20px solid rgba(245, 245, 245, 1);;
-    border-bottom: 1px solid rgba(245, 245, 245, 1);;
     width: 100%;
     display: flex;
     padding: 20px;
@@ -372,7 +438,7 @@
 
   .t1 {
     font-size: 26px;
-    color: rgba(153, 153, 153, 1);
+    color: #666;
     line-height: 26px;
     white-space: nowrap;
   }
@@ -411,7 +477,7 @@
     margin: 0 auto;
     background: #fff;
     border-radius: 8px;
-    padding: 20px 0;
+    padding: 20px 0 20px 45px;
   }
 
   .topSearch2 .l1 {
@@ -420,15 +486,16 @@
     margin: auto;
     border-left: 1px dashed #eee;
     position: relative;
-    padding-left: 45px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    padding-left: 41px;
+    float:left;
   }
-
+   .l1>div:first-child{
+   	  width:519px;
+   	  float:left;
+   }
   .l1 input {
     height: 42px;
-    width: 522px;
+    width: 519px;
     margin-bottom: 0;
     border: none;
     padding-left: 10px;
@@ -438,11 +505,13 @@
   }
 
   .l1 input:first-child {
-    border-bottom: 1px dashed #eee;
+    border-bottom: 1px dashed #999;
   }
 
   .l1_img {
-    width: 45px;
+    width: 44px;
+    margin-top:20px;
+    float:right;
   }
 
   .point1 {
@@ -583,9 +652,9 @@
   }
 
   .second div {
-    height: 68px;
+    height: 50px;
     border-left: 1px dashed #999;
-    padding-left: 72px;
+    padding-left:72px;
     color: #666;
     font-size: 25px;
   }
@@ -604,7 +673,7 @@
   }
 
   .add > div {
-    height: 90px;
+    height: 75px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -666,19 +735,22 @@
   .fromLine {
     font-size: 26px;
   }
-
-  .noSearch {
-    padding-top: 120px;
-    font-size: 28px;
-    color: #999;
-    text-align: center;
+  .marsk{
+  	position:fixed;
+  	background: #eee;
+  	top:80px;
+  	left:110px;
+  	width: 519px;
   }
-
-  .busSearch > div.noCollection {
-    border: 0;
-    text-align: center;
-    display: block;
-    font-size: 28px;
-    color: #999;
+  .marsk div{
+  	width:100%;
+  	height:60px;
+  	padding-left:20px;
+  	font-size: 28px;
+  	line-height: 60px;
+  	border-bottom: 1px solid #999;
+  }
+  .top{
+  	top:128px;
   }
 </style>
