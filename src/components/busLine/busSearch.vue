@@ -6,15 +6,15 @@
       <iframe id="frame" name="iframe" style="display:none;"></iframe>
       <form action="javascript:return true;" method="post">
         <div class="topSearch">
-          <input type="search" v-on:keyup.13="search()" v-model="searchKey" placeholder="请输入关键字"/>
+          <input type="search" v-on:keyup.13="search()" autofocus="autofocus" v-model="searchKey" placeholder="请输入关键字"/>
           <div></div>
         </div>
         <!--<input type="search" id="input" class="search" placeholder="请输入搜索内容" v-model="searchKey">-->
       </form>
       <div class="busSearch paddingTop">
-        <div class="noSearch" v-show="lineList.length==0&&stationList.length==0">
+        <!--<div class="noSearch" v-show="lineList.length==0&&stationList.length==0">
           请输入关键字查询
-        </div>
+        </div>-->
         <!--公交一个单元-->
         <div v-for="item in lineList" @click="toLine(item.lineId,item.dir)">
           <img class="busImg" src="../../../static/img/bus/组合logo@2x.png" alt=""/>
@@ -40,10 +40,20 @@
       <div class="topSearch2">
         <div>
           <div class="l1">  
-            <div>
-              <input type="text" @focus="showmarsk(0)" @blur="hidemarsk" @input="marskMsg(0)" v-on:keyup.13="searchLine()" v-model="beginStationName"/>
-              <input type="text" @focus="showmarsk(1)" @blur="hidemarsk" @input="marskMsg(1)" v-on:keyup.13="searchLine()" v-model="endStationName"/>
-            </div>
+            
+            	<iframe id="frame" name="iframe" style="display:none;"></iframe>
+				      <form action="javascript:return true;" method="post">
+				        <div class="inpu">
+				          <input type="search" @focus="showmarsk(0)" @blur="hidemarsk" @input="marskMsg(0)" v-on:keyup.13="searchLine()" v-model="beginStationName"/>
+                  <input type="search" @focus="showmarsk(1)" @blur="hidemarsk" @input="marskMsg(1)" v-on:keyup.13="searchLine()" v-model="endStationName"/>
+				        </div>
+				      </form>
+				      <!--<div class="inpu">
+				      	<input type="text" @focus="showmarsk(0)" @blur="hidemarsk" @input="marskMsg(0)" v-on:keyup.13="searchLine()" v-model="beginStationName"/>
+                <input type="text" @focus="showmarsk(1)" @blur="hidemarsk" @input="marskMsg(1)" v-on:keyup.13="searchLine()" v-model="endStationName"/>
+				      </div>-->
+              
+            
             <img class="l1_img"  @click="exchange()" src="../../../static/img/bus/形状 23@2x.png" alt=""/>
             <div class="point1"></div>
             <div class="point2"></div>
@@ -150,7 +160,7 @@
       <div @click="sel(1)">
         <img v-show="isOn!=1" src="../../../static/img/bus/形状 19 拷贝@2x.png" alt=""/>
         <img v-show="isOn==1" src="../../../static/img/bus/tab2.png" alt=""/>
-        <div :class="{active:isOn==1}">站站查询</div>
+        <div :class="{active:isOn==1}">站点查询</div>
       </div>
       <div @click="sel(2)">
         <img v-show="isOn!=2" src="../../../static/img/bus/组 7@2x.png" alt=""/>
@@ -254,7 +264,7 @@
 	        this.$router.push("/busLine/pointLine/" + id);
 	      },
 	      searchLine(){
-	      	console.log(222)
+	      	   this.ismarsk=false//点搜索时弹出框消失
 	      	   if(this.beginStationName==""){
 	      	   	   mui.alert("请输入出发地","提示")
 	      	   	   return;
@@ -279,6 +289,7 @@
 			        })
 	      },
 	      exchange(){
+	      	  this.isshow = 1000;
 	      	  let tmp;
 						tmp = this.beginStationName;
 						this.beginStationName = this.endStationName;
@@ -323,7 +334,8 @@
   .topSearch {
     width: 100%;
     height: 106px;
-    background: #0084EC;
+    border:0;
+    background: #1A82E3;
     line-height: 106px;
     text-align: center;
     position: fixed;
@@ -364,7 +376,7 @@
   }
 
   .busSearch > div {
-    border-top: 20px solid rgba(245, 245, 245, 1);;
+    border-top: 20px solid rgba(245, 245, 245, 1);
     width: 100%;
     display: flex;
     padding: 20px;
@@ -460,7 +472,8 @@
   .topSearch2 {
     width: 100%;
     height: 202px;
-    background: #3184f0;
+    border:0;
+    background: #1A82E3;
     position: fixed;
     padding-top: 18px;
   }
@@ -483,7 +496,7 @@
     padding-left: 41px;
     float:left;
   }
-   .l1>div:first-child{
+   .l1 .inpu{
    	  width:519px;
    	  float:left;
    }
@@ -491,11 +504,13 @@
     height: 42px;
     width: 519px;
     margin-bottom: 0;
-    border: none;
-    padding-left: 10px;
+    content: normal !important;
+    padding: 0;
     font-size: 28px;
     color: rgba(51, 51, 51, 1);
-    line-height: 49px;
+    border-radius: 0;
+    border: 0;
+    background: #fff !important;
   }
 
   .l1 input:first-child {
@@ -530,7 +545,7 @@
   }
 
   .lineMain {
-    padding-top: 200px;
+    padding: 200px 0 101px 0;
   }
 
   .lineTitle {
@@ -654,7 +669,7 @@
     border-left: 1px dashed #999;
     padding-left:72px;
     color: #666;
-    font-size: 25px;
+    font-size: 26px;
   }
 
   .add {
@@ -680,7 +695,7 @@
 
   .add > div div {
     color: #666;
-    font-size: 25px;
+    font-size: 26px;
   }
 
   /*tab页*/
@@ -741,6 +756,9 @@
   	top:80px;
   	left:110px;
   	width: 519px;
+  	max-height:500px;
+  	overflow: auto;
+  	-webkit-overflow-scrolling:touch;
   }
   .marsk div{
   	width:100%;
