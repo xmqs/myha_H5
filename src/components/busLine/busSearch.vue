@@ -150,7 +150,7 @@
       <div @click="sel(1)">
         <img v-show="isOn!=1" src="../../../static/img/bus/形状 19 拷贝@2x.png" alt=""/>
         <img v-show="isOn==1" src="../../../static/img/bus/tab2.png" alt=""/>
-        <div :class="{active:isOn==1}">站台查询</div>
+        <div :class="{active:isOn==1}">站站查询</div>
       </div>
       <div @click="sel(2)">
         <img v-show="isOn!=2" src="../../../static/img/bus/组 7@2x.png" alt=""/>
@@ -686,7 +686,7 @@
   /*tab页*/
   .footTab {
     width: 100%;
-    height: 100px;
+    height: 101px;
     position: fixed;
     bottom: 0;
     display: flex;
@@ -696,7 +696,7 @@
   }
 
   .footTab > div {
-    padding: 18px 0 9px 0;
+    padding-top: 18px;
     width: 33.333%;
     text-align: center;
   }
@@ -704,10 +704,12 @@
   .footTab > div div {
     font-size: 24px;
     color: #666;
+    padding-top:8px;
+    line-height:24px;
   }
 
   .footTab img {
-    height: 44px;
+    height: 43px;
     content: normal !important;
     display: block;
     margin: 0 auto;
