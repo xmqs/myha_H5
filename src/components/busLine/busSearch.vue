@@ -125,27 +125,18 @@
     <!--我的收藏-->
     <div v-show="isOn==2" class="busSearch" :class="{paddingTop:isOn!=2}">
       <!--公交一个单元-->
-      <div>
-        <img class="busImg" src="../../../static/img/bus/组合logo@2x.png" alt=""/>
-        <div class="busMiddle">
-          <div class="busName">116路</div>
-          <div>
-            <div class="t1">汽车站</div>
-            <img src="../../../static/img/bus/23@2x.png" alt=""/>
-            <div class="t1">邓庄</div>
+      <div  @click="toLine(item.lineId,item.dir)">
+          <img class="busImg" src="../../../static/img/bus/组合logo@2x.png" alt=""/>
+          <div class="busMiddle">
+            <div class="busName">116路(汽车站-邓庄)</div>
+            <div class="toLine"><span>邓庄</span>
+            	<img src="./../../../static/img/bus/toLine.png" alt="" class="toLineIcon"><span>汽车站</span>
+            </div>
+            <div class="fromLine">
+                              冬季 海安6:30-17:30  邓庄6:10-17:10 夏季 海安6:20-18:00  邓庄6:00-17:50
+            </div>
           </div>
         </div>
-        <div class="busFoot">
-          <div>
-            <div class="t1">首班车</div>
-            <div class="t2">06:00</div>
-          </div>
-          <div>
-            <div class="t1">末班车</div>
-            <div class="t2">6:00</div>
-          </div>
-        </div>
-      </div>
       <!--公交一个单元结束-->
     </div>
 
@@ -408,6 +399,7 @@
 
   .busMiddle img {
     height: 9px;
+    content: normal !important;
   }
 
   .busFoot {
@@ -457,6 +449,8 @@
     border-radius: 50%;
     font-size: 34px;
     text-align: center;
+    border: 1px solid transparent;
+    box-sizing:border-box;
     color: #fff;
     line-height: 52px;
     margin: 0 20px;
@@ -510,6 +504,7 @@
 
   .l1_img {
     width: 44px;
+    content: normal !important;
     margin-top:20px;
     float:right;
   }
@@ -540,7 +535,7 @@
 
   .lineTitle {
     width: 100%;
-    height: 140px;
+    height: 160px;
     border-top: 20px solid #f5f5f5;
     display: flex;
   }
@@ -555,7 +550,7 @@
     flex-wrap: wrap;
     font-size: 32px;
     color: rgba(255, 255, 255, 1);
-    line-height: 40px;
+    line-height: 45px;
   }
 
   .lineRight {
@@ -567,12 +562,13 @@
     padding: 0 21px 0 61px;
   }
 
-  .lineRight > div:first-child {
-    font-size: 34px;
-    color: rgba(102, 102, 102, 1);
-    line-height: 70px;
+  .lineRight > div:first-child{
     display: flex;
     align-items: center;
+  }
+  .lineRight > div:first-child span{
+    font-size: 34px;
+    color: rgba(102, 102, 102, 1);
   }
 
   .lineRight > div:last-child {
@@ -620,6 +616,7 @@
   .endpoint img {
     width: 54px;
     height: 54px;
+    content: normal !important;
     margin-right: 44px;
   }
 
@@ -637,6 +634,7 @@
 
   .first img {
     width: 34px;
+    content: normal !important;
     margin: 0 54px 0 10px;
   }
 
@@ -668,6 +666,7 @@
   .add > img {
     width: 25px;
     height: 25px;
+    content: normal !important;
     margin-left: 120px;
     margin-right: 59px;
   }
@@ -709,6 +708,7 @@
 
   .footTab img {
     height: 44px;
+    content: normal !important;
     display: block;
     margin: 0 auto;
   }
@@ -721,8 +721,6 @@
     display: flex;
     align-items: center;
     font-size: 26px;
-    font-family: PingFangSC-Regular;
-    font-weight: 400;
     color: rgba(153, 153, 153, 1);
     margin-bottom: 20px;
   }
