@@ -7,7 +7,8 @@
       <!--路线一个单元-->
       <div v-for="(item,index) in line">
         <div class="point">
-          <img src="../../../static/img/bus/point2.png" alt=""/>
+          <img src="../../../static/img/bus/point.png" alt=""  v-show="near !== item.staNo"/>
+          <img src="../../../static/img/bus/point2.png" alt=""  v-show="near == item.staNo"/>
           <div>{{item.staName}}</div>
           <div class="p3" v-show="near == item.staNo">(上车站点)</div>
         </div>
@@ -108,13 +109,66 @@
           this.map.setCenter(vue.userPosition);
         }
       },
+      painBus(){
+        let vue = this;
+        this.nowPoint.forEach((marker)=> {
+          let Mark = new AMap.Marker({
+            map: this.map,
+            icon:new AMap.Icon({
+              image: "./static/img/bus/bus.png",
+              size: new AMap.Size(20, 20),  //图标大小
+              imageSize: new AMap.Size(20,20)
+            }),
+            position: [marker.busLng,marker.busLog],
+            offset: new AMap.Pixel(-10, -10)
+          })
+          Mark.on('click',()=>{
+            let infoWindow = new AMap.InfoWindow({
+              isCustom: true,  //使用自定义窗体
+              content: createInfoWindow(marker.busLicName),
+              offset: new AMap.Pixel(0, -32)
+            });
+            function closeInfoWindow() {
+              vue.map.clearInfoWindow();
+            }
+            function createInfoWindow(title, content) {
+              let info = document.createElement("div");
+              info.className = "custom-info input-card content-window-card";
+              //可以通过下面的方式修改自定义窗体的宽高
+              //info.style.width = "150px";
+              // 定义顶部标题
+              let top = document.createElement("div");
+              let titleD = document.createElement("div");
+              let closeX = document.createElement("img");
+              top.className = "info-top";
+              titleD.innerHTML = title + "&nbsp;&nbsp;&nbsp;";
+              top.style.backgroundColor = 'white';
+              top.style.display = "flex";
+              top.style.padding = "5px 10px";
+              top.style.alignItems = "center";
+              top.style.justifyContent = "space-between";
+              closeX.src = "./static/img/bicycle/close.png";
+              closeX.style.width = "15px"
+              closeX.onclick = closeInfoWindow;
+              top.appendChild(titleD);
+              top.appendChild(closeX);
+              info.appendChild(top);
+              // 定义中部内容
+
+              return info;
+            }
+
+            infoWindow.open(vue.map, Mark.getPosition());
+          })
+        });
+      },
       painIcon(){
         let vue = this;
         this.line.forEach((marker)=> {
           let Mark = new AMap.Marker({
             map: this.map,
             icon: "./static/img/bus/stationPoint.png",
-            position: [marker.staLat,marker.staLng],
+            position: [marker.staLng,marker.staLat],
             offset: new AMap.Pixel(-8, -8),
           })
           Mark.on('click',()=>{
@@ -157,10 +211,9 @@
           })
         });
 
-
         let line = [];
         for (let i = 0;i<this.line.length;i++){
-          line.push([this.line[i].staLat,this.line[i].staLng]);
+          line.push([this.line[i].staLng,this.line[i].staLat]);
         }
         let polyline = new AMap.Polyline({
           path: line,          //设置线覆盖物路径
@@ -224,6 +277,7 @@
         "dir":this.$route.params.dir
       }).then(res=>{
         this.nowPoint = res.data.data;
+        this.painBus();
       })
 
 

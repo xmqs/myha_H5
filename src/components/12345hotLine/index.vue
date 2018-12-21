@@ -4,12 +4,11 @@
       <img src="./../../../static/img/hotline/hotLint1bg.png" alt="" width="100%">
       <div class="consult">
         <div class="btncontent">
-          <div class="btncell" @click="toNew"><img
-            src="./../../../static/img/hotline/index1.png"><br> 提交诉求
+          <div class="btncell" @click="toNew">
+            提交诉求
           </div>
-          <div class="btncell" @click="toList"><img
-            src="./../../../static/img/hotline/index2.png"><br> 我的诉求
-            <div class="myappealnum" style="display: block;">{{number}}</div>
+          <div class="btncell" @click="toList">
+            我的诉求
           </div>
         </div>
       </div>
@@ -19,23 +18,11 @@
       <div class="title">{{item.sourceLabel}}</div>
       <div class="date">{{ item.updateTime | formatDate }}</div>
     </li>
-
     <div class="tabtitle news2"> 热点解答 <span class="more" @click="toNewsList('12345_redianjieda')">更多</span></div>
     <li class="newslist" v-for="item in list2" @click="toDetail(item.url)">
       <div class="title">{{item.sourceLabel}}</div>
       <div class="date">{{ item.updateTime | formatDate }}</div>
     </li>
-    <div class="tabtitle news3"> 便民服务 </div>
-    <div class="tab">
-      <div class="tab_line1">
-        <div class="tab_item" @click="toPhoneNumber">
-          <img src="./../../../static/img/hotline/icon5.png" alt="">常用电话
-        </div>
-        <!--<div class="tab_item" @click="toNewsList('12345_bianminfuwu')">
-          <img src="./../../../static/img/hotline/icon4.png" alt="">便民导航
-        </div>-->
-      </div>
-    </div>
   </div>
 </template>
 
@@ -127,18 +114,22 @@
     background: #fff;
     margin-left: 30px;
     margin-top: -100px;
-    padding: 40px 0;
+    padding: 40px 20px;
     border-radius: 5px;
     overflow: hidden;
+    display: flex;
+    justify-content: space-around;
+
   }
 
   .btncell {
-    width: 50%;
-    float: left;
     font-size: 32px;
     text-align: center;
-    position: relative;
-
+    width: 300px;
+    height: 154px;
+    border: 1px solid #999;
+    border-radius: 6px;
+    line-height: 154px;
   }
 
   .btncell img {

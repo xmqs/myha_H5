@@ -1,9 +1,16 @@
 <template>
   <div class="main">
     <ul class="list_ui">
-      <li class="list_li right_icon" @click="chose()">
-        <div class="word"> 诉求类别</div>
-        <div class="add_inp2">{{data.appealType}}</div>
+      <li class="list_li6">
+        <div v-for="(item,index) in data.appealPic" class="imgList">
+          <div class="remove" @click="removeImg(index)">+</div>
+          <img :src="item" class="avatar">
+        </div>
+        <img src="./../../../static/img/hotline/upImg.png" class="upImg" @click="myImg(1)">
+      </li>
+      <li class="list_li">
+        <div class="word"> 诉讼标题</div>
+        <input type="text" name="" value="" placeholder="请输入诉讼标题" class="add_inp" v-model="data.title">
       </li>
       <li class="list_li right_icon" @click="choseTime()">
         <div class="word"> 事发时间</div>
@@ -31,13 +38,6 @@
 
           </textarea>
       </li>
-      <li class="list_li6">
-        <img src="./../../../static/img/hotline/upImg.png" class="upImg" @click="myImg(1)">
-        <div v-for="(item,index) in data.appealPic" class="imgList">
-          <div class="remove" @click="removeImg(index)">+</div>
-          <img :src="item" class="avatar">
-        </div>
-      </li>
       <li class="list_li5">
         <div class="word"> 是否回访</div>
         <div class="mui-switch mui-switch-mini" :class="{'mui-active':data.visit}" @click="data.visit=!data.visit">
@@ -45,16 +45,8 @@
         </div>
       </li>
       <li class="list_li">
-        <div class="word"> 姓名</div>
-        <div class="add_inp2">{{data.userName}}</div>
-      </li>
-      <li class="list_li">
-        <div class="word"> 联系方式</div>
-        <div class="add_inp2">{{data.phone}}</div>
-      </li>
-      <li class="list_li" style="border-bottom: 0">
-        <div class="word"> 备用联系方式</div>
-        <input type="number" name="" value="" placeholder="请填写备用联系方式"  class="add_inp" v-model="data.alternateContact">
+        <div class="word"> 回访电话</div>
+        <div class="add_inp2" style="color: #838383">{{data.phone}} {{data.userName,data.userName | formatDate(data.userName,data.userName)}}</div>
       </li>
     </ul>
     <div class="submit" @click="add">
@@ -72,6 +64,7 @@
     data() {
       return {
         data: {
+          title:"",
           appealType:"请选择诉求类别",
           appealTime:"请选择事发时间",
           appealArea:"请选择事发区域",
@@ -89,12 +82,28 @@
         addList:[]
       }
     },
+    filters:{
+      formatDate(name,cardId) {
+        console.log(cardId);
+       /* if (parseInt(cardId.substr(16, 1)) % 2 == 1) {
+          //男
+          return "男";
+        } else {
+          //女
+          return "女";
+        }*/
+      }
+    },
     mounted(){
       this.data.phone = this.getUserPhone;
       this.data.userName = this.getUserName;
       this.data.userId = this.getUserId;
 
-      axios.get('/myha-server/common/getAreaList.do').then(res=>{
+      /*axios.get('/myha-server/common/getAreaList.do').then(res=>{
+        this.addList = res.data.data;
+      })*/
+
+      axios.post('/third-server/busiform/getAreaInfo.do').then(res=>{
         this.addList = res.data.data;
       })
     },
@@ -134,11 +143,11 @@
       choseAdd(){
         let vue = this;
         var picker = new mui.PopPicker({
-          layer: 2
+          layer: 1
         });
         picker.setData(this.addList);
         picker.show(function(SelectedItem) {
-          vue.data.appealArea = SelectedItem[0].text +"  "+ (SelectedItem[1].text?SelectedItem[1].text:'');
+          vue.data.appealArea = SelectedItem[0].text;
         })
       },
 
@@ -269,7 +278,7 @@
   }
   .list_li6 {
     border-bottom: 1px solid #c8c7cc;
-    padding: 16px 0;
+    padding: 32px 0;
   }
 
   .right_icon {
@@ -280,7 +289,7 @@
 
   .word {
     color: #666;
-    font-size: 32px;
+    font-size: 28px;
     padding-left: 16px;
     width: 300px;
     line-height: 88px;
@@ -295,7 +304,7 @@
     border: 0;
     outline: 0;
     background-color: #fff;
-    font-size: 32px;
+    font-size: 28px;
     box-sizing: border-box;
     width: 100%;
   }
@@ -308,7 +317,7 @@
     border: 0;
     outline: 0;
     background-color: #fff;
-    font-size: 32px;
+    font-size: 28px;
     box-sizing: border-box;
     width: 100%;
   }
@@ -316,18 +325,19 @@
   #RqstContent {
     border: 0;
     margin: 16px;
-    font-size: 32px;
+    font-size: 28px;
   }
 
   .upImg {
-    width: 160px;
-    height: 160px;
+    width: 172px;
+    height: 172px;
     display: inline-block;
+    border-radius: 12px;
   }
   .submit{
     width: 686px;
     height: 88px;
-    margin:16px 0 0 32px;
+    margin:16px 0 16px 32px;
     line-height: 88px;
     text-align: center;
     background: rgb(66, 120, 190);
@@ -338,20 +348,21 @@
 
   .imgList{
     display: inline-block;
-    width: 160px;
-    height: 160px;
-    margin-left: 10px;
+    width: 172px;
+    height: 172px;
+    border-radius: 12px;
+    margin-right: 10px;
     position: relative;
     overflow: hidden;
   }
 
-  .imgList:nth-child(5){
-    margin-left: 0;
+  .imgList:nth-child(3n){
+    margin-right: 0;
   }
 
   .imgList img{
-    width: 160px;
-    height: 160px;
+    width: 172px;
+    height: 172px;
   }
 
 

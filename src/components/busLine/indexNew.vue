@@ -97,7 +97,7 @@
             });
             let marker = new AMap.Marker({
               map: vue.map,
-              position: [vue.nearStation[i].staLat,vue.nearStation[i].staLng],
+              position: [vue.nearStation[i].staLng,vue.nearStation[i].staLat],
               icon: startIcon,
             });
 
