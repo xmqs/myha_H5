@@ -64,7 +64,7 @@
       <!--查询主体-->
       <div class="lineMain">
         <!--一个单元-->
-        <div v-for="(datas,index) in lineDatas">
+        <div v-for="(datas,index) in lineDatas" v-show="index<10">
           <!--标题栏-->
           <div class="lineTitle">
             <div class="lineLeft">{{fangan(index)}}</div>
