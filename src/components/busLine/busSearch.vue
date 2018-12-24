@@ -39,9 +39,8 @@
       <!--查询头部-->
       <div class="topSearch2">
         <div>
-          <div class="l1">  
-            
-            	<iframe id="frame" name="iframe" style="display:none;"></iframe>
+          <div class="l1">
+            	<iframe id="frame1" name="iframe" style="display:none;"></iframe>
 				      <form action="javascript:return true;" method="post">
 				        <div class="inpu">
 				          <input type="search" @focus="showmarsk(0)" @blur="hidemarsk" @input="marskMsg(0)" v-on:keyup.13="searchLine()" v-model="beginStationName" placeholder="请输入出发地"/>
@@ -52,8 +51,6 @@
 				      	<input type="text" @focus="showmarsk(0)" @blur="hidemarsk" @input="marskMsg(0)" v-on:keyup.13="searchLine()" v-model="beginStationName"/>
                 <input type="text" @focus="showmarsk(1)" @blur="hidemarsk" @input="marskMsg(1)" v-on:keyup.13="searchLine()" v-model="endStationName"/>
 				      </div>-->
-              
-            
             <img class="l1_img"  @click="exchange()" src="../../../static/img/bus/形状 23@2x.png" alt=""/>
             <div class="point1"></div>
             <div class="point2"></div>
@@ -124,7 +121,7 @@
             </div>
             <div class="endpoint">
               <img src="../../../static/img/bus/组 8 拷贝@2x.png" alt=""/>
-              
+
               <div>{{datas.proList[datas.proList.length-1].endStaName}}</div>
             </div>
           </div>
@@ -219,7 +216,7 @@
 	        }).then(res => {
 	          //console.log(res.data.data.busStationList)
 	          this.staName=res.data.data.busStationList
-	        }) 	 
+	        })
 	      },
 	      changeName(inp,name){
 	      	//将遮罩层的值填入input，inp确认填入哪个input
@@ -228,7 +225,7 @@
 	      	}else if(inp==1){
 	      		this.endStationName=name;
 	      	}
-	      
+
 	      },
 	      showmarsk(i){
 	      	this.isinput=i;//指示哪个input获取焦点
@@ -247,7 +244,7 @@
 	      		       this.searchLine();
 	      	    }
 					})
-	      	
+
 	      },
 	      search() {
 	        axios.post("/third-server/busInfo/queryBusInfoByLineOrStation.do", {
@@ -281,7 +278,7 @@
 										//"endStationName":"立发路口",
 										"beginStationName":this.beginStationName,
 										"endStationName":this.endStationName,
-										   
+
 			        }).then(res => {
 			        	console.log(444)
 			          this.lineDatas=res.data.data.proList
@@ -323,7 +320,7 @@
 	         }
 	      }
 	    },
-	    
+
 	  },
 
 

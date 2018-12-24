@@ -31,7 +31,7 @@ li{
   width: 100%;
   top:270px;
 }
-#content>div{  
+#content>div{
     margin:0 auto;
     width:710px;
     height:444px;
@@ -47,7 +47,7 @@ li{
     height:340px;
     text-decoration: none;
     float: left;
-    background: url(../../../static/img/driveTest//t1.png) no-repeat;
+    background: url(../../../static/img/driveTest/t1.png) no-repeat;
     background-size: 306px;
     margin-right:38px;
     border-radius: 10px;
@@ -63,7 +63,7 @@ li{
     text-decoration: none;
     float: left;
     margin-bottom:36px;
-    background: url(../../../static/img/driveTest//t2.png) no-repeat;
+    background: url(../../../static/img/driveTest/t2.png) no-repeat;
     background-size: 300px;
     color:#fff;
     font-size:36px;
@@ -76,11 +76,11 @@ li{
     height:156px;
     text-decoration: none;
     float: left;
-    background: url(../../../static/img/driveTest//t3.png) no-repeat;
+    background: url(../../../static/img/driveTest/t3.png) no-repeat;
     background-size: 300px;
     color:#fff;
     font-size:36px;
     box-sizing: border-box;
     padding:44px 0 0 24px;
-}	
+}
 </style>

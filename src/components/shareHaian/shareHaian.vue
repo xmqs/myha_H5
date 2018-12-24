@@ -7,7 +7,7 @@
           <div class="radius_in_lb"></div>
           <div class="radius_in_rb"></div>
           <div class="logo">
-            <img src="../../../static/img/shareHaian/logo.png" alt=""/>
+            <img src="./../../../static/img/shareHaian/logo.png" alt=""/>
           </div>
           <div class="title">
             <div>我的海安</div>
@@ -15,7 +15,7 @@
           </div>
         </div>
         <div class="share_body">
-          <div class="ma"><img src="../../../static/img/shareHaian/ma.jpg" alt=""/></div>
+          <div class="ma"><img src="./../../../static/img/shareHaian/ma.jpg" alt=""/></div>
           <div>扫一扫二维码即可下载“我的海安”</div>
         </div>
       </div>
