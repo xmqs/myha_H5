@@ -2,6 +2,7 @@
   <div>
     <div class="header">
       <span @click="state=0" :class="{'active':state==0}">诉求详情</span>
+      <img src="../../../static/img/hotline/矩形31@2x.png" alt="" />
       <span @click="state=1" :class="{'active':state==1}">处理流程</span>
     </div>
     <div class="main_1" v-show="state==0">
@@ -10,10 +11,10 @@
       </div>
       <div class="ele">
         <div class="tit">
-          <div class="cntit">诉求类别</div>
+          <div class="cntit">标题</div>
         </div>
         <div class="elecontent">
-          <div class="inps2">{{data.appealType}}</div>
+          <div class="inps2">{{data.busiForm.title}}</div>
         </div>
       </div>
       <div class="ele eleright" @click="chose(0)">
@@ -21,7 +22,7 @@
           <div class="cntit">事发时间</div>
         </div>
         <div class="elecontent">
-          <div class="inps2">{{data.createTime}}</div>
+          <div class="inps2">{{data.busiForm.eventDate}}</div>
         </div>
       </div>
       <div class="ele">
@@ -29,7 +30,7 @@
           <div class="cntit">事发区域</div>
         </div>
         <div class="elecontent">
-          <div class="inps2">{{data.appealArea}}</div>
+          <div class="inps2">{{data.busiForm.areaName}}</div>
         </div>
       </div>
       <div class="ele5">
@@ -41,7 +42,7 @@
         </div>
       </div>
       <div class="ele4">
-        {{data.appealPosition}}
+        {{data.busiForm.busiAddress}}
       </div>
       <div class="ele5">
         <div class="tit">
@@ -52,7 +53,7 @@
         </div>
       </div>
       <div class="ele4">
-        {{data.appealIdea}}
+        {{data.busiForm.caseGoal}}
       </div>
       <div class="ele5">
         <div class="tit">
@@ -63,17 +64,18 @@
         </div>
       </div>
       <div class="ele4">
-        {{data.appealContent==""?"暂无":data.appealContent}}
+        {{data.busiForm.contentText==""?"暂无":data.busiForm.contentText}}
       </div>
       <div class="ele6">
-        <img :src=item alt="" class="img" v-for="item in data.appealPic">
+      	
+        <img  v-for="val in data.busiForm.filePaths" :src="val" alt="" class="img">
       </div>
       <div class="ele">
         <div class="tit">
           <div class="cntit">姓名</div>
         </div>
         <div class="elecontent">
-          <div class="inps2">{{data.userName}}</div>
+          <div class="inps2">{{data.busiForm.cusName}}</div>
         </div>
       </div>
       <div class="ele">
@@ -81,103 +83,155 @@
           <div class="cntit">联系方式</div>
         </div>
         <div class="elecontent">
-          <div class="inps2">{{data.phone}}</div>
+          <div class="inps2">{{data.busiForm.cusPhone}}</div>
         </div>
       </div>
-      <div class="ele">
+      <!--<div class="ele">
         <div class="tit">
           <div class="cntit">备用联系方式</div>
         </div>
         <div class="elecontent">
-          <div class="inps2">{{data.alternateContact}}</div>
+          <div class="inps2"></div>
         </div>
-      </div>
+      </div>-->
     </div>
     <div class="main_2" v-show="state==1">
-        <div class="detail" >
-          <ul>
-            <li v-if="data.timeLine.length>0" v-for="item in data.timeLine">
-              <div class="time">
-                <p class="day">{{item.mediationTime.slice(5,10)}}</p>
-                <p class="hour">{{item.mediationTime.slice(11,16)}}</p>
-              </div>
-              <div class="d1">
-                <p class="t2">{{item.mediationRemark}}</p>
-              </div>
-            </li>
-          </ul>
-        </div>
+    	  <div>
+    	  	 <div class="topText">
+    	  	 	 <span>{{data.busiForm.title}}</span>
+    	  	 	 <img src="./../../../static/img/hotline/组4@2x.png" alt="" />
+    	  	 </div>
+    	  	 <div class="middleText">
+    	  	 	{{data.busiForm.contentText}}
+    	  	 </div>
+    	  	 <div class="footText">{{data.busiForm.eventDate}}</div>
+    	  </div>
+    	  <div class="detail">
+    	  	<div  class="nodata" v-show="data.hisAdvList==undefined">
+	          <img src="./../../../static/img/hotline/nodata.png" alt="">
+	          <p>暂无数据</p>
+	        </div>
+    	  	 <ul v-show="data.hisAdvList!=undefined">
+	          <li  v-for="item,index in data.hisAdvList" :style="icoImg(index)">
+	          		  	 <div>[{{item.adviceDeptName}}] &nbsp;&nbsp;&nbsp;{{item.adviceDoAction}}</div>
+							       <div>{{item.adviceAdvContent}}</div>
+							       <div>{{item.adviceUpdateTime}}</div>
+	          </li>
+	          
+	        </ul>
+    	  </div>
       </div>
     </div>
 </template>
 
 <script>
   import axios from "axios"
-
   export default {
     name: "detail",
     data() {
       return {
-        data: {},
+        data: {
+        	"busiForm":{"jjcdName":""}
+        },
+        value:{},//暂时填写的未转工单数据
         state: 0,
-        timeLine:{},
-        mediationRemark:[],
-        t1:"",
-        t2:"",
-        t3:""
+        steps:"0",
       }
     },
     mounted() {
-      axios.post("/myha-server/12345/echoInfo.do", {
-        "id":this.$route.params.id
+      axios.post("/third-server/busiform/busiformDetail.do", {
+      	"reqData":{
+      		"paras":{
+      			  "formId":this.$route.params.id,
+        	    "formStatus":this.$route.params.s
+      		}
+      	}
       }).then(res => {
-        this.data = res.data.data;
+      	 console.log(res.data.data.resData)
+      	 if(this.$route.params.s==0){
+      	 	 this.data=res.data.data;
+      	 	 console.log(this.data)
+      	 }else{
+      	 	 this.data=res.data.data.resData;
+      	 }
+      	 this.steps=res.data.data.resData.hisAdvList.length;
       })
+   },
+   computed: {
+      icoImg(i) {
+        return function (i) {
+        	 if(this.steps==1){
+        	 	   return {
+        	 	   	    "background": "url('./static/img/hotline/step.png') no-repeat",
+        	 	   	    "backgroundSize":"3vw",
+                    "backgroundPosition": "4vw 0",
+        	 	   }
+        	 }else{
+        	 	  if(i==0){
+        	 	  	  return {
+        	 	   	    "background": "url('./static/img/hotline/step1.png') no-repeat",
+        	 	   	    "backgroundSize":"4vw",
+                    "backgroundPosition": "5vw 0",
+        	 	      }
+        	 	  }else if(i==this.steps-1){
+        	 	  	  return {
+        	 	   	    "background": "url('./static/img/hotline/step3.png') no-repeat",
+        	 	   	    "backgroundSize":"4vw",
+                    "backgroundPosition": "5vw 0",
+        	 	      }
+        	 	  }else{
+        	 	  	  return {
+        	 	   	    "background": "url('./static/img/hotline/step2.png') no-repeat",
+        	 	   	    "backgroundSize":"4vw",
+                    "backgroundPosition": "5vw 0",
+        	 	      }
+        	 	  }
+        	 }
+        	
+        }
+      },
     }
   }
 </script>
 
 <style scoped>
   .header {
-    height: 72px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     position: fixed;
     top: 0;
     width: 100%;
     background: #fff;
     z-index: 999;
-
     border-bottom: 1px solid #EEEEEE;
   }
-
+  .header img{
+  	width:3px;
+  	padding: 26px 0 40px 0;
+  }
   .header span {
     text-align: center;
     font-size: 32px;
-    font-family: PingFangSC-Regular;
-    font-weight: 400;
-    width: 375px;
-    padding: 13px 0;
+    line-height: 35px;
+    width: 373px;
+    padding: 26px 0 40px 0;
     color: #666;
     border-bottom: 4px solid #fff;
   }
-
   .header span.active {
-    line-height: 42px;
-    color: #4D7BFE;
-    border-bottom: 4px solid #4D7BFE;
+    color: #0084EC;
+    border-bottom: 4px solid #0084EC;
   }
 
 
   .main_1 {
-    padding-top: 72px;
+    padding-top: 104px;
     background: #fff;
   }
 
   .main_2 {
-    padding-top: 72px;
+    padding-top: 104px;
   }
 
   .ele {
@@ -308,72 +362,89 @@
     font-size: 30px;
     font-weight: 400;
   }
-
-  .detail {
-    padding: 16px 32px;
-    background-color: #fff;
-    font-size: 30px;
-  }
-
-  .time {
-    text-align: right;
-    min-width: 100px;
-  }
-
-  .day {
-    font-size: 28px;
-    font-weight: 400;
-    line-height: 36px;
-  }
-
-  .hour {
-    font-size: 18px;
-    font-weight: 400;
-    line-height: 36px;
-  }
-
-  .detail li {
-    display: flex;
-    padding-bottom: 80px;
-
-    background: url("./../../../static/img/hotline/t2.png") no-repeat;
-    background-size:36px;
-    background-position: 120px -230px;
-  }
-  .detail li:first-child p{
-    color: #285FB1;
-  }
-  .detail li:first-child{
-    background: url("./../../../static/img/hotline/t1.png") no-repeat;
-    background-size:36px;
-    background-position: 120px 0;
-  }
-
-  .detail li:last-child{
-    background: url("./../../../static/img/hotline/t3.png") no-repeat;
-    background-size:36px;
-    background-position: 120px -460px;
-    padding-bottom:10px;
-  }
-
-  .d1 {
-    padding-left: 80px;
-    flex-grow: 1;
-  }
-
-  .t2 {
-    font-size: 28px;
-  }
-
-  .d2 {
-    font-size: 26px;
-    margin-top: 10px;
-  }
-
   .img{
     width: 200px;
     height: 200px;
     display: inline-block;
     margin-right: 10px;
+  }
+  /*办理进度样式*/
+  .topText{
+  	width:100%;
+  	height:133px;
+  	position: relative;
+  	padding:67px 0 37px 0;
+  	text-align: center;
+  }
+  .topText span{
+		font-size:31px;
+		padding-left:90px;
+		font-weight:bold;
+		color:rgba(102,102,102,1);
+		line-height:31px;
+		text-align: center;
+  }
+  .topText img{
+  	 width:90px;
+  	 z-index: 10;
+  }
+  .middleText{
+		font-size:25px;
+		color:rgba(102,102,102,1);
+		line-height:36px;
+		padding:0 38px 0 38px;
+		overflow: hidden;
+	  word-break: break-all;
+	  word-wrap: break-word;
+	  text-align: justify;
+  }
+  .footText{
+  padding:26px 38px 0 38px;
+  text-align: right;
+	font-size:25px;
+	color:rgba(153,153,153,1);
+	line-height:25px;
+  }
+  
+  
+  .detail {
+    background: #fff;
+    padding: 90px 0 0 0;
+  }
+  .detail li{
+    padding:0 0 34px 97px;
+  }
+  .detail li div{
+		font-size:25px;
+		color:rgba(153,153,153,1);
+		line-height:28px;
+		padding-bottom: 22px;
+  }
+  .detail li:first-child div{
+		color:rgba(0,132,236,1);
+  }
+  
+  .divRight{
+  	padding-left:21px;
+  }
+  .detail img{
+    width:30px;
+  }
+  
+  
+  
+  
+  
+  
+  .nodata{
+    text-align: center;
+    padding-top: 66px;
+  }
+  .nodata img{
+    width: 240px;
+  }
+  .nodata p{
+    font-size: 28px;
+    margin-top: 16px;
   }
 </style>

@@ -13,6 +13,7 @@ const hotLineNew19 = () => import('@/components/12319hotLine/add_new'/*webpackCh
 const hotLineList19 = () => import('@/components/12319hotLine/list'/*webpackChunkName: "hotLine19"*/)
 const hotLineDetail19 = () => import('@/components/12319hotLine/detail'/*webpackChunkName: "hotLine19"*/)
 
+
 /*hotLine45模块*/
 const hotLine45 = () => import('@/components/12345hotLine'/*webpackChunkName: "hotLine45"*/)
 const hotLineTip45 = () => import('@/components/12345hotLine/tips'/*webpackChunkName: "hotLine45"*/)
@@ -21,6 +22,7 @@ const hotLineNavigation45 = () => import('@/components/12345hotLine/navigation'/
 const hotLineNew45 = () => import('@/components/12345hotLine/add_new'/*webpackChunkName: "hotLine45"*/)
 const hotLineList45 = () => import('@/components/12345hotLine/list'/*webpackChunkName: "hotLine45"*/)
 const hotLineDetail45 = () => import('@/components/12345hotLine/detail'/*webpackChunkName: "hotLine45"*/)
+const listNew = () => import('@/components/12345hotLine/listNew'/*webpackChunkName: "hotLine45"*/)
 
 /*hotLine49模块*/
 const hotLine49 = () => import('@/components/12345hotLine'/*webpackChunkName: "hotLine49"*/)
@@ -233,11 +235,15 @@ export default new Router({
       component: hotLineList45,
     },
     {
-      path: '/hotLine45/detail/:id', /*45新增诉讼*/
+      path: '/hotLine45/detail/:id/:s', /*45新增诉讼*/
       name: 'hotLineDetail45',
       component: hotLineDetail45,
     },
-
+    {
+      path: '/hotLine45/listNew', /*45新增诉讼*/
+      name: 'listNew',
+      component: listNew,
+    },
     /*航班*/
     {
       path: '/flight/flightMainNew',

@@ -1,7 +1,10 @@
 <template>
   <div class="main">
     <div class="header">
-      <img src="./../../../static/img/hotline/hotLint1bg.png" alt="" width="100%">
+    	<div class="bgimg">
+    		<div>12345海安政务热线</div>
+    		<div>一心服务 专心聆听</div>
+    	</div>
       <div class="consult">
         <div class="btncontent">
           <div class="btncell" @click="toNew">
@@ -49,7 +52,7 @@
         this.$router.push("/hotLine45/tip");
       },
       toList(){
-        this.$router.push("/hotLine45/list");
+        this.$router.push("/hotLine45/listNew");
       },
       toDetail(url){
         window.location = url;
@@ -96,7 +99,7 @@
   .main {
     background-color: #efeff4;
   }
-
+  
   .consult {
     width: 100%;
     position: relative;
@@ -113,7 +116,7 @@
     width: calc(100% - 60px);
     background: #fff;
     margin-left: 30px;
-    margin-top: -100px;
+    margin-top: -50px;
     padding: 40px 20px;
     border-radius: 5px;
     overflow: hidden;
@@ -165,7 +168,6 @@
     background: url('./../../../static/img/hotline/icon3.png') no-repeat 30px 22px #fff;
     background-size: 40px 40px;
   }
-
   .tabtitle {
     padding: 0 30px 0 90px;
     margin-top: 20px;
@@ -232,4 +234,38 @@
     align-items: center;
     font-size: 32px;
   }
+  /*头部背景调整*/
+ .bgimg{
+  	width:100%;
+  	height:313px;
+  	background: url('./../../../static/img/hotline/23@2x.png') no-repeat;
+  	background-size:100%;
+  	padding:75px 0 0 60px;
+  }
+  .bgimg div:first-child{
+  	color:#fff;
+  	font-weight: bold;
+  	font-size:32px;
+  	line-height: 70px;
+  }
+  .bgimg div:last-child{
+  	color:#fff;
+  	width:276px;
+  	height:53px;
+  	text-align: center;
+  	font-size:28px;
+  	line-height: 53px;
+  	background: #4871e5;
+  }
+  .btncontent div:first-child{
+  	background: url('./../../../static/img/hotline/22@2x.png') no-repeat;
+  	background-size:300px;
+  	color:#fff;
+  }
+  .btncontent div:last-child{
+  	background: url('./../../../static/img/hotline/21@2x.png') no-repeat;
+  	background-size:300px;
+  	color:#fff;
+  }
+  
 </style>

@@ -2,7 +2,7 @@
   <div class="main">
     <ul class="list_ui">
       <li class="list_li6">
-        <div v-for="(item,index) in data.appealPic" class="imgList">
+        <div v-for="(item,index) in data.filePaths" class="imgList">
           <div class="remove" @click="removeImg(index)">+</div>
           <img :src="item" class="avatar">
         </div>
@@ -14,11 +14,11 @@
       </li>
       <li class="list_li right_icon" @click="choseTime()">
         <div class="word"> 事发时间</div>
-        <div class="add_inp2">{{data.appealTime}}</div>
+        <div class="add_inp2">{{data.eventDate}}</div>
       </li>
       <li class="list_li right_icon" @click="choseAdd()">
         <div class="word"> 事发区域</div>
-        <div class="add_inp2">{{data.appealArea}}</div>
+        <div class="add_inp2">{{areaName}}</div>
       </li>
       <li class="list_li2">
         <div class="word"> 具体位置</div>
@@ -28,25 +28,30 @@
       </li>
       <li class="list_li">
         <div class="word"> 诉讼目的</div>
-        <input type="text" name="" value="" placeholder="请输入诉讼目的（20字以内）" class="add_inp" v-model="data.appealIdea">
+        <input type="text" name="" value="" placeholder="请输入诉讼目的（20字以内）" class="add_inp" v-model="data.caseGoal">
       </li>
       <li class="list_li2">
         <div class="word"> 诉讼内容</div>
       </li>
       <li class="list_li4">
-          <textarea name="" id="RqstContent" rows="6" cols="" placeholder="请输入诉求内容(500字以内)" v-model="data.appealContent">
+          <textarea name="" id="RqstContent" rows="6" cols="" placeholder="请输入诉求内容(500字以内)" v-model="data.contentText">
 
           </textarea>
       </li>
       <li class="list_li5">
         <div class="word"> 是否回访</div>
-        <div class="mui-switch mui-switch-mini" :class="{'mui-active':data.visit}" @click="data.visit=!data.visit">
-          <div class="mui-switch-handle"></div>
+        <div class="add_inp7">
+          <img src="./../../../static/img/hotline/click.png" alt="" class="clickIcon" v-show="data.caseIsvisit==1">
+          <img src="./../../../static/img/hotline/unclick.png" alt="" class="clickIcon" v-show="data.caseIsvisit!==1" @click="data.caseIsvisit=1">
+          <span class="clickTip"  @click="data.caseIsvisit=1">是</span>
+          <img src="./../../../static/img/hotline/click.png" alt="" class="clickIcon" v-show="data.caseIsvisit!==1" >
+          <img src="./../../../static/img/hotline/unclick.png" alt="" class="clickIcon" v-show="data.caseIsvisit==1"  @click="data.caseIsvisit=0">
+          <span class="clickTip"  @click="data.caseIsvisit=0">否</span>
         </div>
       </li>
       <li class="list_li">
         <div class="word"> 回访电话</div>
-        <div class="add_inp2" style="color: #838383">{{data.phone}} {{data.userName,data.userName | formatDate(data.userName,data.userName)}}</div>
+        <div class="add_inp2" style="color: #838383">{{data.cusPhone}} <span class="showName">{{showName}}</span></div>
       </li>
     </ul>
     <div class="submit" @click="add">
@@ -65,38 +70,28 @@
       return {
         data: {
           title:"",
-          appealType:"请选择诉求类别",
-          appealTime:"请选择事发时间",
-          appealArea:"请选择事发区域",
-          visit:false,
-          userName:"",
-          phone:"",
+          eventDate:"请选择事发时间",
+          areaCode:"请选择事发区域",
+          caseIsvisit:1,
+          phone:'',
+          cusName:"",
+          cusPhone:"",
           SparePhone:"",
           appealPosition:"",
-          appealIdea:"",
-          appealContent:"",
-          appealPic:[],
-          userId:""
+          caseGoal:"",
+          contentText:"",
+          filePaths:[],
+          userId:"",
+          formOrigin:20,
         },
         canadd:true,
-        addList:[]
-      }
-    },
-    filters:{
-      formatDate(name,cardId) {
-        console.log(cardId);
-       /* if (parseInt(cardId.substr(16, 1)) % 2 == 1) {
-          //男
-          return "男";
-        } else {
-          //女
-          return "女";
-        }*/
+        addList:[],
+        areaName:"请选择事发区域"
       }
     },
     mounted(){
-      this.data.phone = this.getUserPhone;
-      this.data.userName = this.getUserName;
+      this.data.cusPhone = this.getUserPhone;
+      this.data.cusName = this.getUserName;
       this.data.userId = this.getUserId;
 
       /*axios.get('/myha-server/common/getAreaList.do').then(res=>{
@@ -113,7 +108,14 @@
         "getUserName",
         "getCardId",
         "getUserPhone",
-      ])
+      ]),
+      showName(){
+        if (parseInt(this.getCardId.substr(16, 1)) % 2 == 1) {
+          return this.getUserName.substr(0, 1)+"先生";
+        } else {
+          return this.getUserName.substr(0, 1)+"女士";
+        }
+      }
     },
     methods:{
       chose(n){
@@ -147,7 +149,8 @@
         });
         picker.setData(this.addList);
         picker.show(function(SelectedItem) {
-          vue.data.appealArea = SelectedItem[0].text;
+          vue.data.areaCode = SelectedItem[0].value;
+          vue.areaName = SelectedItem[0].text;
         })
       },
 
@@ -155,22 +158,26 @@
         let vue = this;
         var dtPicker = new mui.DtPicker();
         dtPicker.show(function (selectItems) {
-          vue.data.appealTime = selectItems.value;
+          vue.data.eventDate = selectItems.value;
         })
       },
       add(){
         if(!this.canadd){
           return
         }
-        if(this.data.appealType=="请选择诉求类别"){
-          mui.toast('请选择诉求类别',{ duration:'short', type:'div' });
+        if(this.data.filePaths.length==0){
+          mui.toast('请上传诉求图片',{ duration:'short', type:'div' });
           return
         }
-        if(this.data.appealTime=="请选择事发时间"){
+        if(this.data.title==""){
+          mui.toast('请填写诉讼标题',{ duration:'short', type:'div' });
+          return
+        }
+        if(this.data.eventDate=="请选择事发时间"){
           mui.toast('请选择事发时间',{ duration:'short', type:'div' });
           return
         }
-        if(this.data.appealArea=="请选择事发区域"||this.data.appealArea==""){
+        if(this.data.areaName=="请选择事发区域"||this.data.appealArea==""){
           mui.toast('请选择事发区域',{ duration:'short', type:'div' });
           return
         }
@@ -178,13 +185,21 @@
           mui.toast('请输入您的位置',{ duration:'short', type:'div' });
           return
         }
-        if(this.data.appealIdea==""){
+        if(this.data.caseGoal==""){
           mui.toast('请输入诉讼目的',{ duration:'short', type:'div' });
+          return
+        }
+        if(this.data.contentText==""){
+          mui.toast('请输入诉讼内容',{ duration:'short', type:'div' });
           return
         }
 
         this.canadd = false;
-        axios.post("/myha-server/12345/add.do",this.data).then(res=>{
+        axios.post("/third-server/busiform/busiformAdd.do",{
+          reqData:{
+            paras:this.data
+          }
+        }).then(res=>{
           if(res.data.result==1){
             this.canadd = true;
             mui.toast('诉求成功',{ duration:'short', type:'div' });
@@ -196,13 +211,9 @@
         })
       },
       removeImg(n){
-        this.data.appealPic.splice(n,1);
+        this.data.filePaths.splice(n,1);
       },
       myImg(id) {
-        if(this.data.appealPic.length>5){
-          mui.toast('最多上传六张照片',{ duration:'short', type:'div' });
-          return
-        }
 
         var oldUrl = window.location.href;
         var u = navigator.userAgent;
@@ -220,7 +231,7 @@
         var that = this;
 
         window.uploadImgOver = function (str) {
-          that.data.appealPic.push(JSON.parse(str).data);
+          that.data.filePaths.push(JSON.parse(str).data);
         }
 
         if (isAndroid) {
@@ -246,51 +257,52 @@
   }
 
   .list_ui {
-    padding: 0 32px;
     background: #fff;
   }
 
   .list_li {
-    border-bottom: 1px solid #c8c7cc;
+    border-bottom: 1px solid #ddd;
     display: flex;
     align-items: center;
+    padding: 0 32px;
   }
 
   .list_li2 {
     display: flex;
+    padding: 0 32px;
   }
 
   .list_li3 {
     display: flex;
-    border-bottom: 1px solid #c8c7cc;
+    border-bottom: 1px solid #ddd;
   }
 
   .list_li4 {
     display: flex;
-    padding: 16px 0;
-    border-bottom: 1px solid #c8c7cc;
+    padding: 16px 32px;
+    border-bottom: 1px solid #ddd;
   }
   .list_li5 {
     display: flex;
-    border-bottom: 1px solid #c8c7cc;
-    justify-content: space-between;
+    border-bottom: 1px solid #ddd;
     align-items: center;
+    padding: 0 32px;
   }
   .list_li6 {
-    border-bottom: 1px solid #c8c7cc;
-    padding: 32px 0;
+    border-bottom: 22px solid #ddd;
+    padding: 32px 32px;
   }
 
   .right_icon {
     padding-right: 40px;
-    background: url("./../../../static/img/normal/right.png") right no-repeat;
+    background: url("./../../../static/img/normal/right.png") no-repeat;
+    background-position:700px;
     background-size: 12px;
   }
 
   .word {
     color: #666;
-    font-size: 28px;
-    padding-left: 16px;
+    font-size: 32px;
     width: 300px;
     line-height: 88px;
     white-space: nowrap;
@@ -303,8 +315,7 @@
     -webkit-user-select: text;
     border: 0;
     outline: 0;
-    background-color: #fff;
-    font-size: 28px;
+    font-size: 32px;
     box-sizing: border-box;
     width: 100%;
   }
@@ -316,16 +327,26 @@
     -webkit-user-select: text;
     border: 0;
     outline: 0;
-    background-color: #fff;
-    font-size: 28px;
+    font-size: 32px;
     box-sizing: border-box;
     width: 100%;
+  }
+  .add_inp7 {
+    height: 88px;
+    margin-bottom: 0;
+    border: 0;
+    outline: 0;
+    font-size: 32px;
+    box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    align-items: center;
   }
 
   #RqstContent {
     border: 0;
     margin: 16px;
-    font-size: 28px;
+    font-size: 32px;
   }
 
   .upImg {
@@ -378,5 +399,19 @@
     text-align: center;
     transform: rotate(225deg);
     line-height: 45px;
+  }
+
+  .clickIcon{
+    width: 36px;
+    height: 36px;
+  }
+  .clickTip{
+    color: #666;
+    margin: 0 85px 0 13px;
+    font-size: 32px;
+  }
+  .showName{
+    font-size: 32px;
+    margin-left: 32px;
   }
 </style>
