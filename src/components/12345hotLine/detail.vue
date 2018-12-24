@@ -107,17 +107,22 @@
     	  	 <div class="footText">{{data.busiForm.eventDate}}</div>
     	  </div>
     	  <div class="detail">
-    	  	<div  class="nodata" v-show="data.hisAdvList==undefined">
+    	  	<!--<div  class="nodata" v-show="data.hisAdvList==undefined">
 	          <img src="./../../../static/img/hotline/nodata.png" alt="">
 	          <p>暂无数据</p>
-	        </div>
-    	  	 <ul v-show="data.hisAdvList!=undefined">
+	        </div>-->
+    	  	<ul v-show="data.hisAdvList!=undefined">
 	          <li  v-for="item,index in data.hisAdvList" :style="icoImg(index)">
 	          		  	 <div>[{{item.adviceDeptName}}] &nbsp;&nbsp;&nbsp;{{item.adviceDoAction}}</div>
 							       <div>{{item.adviceAdvContent}}</div>
 							       <div>{{item.adviceUpdateTime}}</div>
 	          </li>
-	          
+	        </ul>
+	        <ul v-show="data.hisAdvList==undefined">
+	          <li  :style="icoImg(1000)">
+	          		<div>[工单建立] &nbsp;&nbsp;&nbsp;未派发</div>
+							  <div>{{data.busiForm.eventDate}}</div>
+	          </li>
 	        </ul>
     	  </div>
       </div>
@@ -160,7 +165,7 @@
    computed: {
       icoImg(i) {
         return function (i) {
-        	 if(this.steps==1){
+        	 if(this.steps==1 || i==1000){
         	 	   return {
         	 	   	    "background": "url('./static/img/hotline/step.png') no-repeat",
         	 	   	    "backgroundSize":"3vw",
@@ -389,7 +394,7 @@
   	 z-index: 10;
   }
   .middleText{
-		font-size:25px;
+		font-size:28px;
 		color:rgba(102,102,102,1);
 		line-height:36px;
 		padding:0 38px 0 38px;
@@ -401,9 +406,9 @@
   .footText{
   padding:26px 38px 0 38px;
   text-align: right;
-	font-size:25px;
+	font-size:28px;
 	color:rgba(153,153,153,1);
-	line-height:25px;
+	line-height:28px;
   }
   
   
@@ -415,9 +420,9 @@
     padding:0 0 34px 97px;
   }
   .detail li div{
-		font-size:25px;
+		font-size:28px;
 		color:rgba(153,153,153,1);
-		line-height:28px;
+		line-height:30px;
 		padding-bottom: 22px;
   }
   .detail li:first-child div{

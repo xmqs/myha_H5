@@ -4,7 +4,7 @@
      	<!--列表一个单元-->
      	<div class="list" v-for="item in list" @click="toDetail(item.formId,item.formStatus)">
      		<div class="list_left">
-     			<div>标题：{{item.title}}</div>
+     			<div>诉求标题：{{item.title}}</div>
      			<div>诉求目的：{{item.caseGoal}}</div>
      			<div>诉求时间：{{item.createTime}}</div>
      		</div>
@@ -57,8 +57,8 @@
 		        "currIndex": "1", 
 		        "pageNum": "999", 
 		        "paras": {	
-		            "incomingPhone": "13814335668",
-		            //"incomingPhone":this.getUserPhone,
+		            //"incomingPhone": "13814335668",
+		            "incomingPhone":this.getUserPhone,
 		            "formOrigin": "20",
 		            "formStatus": "", 
 		            "createTimeFrom": "", 
@@ -78,30 +78,29 @@
 <style scoped>
    .list{
    	  width:100%;
-   	  min-height:156px;
-   	  padding-left:25px;
-	  border-bottom: 1px solid #eee;
+   	  min-height:176px;
+   	  padding:30px 0 30px 25px;
+	    border-bottom: 1px solid #eee;
    }
    .list_left{
    	 width:601px;
    	 float: left;
-   	 padding:10px 0;
    }
    .list_right{
-   	margin-top:10px;
+   	 margin-top:10px;
    	 width:104px;
    	 height:47px;
    	 float: right;
    	 background-position: 0 0 !important;
    	 background-size: 138px !important;
-	 font-size:24px;
-	 color:rgba(255,255,255,1);
-	 line-height:49px;
-	 text-align: center;
+	   font-size:24px;
+	   color:rgba(255,255,255,1);
+	   line-height:49px;
+	   text-align: center;
    }
    .list_left div{
    	  font-size:28px;
-	  color:rgba(102,102,102,1);
+	    color:rgba(102,102,102,1);
       line-height:28px;
       padding-bottom: 19px;
    }
