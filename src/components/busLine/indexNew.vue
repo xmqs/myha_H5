@@ -118,37 +118,46 @@
     }
     ,
     mounted() {
-      let vue = this;
-      if (sessionStorage.getItem("userPosition")) {
-        vue.userPosition = sessionStorage.getItem("userPosition").split(",");
-        this.map = new AMap.Map('container', {
-          resizeEnable: true, //是否监控地图容器尺寸变化
-          zoom: 16, //初始化地图层级
-          //center: [120.466456, 32.530996],
-          center: vue.userPosition,
-        });
-        this.moveLocation();
-        this.painNear();
-      } else {
-        this.map = new AMap.Map('container', {
-          resizeEnable: true, //是否监控地图容器尺寸变化
-          zoom: 16, //初始化地图层级
-          center: [120.466456, 32.530996],
-        });
+      let url = 'https://webapi.amap.com/maps?v=1.4.7&key=ec3bd89bc62edfe8928454dcbab04de4&plugin=AMap.Transfer,AMap.Autocomplete,AMap.PlaceSearch,AMap.Driving,AMap.Geolocation&callback=onLoad';
+      let jsapi = document.createElement('script');
+      jsapi.charset = 'utf-8';
+      jsapi.src = url;
+      document.head.appendChild(jsapi);
 
-        let time = setInterval(() => {
-          if (sessionStorage.getItem("userPosition")) {
+      window.onLoad  = ()=>{
+        let vue = this;
+        if (sessionStorage.getItem("userPosition")) {
+          vue.userPosition = sessionStorage.getItem("userPosition").split(",");
+          this.map = new AMap.Map('container', {
+            resizeEnable: true, //是否监控地图容器尺寸变化
+            zoom: 16, //初始化地图层级
+            //center: [120.466456, 32.530996],
+            center: vue.userPosition,
+          });
+          this.moveLocation();
+          this.painNear();
+        } else {
+          this.map = new AMap.Map('container', {
+            resizeEnable: true, //是否监控地图容器尺寸变化
+            zoom: 16, //初始化地图层级
+            center: [120.466456, 32.530996],
+          });
+
+          let time = setInterval(() => {
+            if (sessionStorage.getItem("userPosition")) {
+              clearInterval(time);
+              this.moveLocation();
+
+              this.painNear();
+            }
+          }, 200);
+
+          setTimeout(function () {
             clearInterval(time);
-            this.moveLocation();
+          }, 5000);
+        };
 
-            this.painNear();
-          }
-        }, 200);
-
-        setTimeout(function () {
-          clearInterval(time);
-        }, 5000);
-      };
+      }
 
     }
   }

@@ -9,8 +9,8 @@
         <img src="./../../../static/img/hotline/upImg.png" class="upImg" @click="myImg(1)">
       </li>
       <li class="list_li">
-        <div class="word"> 诉求标题</div>
-        <input type="text" name="" value="" placeholder="请输入诉求标题" class="add_inp" v-model="data.title">
+        <div class="word"> 诉讼标题</div>
+        <input type="text" name="" value="" placeholder="请输入诉讼标题" class="add_inp" v-model="data.title">
       </li>
       <li class="list_li right_icon" @click="choseTime()">
         <div class="word"> 事发时间</div>
@@ -24,14 +24,14 @@
         <div class="word"> 具体位置</div>
       </li>
       <li class="list_li">
-        <input type="text" name="" value="" placeholder="请输入您的位置，具体到门牌号" class="add_inp" v-model="data.busiAddress">
+        <input type="text" name="" value="" placeholder="请输入您的位置，具体到门牌号" class="add_inp" v-model="data.appealPosition">
       </li>
       <li class="list_li">
-        <div class="word"> 诉求目的</div>
-        <input type="text" name="" value="" placeholder="请输入诉求目的（20字以内）" class="add_inp" v-model="data.caseGoal">
+        <div class="word"> 诉讼目的</div>
+        <input type="text" name="" value="" placeholder="请输入诉讼目的（20字以内）" class="add_inp" v-model="data.caseGoal">
       </li>
       <li class="list_li2">
-        <div class="word"> 诉求内容</div>
+        <div class="word"> 诉讼内容</div>
       </li>
       <li class="list_li4">
           <textarea name="" id="RqstContent" rows="6" cols="" placeholder="请输入诉求内容(500字以内)" v-model="data.contentText">
@@ -77,7 +77,7 @@
           cusName:"",
           cusPhone:"",
           SparePhone:"",
-          busiAddress:"",
+          appealPosition:"",
           caseGoal:"",
           contentText:"",
           filePaths:[],
@@ -170,7 +170,7 @@
           return
         }
         if(this.data.title==""){
-          mui.toast('请填写诉求标题',{ duration:'short', type:'div' });
+          mui.toast('请填写诉讼标题',{ duration:'short', type:'div' });
           return
         }
         if(this.data.eventDate=="请选择事发时间"){
@@ -186,11 +186,11 @@
           return
         }
         if(this.data.caseGoal==""){
-          mui.toast('请输入诉求目的',{ duration:'short', type:'div' });
+          mui.toast('请输入诉讼目的',{ duration:'short', type:'div' });
           return
         }
         if(this.data.contentText==""){
-          mui.toast('请输入诉求内容',{ duration:'short', type:'div' });
+          mui.toast('请输入诉讼内容',{ duration:'short', type:'div' });
           return
         }
 

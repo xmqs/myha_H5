@@ -54,12 +54,21 @@
           }
       },
       mounted(){
-        axios.get('https://restapi.amap.com/v3/place/around?key=c34482d0838eb0252c7033f73b84e957&location=118.889242,32.08895&types=150700&radius=1000').then(res=>{
-          this.busList = res.data.pois
-        })
-        axios.get('https://restapi.amap.com/v3/place/around?key=c34482d0838eb0252c7033f73b84e957&location=118.889242,32.08895&types=150500&radius=1000').then(res=>{
-          this.subList = res.data.pois
-        })
+
+        let url = 'https://webapi.amap.com/maps?v=1.4.7&key=ec3bd89bc62edfe8928454dcbab04de4&plugin=AMap.Transfer,AMap.Autocomplete,AMap.PlaceSearch,AMap.Driving,AMap.Geolocation&callback=onLoad';
+        let jsapi = document.createElement('script');
+        jsapi.charset = 'utf-8';
+        jsapi.src = url;
+        document.head.appendChild(jsapi);
+
+        window.onLoad  = ()=>{
+          axios.get('https://restapi.amap.com/v3/place/around?key=c34482d0838eb0252c7033f73b84e957&location=118.889242,32.08895&types=150700&radius=1000').then(res=>{
+            this.busList = res.data.pois
+          })
+          axios.get('https://restapi.amap.com/v3/place/around?key=c34482d0838eb0252c7033f73b84e957&location=118.889242,32.08895&types=150500&radius=1000').then(res=>{
+            this.subList = res.data.pois
+          })
+        }
       },
       methods:{
         toDetail(address){
