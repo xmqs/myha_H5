@@ -70,7 +70,7 @@
         let certNum = this.getCardId;
 
         window.scanResult = function (str) {
-          axios.post("/myha-server/publicBike/lendBike.do", {
+          axios.post("/third-server/publicBike/lendBike.do", {
             qrcode: str,
             certNum: certNum
           }).then(res => {
@@ -213,7 +213,7 @@
             clearInterval(time);
           },5000 );
         }
-        axios.post("/myha-server/publicBike/getAllBike.do").then(res => {
+        axios.post("/third-server/publicBike/getAllBike.do").then(res => {
           //console.log(res.data.data)
           this.list = res.data.data;
           for (let i = 0; i < this.list.length; i++) {
@@ -234,7 +234,7 @@
 
 
             AMap.event.addListener(marker, 'click', function () {
-              axios.post("/myha-server/publicBike/getBike.do", {
+              axios.post("/third-server/publicBike/getBike.do", {
                 "siteId": res.data.data[i].SITE_ID
               }).then(result => {
 
@@ -364,7 +364,7 @@
         let time = setInterval(() => {
           if (this.getCardId !== "") {
             clearInterval(time);
-            axios.post("/myha-server/publicBike/getUserInfo.do", {
+            axios.post("/third-server/publicBike/getUserInfo.do", {
               "certNum": this.getCardId
             })
               .then(res => {

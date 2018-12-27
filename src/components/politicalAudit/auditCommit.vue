@@ -320,7 +320,7 @@
           legal: "",// 法人代表
           mailNum: '',//快递单号
           orgNameM: '',//办理部门
-          postCode: "",// 邮编
+          postCode: "226600",// 邮编
           projectGuid: "", // 办件的唯一标识
 
           rcvCity: "",//	收件人城市
@@ -706,7 +706,7 @@
           legal: "",// 法人代表
           mailNum: '',//快递单号
           orgNameM: '',//办理部门
-          postCode: "",// 邮编
+          postCode: "226600",// 邮编
           projectGuid: "", // 办件的唯一标识
 
           rcvCity: "",//	收件人城市
@@ -1389,7 +1389,6 @@
     from {
       -webkit-transform: rotate(0deg);
     }
-
     to {
       -webkit-transform: rotate(360deg);
     }

@@ -12,6 +12,7 @@ const hotLineNavigation19 = () => import('@/components/12319hotLine/navigation'/
 const hotLineNew19 = () => import('@/components/12319hotLine/add_new'/*webpackChunkName: "hotLine19"*/)
 const hotLineList19 = () => import('@/components/12319hotLine/list'/*webpackChunkName: "hotLine19"*/)
 const hotLineDetail19 = () => import('@/components/12319hotLine/detail'/*webpackChunkName: "hotLine19"*/)
+const addSuccess19 = () => import('@/components/12319hotLine/addSuccess'/*webpackChunkName: "hotLine19"*/)
 
 
 /*hotLine45模块*/
@@ -23,6 +24,7 @@ const hotLineNew45 = () => import('@/components/12345hotLine/add_new'/*webpackCh
 const hotLineList45 = () => import('@/components/12345hotLine/list'/*webpackChunkName: "hotLine45"*/)
 const hotLineDetail45 = () => import('@/components/12345hotLine/detail'/*webpackChunkName: "hotLine45"*/)
 const listNew = () => import('@/components/12345hotLine/listNew'/*webpackChunkName: "hotLine45"*/)
+const newsDetail = () => import('@/components/12345hotLine/newsDetail'/*webpackChunkName: "hotLine45"*/)
 
 /*hotLine49模块*/
 const hotLine49 = () => import('@/components/12345hotLine'/*webpackChunkName: "hotLine49"*/)
@@ -173,6 +175,11 @@ export default new Router({
       path: '/hotLine19', /*12319*/
       name: 'hotLine19',
       component: hotLine19,
+    },
+    {
+      path: '/addSuccess19', /*12319*/
+      name: 'addSuccess19',
+      component: addSuccess19,
     },
     {
       path: '/hotLine19/tip', /*19说明指南*/
@@ -780,6 +787,11 @@ export default new Router({
       path: '/newsList/:key', /*滚动刷新列表*/
       name: 'newsList',
       component: newsList,
+    },
+    {
+      path: '/newsDetail', /*12345新闻详情页面*/
+      name: 'newsDetail',
+      component: newsDetail,
     },
   ]
 })

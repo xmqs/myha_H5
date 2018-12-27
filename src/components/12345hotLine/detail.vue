@@ -67,7 +67,7 @@
         {{data.busiForm.contentText==""?"暂无":data.busiForm.contentText}}
       </div>
       <div class="ele6">
-      	
+
         <img  v-for="val in data.busiForm.filePaths" :src="val" alt="" class="img">
       </div>
       <div class="ele">
@@ -83,7 +83,7 @@
           <div class="cntit">联系方式</div>
         </div>
         <div class="elecontent">
-          <div class="inps2">{{data.busiForm.cusPhone}}</div>
+          <div class="inps2">{{data.busiForm.cusPhone.slice(0,3)}}****{{data.busiForm.cusPhone.slice(7,11)}}</div>
         </div>
       </div>
       <!--<div class="ele">
@@ -192,7 +192,7 @@
         	 	      }
         	 	  }
         	 }
-        	
+
         }
       },
     }
@@ -410,8 +410,8 @@
 	color:rgba(153,153,153,1);
 	line-height:28px;
   }
-  
-  
+
+
   .detail {
     background: #fff;
     padding: 90px 0 0 0;
@@ -428,19 +428,19 @@
   .detail li:first-child div{
 		color:rgba(0,132,236,1);
   }
-  
+
   .divRight{
   	padding-left:21px;
   }
   .detail img{
     width:30px;
   }
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
   .nodata{
     text-align: center;
     padding-top: 66px;

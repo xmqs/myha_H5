@@ -1,47 +1,22 @@
 <template>
   <div>
-    <div class="searchList">
-      <div :class="{'active':page==1}" @click="page=1">待处理</div>
-      <div :class="{'active':page==2}" @click="page=2">已完成</div>
-    </div>
-    <div class="wall">
-      <div class="scroll">
-        <div v-show="nodata" class="nodata">
-          <img src="./../../../static/img/hotline/nodata.png" alt="">
-          <p>暂无数据</p>
+    <div>
+      <div class="showNo" v-show="list.length==0&&finish">
+        <img src="./../../../static/img/hotline/nodata.png" alt="" class="noData">
+        <p>暂无随拍</p>
+      </div>
+      <!--列表一个单元-->
+      <div class="list" v-for="item in list" @click="toDetail(item.taskNum)">
+        <div class="list_left">
+          <div>主题：{{item.theme}}</div>
+          <div>推送单位及分类：{{item.recTypeName}}</div>
+          <div>随拍时间：{{item.time}}</div>
         </div>
-        <div class="cell" v-for="item in list1" @click="toDetail(item.id)" v-show="page==1">
-          <div class="time_line">
-            {{item.createTime}}
-          </div>
-          <div class="title">
-            {{item.suggestTitle}}
-          </div>
-          <div class="text">
-            {{item.suggestContent}}
-          </div>
-          <div class="state">
-            当前状态：<span class="blue">处理中</span>
-            <div class="sTip">处理中</div>
-          </div>
-        </div>
-
-        <div class="cell" v-for="item in list2" @click="toDetail(item.id)" v-show="page==2">
-          <div class="time_line">
-            {{item.createTime}}
-          </div>
-          <div class="title">
-            {{item.suggestTitle}}
-          </div>
-          <div class="text">
-            {{item.suggestContent}}
-          </div>
-          <div class="state">
-            当前状态：<span class="blue">已完成</span>
-            <div class="sTip2">已完成</div>
-          </div>
+        <div class="list_right" :style="iscolor(item.state)">
+          {{item.state=='1'?"已作废":item.state=='2'?"待受理":item.state=='3'?"已受理":item.state=='4'?"处理中":item.state=='5'?"已处理":item.state=='6'?"已结案":"暂无"}}
         </div>
       </div>
+      <!--列表一个单元结束-->
     </div>
   </div>
 </template>
@@ -50,167 +25,88 @@
   import {mapGetters} from 'vuex'
   import axios from "axios"
   export default {
-    name: "list",
+    name: "index",
     data(){
       return{
-        page:1,
-        list1:[],
-        list2:[]
+        list:[],
+        finish:false
       }
     },
-    computed:{
-      nodata(){
-        return ((this.page==1&&this.list1.length==0)||(this.page==2&&this.list2.length==0))
+    methods:{
+      toDetail(id){
+        this.$router.push("/hotLine19/detail/"+id);
       },
+    },
+    computed: {
       ...mapGetters([
         "getUserId",
         "getUserName",
         "getCardId",
         "getUserPhone",
-      ])
-    },
-    methods:{
-      toDetail(id){
-        this.$router.push("/hotLine19/detail/"+id);
+      ]),
+      iscolor(i) {
+        return function (i) {
+          if(i=="1"||i=="6"){
+            return {"background": "url('./static/img/hotline/static2.png') no-repeat",}
+          }else if(i=="2"){
+            return {"background": "url('./static/img/hotline/static1.png') no-repeat",}
+          }else{
+            return {"background": "url('./static/img/hotline/static3.png') no-repeat",}
+          }
+        }
       }
     },
     mounted(){
-      axios.post("/myha-server/12319/showProcess.do",{
-        userId:this.getUserId
+      axios.post('/third-server/12319/queryByid.do',{
+        cardId:this.getCardId
       }).then(res=>{
-        this.list1 = res.data.data.processing;
-        this.list2 = res.data.data.processingDone;
+        this.finish = true;
+        this.list=res.data.data;
       })
     }
   }
 </script>
 
 <style scoped>
-  .searchList {
-    position: fixed;
-    top: 0;
-    height: 92px;
-    width: 100%;
-    background-color: #fff;
-    box-sizing: border-box;
-    z-index: 999;
-    display: flex;
-    justify-content: space-around;
+  .list{
+    width:100%;
+    min-height:176px;
+    padding:30px 0 30px 25px;
     border-bottom: 1px solid #eee;
   }
-
-  .searchList div{
-    width: 40%;
-    font-size: 34px;
+  .list_left{
+    width:601px;
+    float: left;
+  }
+  .list_right{
+    margin-top:10px;
+    width:104px;
+    height:47px;
+    float: right;
+    background-position: 0 0 !important;
+    background-size: 138px !important;
+    font-size:24px;
+    color:rgba(255,255,255,1);
+    line-height:49px;
     text-align: center;
-    line-height: 88px;
   }
-  .searchList div.active{
-    color: #0d9bf2;
-    border-bottom: 4px solid #0d9bf2;
-  }
-
-  input[type=search]::-webkit-search-cancel-button {
-    -webkit-appearance: none;
-  }
-  .wall {
-    width: 100%;
-    padding-top:92px;
+  .list_left div{
+    font-size:28px;
+    color:rgba(102,102,102,1);
+    line-height:28px;
+    padding-bottom: 19px;
   }
 
-  .scroll{
-    overflow: scroll;
-    width: 100%;
-    -webkit-overflow-scrolling: touch;
-    background: #fff;
+  .noData{
+    width: 260px;
   }
-
-
-  .time_line{
-    background: #f2f2f2;
-    padding: 16px 32px;
-    font-size: 28px;
-  }
-
-
-  .cell{
-    overflow: hidden;
-    border-bottom: 1px solid #eee;
-  }
-
-  .blue{
-    color: #0d9bf2;
-    font-size: 28px;
-  }
-  .title{
-    white-space:nowrap; text-overflow:ellipsis;
-    /* for internet explorer */
-    overflow:hidden;
-    width:700px;
-    display:block;
-    line-height: 48px;
-    padding: 16px 0 16px 32px;
-    font-size: 30px;
-  }
-  .text{
-    display:block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    -webkit-box-orient: vertical;
-    padding: 0px 32px 16px 32px;
-    font-size: 30px;
-    color: #ccc;
-    line-height: 60px;
-  }
-
-  .state{
-    height: 90px;
-    display: flex;
-    align-items: center;
-    padding: 0 32px;
-    position: relative;
-    font-size: 30px;
-  }
-  .sTip{
-    position: absolute;
-    right: -110px;
-    bottom: -110px;
-    background: #ef8355;
-    color: #fff;
-    height: 200px;
-    width: 200px;
+  .showNo{
     text-align: center;
-    font-size: 28px;
-
-    transform:rotate(-45deg);
+    padding-top: 260px;
   }
-  .sTip2{
-    position: absolute;
-    right: -110px;
-    bottom: -110px;
-    background: #28da33;
-    color: #fff;
-    height: 200px;
-    width: 200px;
-    text-align: center;
-    font-size: 28px;
-
-    transform:rotate(-45deg);
+  .showNo p{
+    margin-top: 36px;
+    font-size: 36px;
+    color: #666;
   }
-
-  .nodata{
-    text-align: center;
-    padding-top: 66px;
-  }
-  .nodata img{
-    width: 240px;
-  }
-  .nodata p{
-    font-size: 28px;
-    margin-top: 16px;
-  }
-
 </style>

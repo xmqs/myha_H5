@@ -53,9 +53,9 @@
 	    },
 	    mounted(){
 	    	if (this.getCardId !== "") {
-		          axios.post("/myha-server/publicBike/getUserInfo.do", {
+		          axios.post("/third-server/publicBike/getUserInfo.do", {
 		            "certNum": this.getCardId
-                    //"certNum": "320521197210249134" 
+                    //"certNum": "320521197210249134"
 		          })
 		            .then(res => {
 		              if (res.data.result == 1) {
@@ -71,7 +71,7 @@
 		            })
 		    }else{
 		    	this.isshow=false;
-		    }  
+		    }
 //**********************测试测试测试测试测试测试测试测试**************************
 //          axios.post("/myha-server/publicBike/getUserInfo.do", {
 //		            "certNum": "320521197210249134"
@@ -83,8 +83,8 @@
 //		                  this.DEPOSIT_MONEY=res.data.data.DEPOSIT_MONEY.toFixed(2);
 //		                  this.REMAIN_MONEY=res.data.data.REMAIN_MONEY.toFixed(2);
 //		                //}
-//		            
-//		          
+//
+//
 //		        } else {
 //		            mui.toast('网络出了点小差错，请稍后尝试或联系管理人员', {duration: 'short', type: 'div'});
 //		        }

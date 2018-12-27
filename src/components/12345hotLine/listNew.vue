@@ -1,6 +1,10 @@
 <template>
   <div>
      <div>
+       <div class="showNo" v-show="list.length==0">
+         <img src="./../../../static/img/hotline/nodata.png" alt="" class="noData">
+         <p>暂无诉求</p>
+       </div>
      	<!--列表一个单元-->
      	<div class="list" v-for="item in list" @click="toDetail(item.formId,item.formStatus)">
      		<div class="list_left">
@@ -54,15 +58,15 @@
       mounted(){
         axios.post('/third-server/busiform/busiformList.do',{
           "reqData": {
-		        "currIndex": "1", 
-		        "pageNum": "999", 
-		        "paras": {	
+		        "currIndex": "1",
+		        "pageNum": "999",
+		        "paras": {
 		            //"incomingPhone": "13814335668",
 		            "incomingPhone":this.getUserPhone,
 		            "formOrigin": "20",
-		            "formStatus": "", 
-		            "createTimeFrom": "", 
-		            "createTimeTo": "", 
+		            "formStatus": "",
+		            "createTimeFrom": "",
+		            "createTimeTo": "",
 		            "orderByField": "create_Time",
 		            "orderByMode": "desc"
 		        }
@@ -103,5 +107,18 @@
 	    color:rgba(102,102,102,1);
       line-height:28px;
       padding-bottom: 19px;
+   }
+
+   .noData{
+     width: 260px;
+   }
+   .showNo{
+     text-align: center;
+     padding-top: 260px;
+   }
+   .showNo p{
+     margin-top: 36px;
+     font-size: 36px;
+     color: #666;
    }
 </style>

@@ -49,5 +49,10 @@
         sessionStorage.setItem("haveAmap", "true");
       }
     }
+
+    sessionStorage.setItem("positionName", "");
+    function putAddress(address) {
+      sessionStorage.setItem("positionName", address);
+    }
   </script>
 </html>

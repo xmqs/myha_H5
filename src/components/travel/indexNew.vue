@@ -16,10 +16,6 @@
     </div>
     <div class="navigation_box">
       <ul class="line">
-        <li class="line-box" @click="toList('3','cyha_hams')">
-          <img src="./../../../static/img/travel/1.png" class="box-img"/>
-          <p class="nav_title">美食</p>
-        </li>
         <li class="line-box" @click="toList('1','cyha_hajd')">
           <img src="./../../../static/img/travel/2.png" class="box-img"/>
           <p class="nav_title">景区景点</p>
@@ -28,27 +24,31 @@
           <img src="./../../../static/img/travel/3.png" class="box-img"/>
           <p class="nav_title">酒店</p>
         </li>
+        <li class="line-box" @click="toList('2','cyha_yllx')">
+          <img src="./../../../static/img/travel/6.png" class="box-img"/>
+          <p class="nav_title">旅游路线</p>
+        </li>
         <li class="line-box" @click="toList('1','cyha_xcyld')">
           <img src="./../../../static/img/travel/4.png" class="box-img"/>
           <p class="nav_title">乡村旅游点</p>
         </li>
       </ul>
       <ul class="line">
+        <li class="line-box" @click="toList('5','cyha_xcyld')">
+          <img src="./../../../static/img/travel/8.png" class="box-img"/>
+          <p class="nav_title">旅行社</p>
+        </li>
         <li class="line-box" @click="toList('2','cyha_hatc')">
           <img src="./../../../static/img/travel/5.png" class="box-img"/>
           <p class="nav_title">海安特产</p>
         </li>
-        <li class="line-box" @click="toList('2','cyha_yllx')">
-          <img src="./../../../static/img/travel/6.png" class="box-img"/>
-          <p class="nav_title">旅游路线</p>
+        <li class="line-box" @click="toList('3','cyha_hams')">
+          <img src="./../../../static/img/travel/1.png" class="box-img"/>
+          <p class="nav_title">美食</p>
         </li>
         <li class="line-box" @click="toList('4')">
           <img src="./../../../static/img/travel/7.png" class="box-img"/>
           <p class="nav_title">节庆活动</p>
-        </li>
-        <li class="line-box" @click="toList('5','cyha_xcyld')">
-          <img src="./../../../static/img/travel/8.png" class="box-img"/>
-          <p class="nav_title">旅行社</p>
         </li>
       </ul>
       <div class="line2"></div>
@@ -98,25 +98,14 @@
         </div>
       </div>
       <div class="city_interesting_content" v-show="page==2">
-        <div class="interesting_content_card">
-          <div v-for="(item,index) in list2" v-show="index<3"  @click="toDetail(item.url)">
+        <div class="interesting_content_card2">
+          <div v-for="(item,index) in list2" v-show="index<6"  @click="toDetail(item.url)" class="doubleImg">
             <div class="img_box">
-              <img :src="item.cover" alt=""/>
+              <img :src="item.cover" alt="" class="foodImg2"/>
             </div>
             <div class="interesting_content_card_content">
-
-              <div class="interesting_content_card_content_inner">
+              <div class="interesting_content_card_content_inner2">
                 <p class="card_title">{{item.sourceLabel}}</p>
-
-                <!--<div class="l3" @click="toMap(item.sourceLabel,item.properties.latitude,item.properties.longitude)">
-                  <img src="../../../static/img/travel/Group 3@2x.png" alt="" />
-                  <div>{{item.properties.address}}</div>
-                </div>-->
-                <!--<div class="l3">
-                  <img src="../../../static/img/travel/Group 14@2x.png" alt="" />
-                  <div>
-                    <a :href="'tel:'+item.properties.mobile">{{item.properties.mobile}}</a></div>
-                </div>-->
                 <p class="card_content">{{item.remark}}</p>
               </div>
             </div>
@@ -148,7 +137,21 @@
         </div>
       </div>
       <div class="city_interesting_content" v-show="page==4">
-        <div class="interesting_content_card">
+        <div id="main">
+          <div class="List" @click="toDetail(item.properties.pageUrl)" v-show="index<4" v-for="(item,index) in list4">
+            <div class="List_left"><img :src="item.properties.cover" alt="" class="foodImg"/></div>
+            <div class="List_right">
+              <div>{{item.sourceLabel}}</div>
+              <div class="l1">
+                <span class="icon">海安特产</span>
+              </div>
+              <div class="l2">{{item.properties.remark}}</div>
+            </div>
+          </div>
+        </div>
+
+
+        <!--<div class="interesting_content_card">
           <div v-for="(item,index) in list4" v-show="index<3"  @click="toDetail(item.properties.pageUrl)">
             <div class="img_box">
               <img :src="item.properties.cover" alt=""/>
@@ -157,21 +160,11 @@
 
               <div class="interesting_content_card_content_inner">
                 <p class="card_title">{{item.sourceLabel}}</p>
-
-                <!--<div class="l3" @click="toMap(item.sourceLabel,item.properties.latitude,item.properties.longitude)">
-                  <img src="../../../static/img/travel/Group 3@2x.png" alt="" />
-                  <div>{{item.properties.address}}</div>
-                </div>-->
-                <!--<div class="l3">
-                  <img src="../../../static/img/travel/Group 14@2x.png" alt="" />
-                  <div>
-                    <a :href="'tel:'+item.properties.mobile">{{item.properties.mobile}}</a></div>
-                </div>-->
                 <p class="card_content">{{item.properties.remark}}</p>
               </div>
             </div>
           </div>
-        </div>
+        </div>-->
       </div>
     </div>
 
@@ -419,15 +412,31 @@
     margin: 0;
     background-color: #fff;
   }
+  .interesting_content_card2 {
+    font-size: 1.4rem;
+    overflow: hidden;
+    margin: 0;
+    background-color: #fff;
+  }
+  .foodImg2{
+    width: 345px;
+    height: 345px;
+    border-radius: 6px;
+  }
+
+  .doubleImg{
+    width: 345px;
+    height: 410px;
+    display: inline-block;
+    margin-left: 20px;
+  }
 
   .img_box {
     width: 100%;
-    height: 318px;
     overflow: hidden;
   }
   .img_box img{
     width: 100%;
-    height: 318px;
   }
 
   .interesting_content_card_content {
@@ -438,6 +447,10 @@
   .interesting_content_card_content_inner {
     position: relative;
     padding: 26px;
+  }
+  .interesting_content_card_content_inner2 {
+    position: relative;
+    padding: 0 0 0 16px;
   }
 
   .card_title {
@@ -530,5 +543,64 @@
     font-weight:500;
     color:rgba(153,153,153,1);
     line-height:33px;
+  }
+
+
+  #main{
+    padding:0 46px 0 26px;
+  }
+  .List{
+    width:100%;
+    padding:22px 0 22px 0;
+    min-height:216px;
+    float: left;
+    border-bottom: 1px solid #eee;
+  }
+  .List_left{
+    width:172px;
+    height:172px;
+    float: left;
+    border:1px solid #eee;
+    margin-right:26px;
+  }
+  .List_right{
+    width:480px;
+    min-height: 172px;
+    float: right;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .List_right div:first-child{
+    font-size:30px;
+    color:rgba(51,51,51,1);
+    line-height:30px;
+    padding-bottom: 20px;
+  }
+  .List_right .l1{
+    padding-bottom: 18px;
+  }
+  .List_right .icon{
+    border-radius:4px;
+    border:1px solid rgba(255,170,0,1);
+    font-size:20px;
+    color:rgba(255,170,0,1);
+    padding:5px 10px;
+  }
+  .List_right .l2{
+    font-size:24px;
+    color:rgba(153,153,153,1);
+    line-height:33px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    /*! autoprefixer: off */
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    /* autoprefixer: on */
+  }
+  .foodImg{
+    width: 172px;
+    height: 172px;
   }
 </style>

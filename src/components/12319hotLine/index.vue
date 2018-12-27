@@ -1,40 +1,11 @@
 <template>
   <div class="main">
-    <div class="header">
-      <img src="./../../../static/img/hotline/hotLint2bg.png" alt="" width="100%">
-      <div class="consult">
-        <div class="btncontent">
-          <div class="btncell" @click="toNew"><img
-            src="./../../../static/img/hotline/index1.png"><br> 提交诉求
-          </div>
-          <div class="btncell" @click="toList"><img
-            src="./../../../static/img/hotline/index2.png"><br> 我的诉求
-            <div class="myappealnum" style="display: block;">{{number}}</div>
-          </div>
-        </div>
-      </div>
+    <div class="myList"  @click="toMyList">
+      我的随拍
     </div>
-    <div class="tabtitle news" id="news"> 最新资讯 <span class="more" @click="toNewsList('12319_zuixinzixun')">更多</span></div>
-    <li class="newslist" v-for="item in list1" @click="toDetail(item.url)">
-      <div class="title">{{item.sourceLabel}}</div>
-      <div class="date">{{ item.updateTime | formatDate }}</div>
-    </li>
-
-    <div class="tabtitle news2"> 热点解答 <span class="more" @click="toNewsList('12319_redianjieda')">更多</span></div>
-    <li class="newslist" v-for="item in list2" @click="toDetail(item.url)">
-      <div class="title">{{item.sourceLabel}}</div>
-      <div class="date">{{ item.updateTime | formatDate }}</div>
-    </li>
-    <div class="tabtitle news3"> 便民服务 </div>
-    <div class="tab">
-      <div class="tab_line1">
-        <div class="tab_item" @click="toPhoneNumber">
-          <img src="./../../../static/img/hotline/icon5.png" alt="">常用电话
-        </div>
-        <div class="tab_item" @click="toNewsList('12319_bianminfuwu')">
-          <img src="./../../../static/img/hotline/icon4.png" alt="">便民导航
-        </div>
-      </div>
+    <img src="./../../../static/img/hotline/chrame.png" alt="" class="chrame" @click="toAdd">
+    <div class="text">
+      市民通过拍照上传，将城市管理中的问题提交至海安市数字化城市管理监督指挥中心，中心将针对市民提出的问题派发给相关职能部门办理，并反馈办理结果。让更多的市民成为文明城市创建的“志愿巡查员”，形成市民广泛参与、相关职能部门齐抓共管的大城市治理格局。
     </div>
   </div>
 </template>
@@ -42,13 +13,12 @@
 <script>
   import {mapGetters} from 'vuex'
   import axios from "axios"
+
   export default {
     name: "index",
     data() {
       return {
         list1:[],
-        list2:[],
-        number:0,
       }
     },
     computed: {
@@ -57,188 +27,79 @@
         "getUserName",
         "getCardId",
         "getUserPhone",
+        "getIsLogin",
       ])
     },
     methods:{
-      toPhoneNumber(){
-        this.$router.push("/hotLine19/phone");
+      toAdd(){
+        this.$router.push('/hotLine19/new')
       },
-      toNavigation(){
-        this.$router.push("/hotLine19/navigation");
-      },
-      toNew(){
-        this.$router.push("/hotLine19/tip");
-      },
-      toList(){
+      toMyList(){
         this.$router.push("/hotLine19/list");
-      },
-      toDetail(url){
-        window.location = url;
-      },
-      toNewsList(key){
-        this.$router.push("/newsList/"+key);
-      }
-    },
-    filters:{
-      formatDate(val) {
-        let date=new Date(val);
-        let month = date.getMonth()+1;
-        let day = date.getDate();
-
-        return month+"-"+day;
       }
     },
     mounted(){
-      axios.post("/myha-server/12319/count.do",{
-        "userId":this.getUserId
-      }).then(res=>{
-        this.number = res.data.data.appealCount;
-      })
 
-      axios.get("/myha-server/public/catalog/querySource.do?catalogAlias=12319_zuixinzixun&sourceType=03").then(res=>{
-        this.list1 = res.data.data;
-      })
-      axios.get("/myha-server/public/catalog/querySource.do?catalogAlias=12319_redianjieda&sourceType=03").then(res=>{
-        this.list2 = res.data.data;
-      })
+      let time = setInterval(()=>{
+        if(this.getIsLogin!==""){
+          clearInterval(time);
+          if(this.getIsLogin=="0"||this.getIsLogin==0){
+            return
+          }else{
+            var u = navigator.userAgent;
+            var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+            var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+
+            if (isAndroid) {
+              window.location.href += '&needLogin=true&toLocalLogin=true';
+            }
+
+            if (isiOS) {
+              window.location.href = '&needLogin=true';
+            }
+          }
+        }
+      }, 200);
+
     }
   }
 </script>
 
 <style scoped>
-  .main {
-    background-color: #efeff4;
-  }
-
-  .consult {
-    width: 100%;
-    position: relative;
-    z-index: 9;
-  }
-
-  .header {
-    width: 100%;
-    position: relative;
-    z-index: 1;
-  }
-
-  .btncontent {
-    width: calc(100% - 60px);
-    background: #fff;
-    margin-left: 30px;
-    margin-top: -100px;
-    padding: 40px 0;
-    border-radius: 5px;
+  .main{
+    background:#1395EF url("./../../../static/img/hotline/19bg.png") no-repeat;
+    background-size: 100%;
+    background-position: top;
     overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
   }
-
-  .btncell {
-    width: 50%;
-    float: left;
-    font-size: 32px;
-    text-align: center;
-    position: relative;
-
+  .chrame{
+    width: 376px;
+    height: 383px;
+    position: fixed;
+    top: 371px;
+    left: 195px;
   }
-
-  .btncell img {
-    width: 80px;
-    height: 80px;
-  }
-
-  .myappealnum {
-    display: none;
-    position: absolute;
-    width: 40px;
-    line-height: 40px;
-    font-size: 28px;
-    text-align: center;
-    border-radius: 20px;
-    background: #fc5266;
+  .myList{
+    position: fixed;
+    right: 15px;
+    top: 46px;
+    font-size: 22px;
+    padding: 8px 36px;
+    border-radius: 28px;
+    border: 1px solid #fff;
     color: #fff;
-    right: 36%;
-    top: -3px;
   }
-
-  .news {
-    background: url('./../../../static/img/hotline/icon1.png') no-repeat 30px 22px #fff;
-    background-size: 40px 40px;
-  }
-
-  .news2 {
-    background: url('./../../../static/img/hotline/icon2.png') no-repeat 30px 22px #fff;
-    background-size: 40px 40px;
-  }
-
-  .news3 {
-    background: url('./../../../static/img/hotline/icon3.png') no-repeat 30px 22px #fff;
-    background-size: 40px 40px;
-  }
-
-  .tabtitle {
-    padding: 0 30px 0 90px;
-    margin-top: 20px;
-    font-size: 32px;
-    line-height: 80px;
-    border-bottom: 1px solid #e6e6e6;
-    position: relative;
-  }
-
-  .more {
-    float: right;
-    color: #666;
-    font-size: 28px;
-  }
-
-  .newslist {
-    padding: 22px 30px;
-    font-size: 32px;
-    color: #666;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    background: #fff;
-    border-bottom: 1px solid #efeff4;
-  }
-
-  .title {
-    width: calc(100% - 120px);
-    font-size: 32px;
-    color: #666;
-    float: left;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-  }
-
-  .date {
-    width: 100px;
-    float: right;
-    font-size: 28px;
-    text-align: right;
-    line-height: 46px;
-    color: #999;
-  }
-  .tab{
-    padding: 30px;
-    background: #fff;
-  }
-  .tab_line1{
-    display: flex;
-    margin-bottom: 40px;
-  }
-  .tab_line2{
-    display: flex;
-  }
-  .tab_item img{
-    width: 60px;
-    height: 60px;
-    margin:0 20px;
-  }
-  .tab_item{
-    display: flex;
-    width: 50%;
-    align-items: center;
-    font-size: 32px;
+  .text{
+    color: #fff;
+    text-indent:48px;
+    font-size: 24px;
+    padding: 0 32px;
+    padding-top: 760px;
+    line-height: 38px;
   }
 </style>

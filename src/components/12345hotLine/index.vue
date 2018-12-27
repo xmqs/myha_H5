@@ -2,8 +2,8 @@
   <div class="main">
     <div class="header">
     	<div class="bgimg">
-    		<div>12345海安政务热线</div>
-    		<div>一心服务 专心聆听</div>
+    		<!--<div>12345海安政务热线</div>
+    		<div>一心服务 专心聆听</div>-->
     	</div>
       <div class="consult">
         <div class="btncontent">
@@ -16,15 +16,11 @@
         </div>
       </div>
     </div>
-    <div class="tabtitle news" id="news"> 最新资讯 <span class="more" @click="toNewsList('12345_zuixinzixun')">更多</span></div>
-    <li class="newslist" v-for="item in list1" @click="toDetail(item.url)">
-      <div class="title">{{item.sourceLabel}}</div>
-      <div class="date">{{ item.updateTime | formatDate }}</div>
-    </li>
-    <div class="tabtitle news2"> 热点解答 <span class="more" @click="toNewsList('12345_redianjieda')">更多</span></div>
-    <li class="newslist" v-for="item in list2" @click="toDetail(item.url)">
-      <div class="title">{{item.sourceLabel}}</div>
-      <div class="date">{{ item.updateTime | formatDate }}</div>
+    <div class="tabtitle news" id="news">
+      <span class="newsTitle">热点知识库</span>
+      <span class="more" @click="toNewsList('12345_zuixinzixun')">更多</span></div>
+    <li class="newslist" v-for="item in list1" @click="toDetail(item)">
+      <div class="title">{{item.title}}</div>
     </li>
   </div>
 </template>
@@ -54,8 +50,8 @@
       toList(){
         this.$router.push("/hotLine45/listNew");
       },
-      toDetail(url){
-        window.location = url;
+      toDetail(item){
+        this.$router.push({name:'newsDetail',params:{content:item}});
       },
       toNewsList(key){
         this.$router.push("/newsList/"+key);
@@ -76,6 +72,7 @@
         "getUserName",
         "getCardId",
         "getUserPhone",
+        "getIsLogin",
       ])
     },
     mounted(){
@@ -85,12 +82,36 @@
         this.number = res.data.data.appealCount;
       })
 
-      axios.get("/myha-server/public/catalog/querySource.do?catalogAlias=12345_zuixinzixun&sourceType=03").then(res=>{
-        this.list1 = res.data.data;
+      axios.post("/third-server/busiform/findHaRepository.do",{
+        "pageNo":"1",
+        "pageSize":"8",
+        "params":{
+          "title":""
+        }
+      }).then(res=>{
+        this.list1 = res.data.data.haRepositoryList;
       })
-      axios.get("/myha-server/public/catalog/querySource.do?catalogAlias=12345_redianjieda&sourceType=03").then(res=>{
-        this.list2 = res.data.data;
-      })
+
+      let time = setInterval(()=>{
+        if(this.getIsLogin!==""){
+          clearInterval(time);
+          if(this.getIsLogin=="0"||this.getIsLogin==0){
+            return
+          }else{
+            var u = navigator.userAgent;
+            var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+            var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+
+            if (isAndroid) {
+              window.location.href += '&needLogin=true&toLocalLogin=true';
+            }
+
+            if (isiOS) {
+              window.location.href = '&needLogin=true';
+            }
+          }
+        }
+      }, 200);
     }
   }
 </script>
@@ -99,7 +120,7 @@
   .main {
     background-color: #efeff4;
   }
-  
+
   .consult {
     width: 100%;
     position: relative;
@@ -130,7 +151,6 @@
     text-align: center;
     width: 300px;
     height: 154px;
-    border: 1px solid #999;
     border-radius: 6px;
     line-height: 154px;
   }
@@ -155,21 +175,11 @@
   }
 
   .news {
-    background: url('./../../../static/img/hotline/icon1.png') no-repeat 30px 22px #fff;
-    background-size: 40px 40px;
+    background:#fff;
   }
 
-  .news2 {
-    background: url('./../../../static/img/hotline/icon2.png') no-repeat 30px 22px #fff;
-    background-size: 40px 40px;
-  }
-
-  .news3 {
-    background: url('./../../../static/img/hotline/icon3.png') no-repeat 30px 22px #fff;
-    background-size: 40px 40px;
-  }
   .tabtitle {
-    padding: 0 30px 0 90px;
+    padding: 0 30px 0 30px;
     margin-top: 20px;
     font-size: 32px;
     line-height: 80px;
@@ -180,11 +190,14 @@
   .more {
     float: right;
     color: #666;
-    font-size: 28px;
+    font-size: 32px;
+    padding-right: 36px;
+    background: url("./../../../static/img/hotline/rightMore.png") right no-repeat;
+    background-size: 20px;
   }
 
   .newslist {
-    padding: 22px 30px;
+    padding: 26px 30px;
     font-size: 32px;
     color: #666;
     overflow: hidden;
@@ -195,9 +208,9 @@
   }
 
   .title {
-    width: calc(100% - 120px);
-    font-size: 32px;
-    color: #666;
+    width: 100%;
+    font-size: 30px;
+    color: #333;
     float: left;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -238,7 +251,7 @@
  .bgimg{
   	width:100%;
   	height:313px;
-  	background: url('./../../../static/img/hotline/23@2x.png') no-repeat;
+  	background: url('./../../../static/img/hotline/hotline45bg.png') no-repeat;
   	background-size:100%;
   	padding:75px 0 0 60px;
   }
@@ -267,5 +280,11 @@
   	background-size:300px;
   	color:#fff;
   }
-  
+
+  .newsTitle{
+    font-size: 32px;
+    padding: 5px 10px;
+    border-left: 10px solid #E06F5C;
+  }
+
 </style>
