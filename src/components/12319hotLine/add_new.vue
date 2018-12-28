@@ -88,13 +88,31 @@
       this.data.cellphone = this.getUserPhone;
       this.data.idCard = this.getCardId;
 
+      setInterval(()=>{
+        if (sessionStorage.getItem("userPosition")){
+          this.data.coordinateX = sessionStorage.getItem("userPosition").split(",")[0];
+          this.data.coordinateY = sessionStorage.getItem("userPosition").split(",")[1];
+        }
+      },1000)
 
-      this.data.address = sessionStorage.getItem("positionName");
+      let time = setInterval(()=>{
+        if(sessionStorage.getItem("positionName")!==""&&this.data.address==""){
+          clearInterval(time);
+          this.data.address = sessionStorage.getItem("positionName");
+        }
+      }, 200);
+
+      setTimeout(()=>{
+        clearInterval(time);
+      },5000)
+
 
       axios.get('/third-server/12319/caseType.do').then(res=>{
         this.typeList = res.data.data;
       })
-      axios.get('/third-server/12319/area.do').then(res=>{
+
+
+      axios.get('/third-server/12319/area12319.do').then(res=>{
         this.area = res.data.data;
       })
 

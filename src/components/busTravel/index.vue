@@ -1,396 +1,696 @@
 <template>
   <div>
-  	<!--头部-->
-  	<div class="busTop">
-  		<div>
-  			<iframe id="frame" name="iframe" style="display:none;"></iframe>
-	        <form action="javascript:return true;" method="post">
-		        <div class="topSearch">
-		          <input type="search"  placeholder="请输入公交线路或站点名称" v-on:keyup.13="search()" v-model="searchKey" v-on:focus="showHistory()"/>
-		          <img class="cutImg" src="../../../static/img/busTravel/cutLine.png" alt="" @click="jumplineSearch()"/>
-		          <img class="searchImg" src="../../../static/img/busTravel/Fill 1@3x.png" alt="" />
-		        </div>
-	        </form>
-  		</div>
-  		<div class="tab" v-show="isOn!=1">
-  			<div :class="{active:isOn==0}" @click="cut(0)">
-  				<img v-show="isOn==0" src="../../../static/img/busTravel/tab1.png" alt="" />
-  				<img v-show="isOn!=0" src="../../../static/img/busTravel/形状25拷贝@2x.png" alt="" />
-  				<span>附近车辆</span>
-  			</div>
-  			<div :class="{active:isOn==1}" @click="cut(1)">
-  				<img v-show="isOn==1" src="../../../static/img/busTravel/形状26拷贝@2x.png" alt="" />
-  				<img v-show="isOn!=1" src="../../../static/img/busTravel/tab2.png" alt="" />
-  				<span>历史记录</span>
-  			</div>
-  			<div :class="{active:isOn==2}" @click="cut(2)">
-  				<img v-show="isOn==2" src="../../../static/img/busTravel/形状27@2x.png" alt="" />
-  				<img v-show="isOn!=2" src="../../../static/img/busTravel/tab3.png" alt="" />
-  				<span>我的收藏</span>
-  			</div>
-  		</div>
-  	</div>
-  	<div class="map" v-show="isOn==0">
-  		地图显示
-  	</div>
-  	<!--历史记录-->
-  	<div class="historySearch" v-show="isOn==1">
-  		<!--搜索结果-->
-  		<div v-show="!showhistory">
-  			<!--线路结果-->
-  			<div class="lineRes" v-for="item in lineList" @click="toLine(item.lineId,item.dir,item.lineName,item.beginStationName,item.endStationName)">
-  				<img src="../../../static/img/busTravel/组合logo.png" alt="" />
-  				<div class="lineText">
-  					<div class="lineName">{{item.lineName}}</div>
-  					<div class="pointName">
-  						<span>{{item.beginStationName}}</span>
-  						<img src="../../../static/img/busTravel/23@2x.png" alt="" />
-  						<span>{{item.endStationName}}</span>
-  					</div>
-  				</div>
-  			</div>
-  			<!--站点结果-->
-  			<div class="pointText" v-for="item in stationList" @click="toPointLine(item.staName)">
-  				<img src="../../../static/img/busTravel/组logo@2x.png" alt="" />
-  				<span>{{item.staName}}</span>
-  			</div>
-  		</div>
-  		<!--历史记录弹出-->
-  		<div v-show="showhistory">
-	  		<div class="his_top">历史搜索</div>
-	  		<!--线路-->
-	  		<div class="his_middle">
-	  		   <div v-for="(val,index) in linehistory">
-	  		   	  <img src="../../../static/img/busTravel/组合logo.png" alt="" />
-	  		   	  <div class="lineName2">{{val.lineName.length>4?val.lineName.slice(0,4)+"...":val.lineName}}</div>
-	  		   	  <div class="pointName">
-  						<span>{{val.beginStationName}}</span>
-  						<img src="../../../static/img/busTravel/23@2x.png" alt="" />
-  						<span>{{val.endStationName}}</span>
-  				  </div>
-  				  <img class="delImg" src="../../../static/img/busTravel/5@2x.png" alt="" @click="delLine(index)"/>
-	  		   </div>
-	  		</div>
-	  		<!--站点-->
-	  		<div class="pointText pointPosition" v-for="(value,index) in pointhistory">
-  				<img src="../../../static/img/busTravel/组logo@2x.png" alt="" />
-  				<span>{{value.staName}}</span>
-  				<img class="delImg" src="../../../static/img/busTravel/5@2x.png" alt="" @click="delPoint(index)" />
-  			</div>
-	  		<div class="his_foot" @click="delHistory()" v-show="linehistory.length!=0 || pointhistory.length!=0">清空历史记录</div>
-	  		<div class="his_foot" v-show="linehistory.length==0 && pointhistory.length==0">暂无历史搜索记录</div>
-	  	</div>
-  	</div>
-  	<!--我的收藏-->
-  	<div v-show="isOn==2" class="collection">
-  		   <div class="noCollection" v-show="userCollection.length==0">
-                     暂无收藏
-	      </div>
-	      <div v-for="item in userCollection" @click="toLine(item.lineId,item.dir,item.lineName,item.beginStationName,item.endStationName)">
-	        <img class="busImg" src="../../../static/img/busTravel/组合logo@2x.png" alt=""/>
-	        <div class="busMiddle">
-	          <div class="busName">{{item.lineName}}</div>
-	          <div class="toLine">
-	          	<span>{{item.beginStationName}}</span>
-	            <img src="./../../../static/img/busTravel/23@2x.png" alt="" class="toLineIcon"><span>{{item.endStationName}}</span>
-	          </div>
-	          <div class="fromLine">
-	            {{item.firstLastTime}}
-	          </div>
-	        </div>
-	      </div>
-  	</div>
+    <!--头部-->
+    <div class="busTop">
+      <div>
+        <iframe id="frame" name="iframe" style="display:none;"></iframe>
+        <form action="javascript:return true;" method="post">
+          <div class="topSearch">
+            <input type="search" placeholder="请输入公交线路或站点名称" v-on:keyup.13="search()" v-model="searchKey"
+                   v-on:focus="showHistory()"/>
+            <img class="cutImg" src="../../../static/img/busTravel/cutLine.png" alt=""
+                 @click="jumplineSearch()"/>
+            <img class="searchImg" src="../../../static/img/busTravel/Fill 1@3x.png" alt=""/>
+          </div>
+        </form>
+      </div>
+      <div class="tab" v-show="isOn!=1">
+        <div :class="{active:isOn==0}" @click="cut(0)">
+          <img v-show="isOn==0" src="../../../static/img/busTravel/tab1.png" alt=""/>
+          <img v-show="isOn!=0" src="../../../static/img/busTravel/形状25拷贝@2x.png" alt=""/>
+          <span>附近车辆</span>
+        </div>
+        <div :class="{active:isOn==1}" @click="cut(1)">
+          <img v-show="isOn==1" src="../../../static/img/busTravel/形状26拷贝@2x.png" alt=""/>
+          <img v-show="isOn!=1" src="../../../static/img/busTravel/tab2.png" alt=""/>
+          <span>历史记录</span>
+        </div>
+        <div :class="{active:isOn==2}" @click="cut(2)">
+          <img v-show="isOn==2" src="../../../static/img/busTravel/形状27@2x.png" alt=""/>
+          <img v-show="isOn!=2" src="../../../static/img/busTravel/tab3.png" alt=""/>
+          <span>我的收藏</span>
+        </div>
+      </div>
+    </div>
+    <div class="map" v-show="isOn==0" id="container">
+    </div>
+    <div class="busContent" v-show="isOn==0">
+      <div class="busPoint">
+        <img src="./../../../static/img/bus/busIcon.png" alt="" class="busIcon">{{nearMark.staName}}
+      </div>
+      <div class="busLine">
+        <div v-for="(item,index) in list" class="busItem">
+          <div class="busLineLeft" @click="toLineDetail(index)">
+            <div class="T_333333">{{item.lineName}}</div>
+            <div class="busLineLeftLine">
+              <span class="T_999999">{{item.beginStationName}}</span>
+              <img src="./../../../static/img/bus/toLine.png" alt="" class="toLineIcon">
+              <span class="T_999999">{{item.endStationName}}</span>
+            </div>
+          </div>
+          <div class="busLineMind" @click="changeLineDirection(index)">
+            <img src="./../../../static/img/bus/changeIndex.png" alt="" class="chageIndex">
+            <div class="C_6F86FC">
+              始末切换
+            </div>
+          </div>
+          <div class="busLineRight" @click="toLineDetail(index)">
+            <div class="T_333333">最近车辆</div>
+            <div class="C_999999">{{item.nearInfo}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--历史记录-->
+    <div class="historySearch" v-show="isOn==1">
+      <!--搜索结果-->
+      <div v-show="!showhistory">
+        <!--线路结果-->
+        <div class="lineRes" v-for="item in lineList"
+             @click="toLine(item.lineId,item.dir,item.lineName,item.beginStationName,item.endStationName)">
+          <img src="../../../static/img/busTravel/组合logo.png" alt=""/>
+          <div class="lineText">
+            <div class="lineName">{{item.lineName}}</div>
+            <div class="pointName">
+              <span>{{item.beginStationName}}</span>
+              <img src="../../../static/img/busTravel/23@2x.png" alt=""/>
+              <span>{{item.endStationName}}</span>
+            </div>
+          </div>
+        </div>
+        <!--站点结果-->
+        <div class="pointText" v-for="item in stationList" @click="toPointLine(item.staName)">
+          <img src="../../../static/img/busTravel/组logo@2x.png" alt=""/>
+          <span>{{item.staName}}</span>
+        </div>
+      </div>
+      <!--历史记录弹出-->
+      <div v-show="showhistory">
+        <div class="his_top">历史搜索</div>
+        <!--线路-->
+        <div class="his_middle">
+          <div v-for="(val,index) in linehistory">
+            <img src="../../../static/img/busTravel/组合logo.png" alt=""/>
+            <div class="lineName2">{{val.lineName.length>4?val.lineName.slice(0,4)+"...":val.lineName}}
+            </div>
+            <div class="pointName">
+              <span>{{val.beginStationName}}</span>
+              <img src="../../../static/img/busTravel/23@2x.png" alt=""/>
+              <span>{{val.endStationName}}</span>
+            </div>
+            <img class="delImg" src="../../../static/img/busTravel/5@2x.png" alt=""
+                 @click="delLine(index)"/>
+          </div>
+        </div>
+        <!--站点-->
+        <div class="pointText pointPosition" v-for="(value,index) in pointhistory">
+          <img src="../../../static/img/busTravel/组logo@2x.png" alt=""/>
+          <span>{{value.staName}}</span>
+          <img class="delImg" src="../../../static/img/busTravel/5@2x.png" alt="" @click="delPoint(index)"/>
+        </div>
+        <div class="his_foot" @click="delHistory()" v-show="linehistory.length!=0 || pointhistory.length!=0">
+          清空历史记录
+        </div>
+        <div class="his_foot" v-show="linehistory.length==0 && pointhistory.length==0">暂无历史搜索记录</div>
+      </div>
+    </div>
+    <!--我的收藏-->
+    <div v-show="isOn==2" class="collection">
+      <div class="noCollection" v-show="userCollection.length==0">
+        暂无收藏
+      </div>
+      <div v-for="item in userCollection"
+           @click="toLine(item.lineId,item.dir,item.lineName,item.beginStationName,item.endStationName)">
+        <img class="busImg" src="../../../static/img/busTravel/组合logo@2x.png" alt=""/>
+        <div class="busMiddle">
+          <div class="busName">{{item.lineName}}</div>
+          <div class="toLine">
+            <span>{{item.beginStationName}}</span>
+            <img src="./../../../static/img/busTravel/23@2x.png" alt="" class="toLineIcon"><span>{{item.endStationName}}</span>
+          </div>
+          <div class="fromLine">
+            {{item.firstLastTime}}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
   import axios from "axios"
   import {mapGetters} from 'vuex'
-    export default {
-      name: "index",
-      data(){
-          return{
-             isOn:0,//tab切换
-             showhistory:true,//历史记录的显示隐藏
-             userCollection: [],//我的收藏接口数据
-             searchKey:"",//线路站点信息关键字
-             stationList:[],//站点结果列表
-	           lineList:[],//线路结果列表
-	           linehistory:[],//历史记录暂存线路
-	           pointhistory:[],//历史记录暂存站点
-             
-          }
-      },
-      computed:{
-	    	...mapGetters([
-	        "getUserId",
-	        "getUserName",
-	        "getCardId",
-	        "getUserPhone",
-	      ]),
-      },
-      mounted(){
-          //我的收藏
-          this.queryMyCollection();
-        
-          // 提取线路历史
-					let infoStr = window.localStorage.getItem('history');
-					let info = JSON.parse(infoStr);
-					if(info==null){
-						this.linehistory=[]
-					}else{
-						this.linehistory=info;
-					}
-					
-					//提取站点历史
-					let infoStr2 = window.localStorage.getItem('history2');
-					let info2 = JSON.parse(infoStr2);
-					if(info2==null){
-						this.pointhistory=[]
-					}else{
-						this.pointhistory=info2;
-					}
-      },
-      methods:{
-        cut(i){
-        	this.isOn=i;
-        },
-        showHistory(){
-        	this.isOn=1;
-        	this.showhistory=true;
-        },
-        jumplineSearch(){
-        	this.$router.push("/busTravel/lineSearch");
-        },
-        search(){
-        	this.showhistory=false;
-        	axios.post("/third-server/busInfo/queryBusInfoByLineOrStation.do", {
-	          "keyWord": this.searchKey
-	        }).then(res => {
-	        	console.log(res)
-	          this.stationList = res.data.data.queryInfo.staList;
-	          this.lineList = res.data.data.queryInfo.lineList;
-	        })
-        },
-        queryMyCollection() {
-	        axios.post('/third-server/busInfo/queryMyCollection.do', {
-	            //"userId": this.getUserId
-	            "userId":"314r23e1r32e"
-	        }).then(res => {
-	          this.userCollection = res.data.data.collectionList;
-	        })
-	      },
-	      toLine(id, dir,a,b,c) {
-	        this.$router.push("/busTravel/lineBus/" + id + "/" + dir);
-	        //点击跳转的时候保存搜索信息
-	        let searchName={
-			    	"lineName":a,
-			    	"beginStationName":b,
-			    	"endStationName":c
-			    }
-	        if(this.linehistory.length>0){
-			    	    let isData=false;
-						    for(let i=0;i<this.linehistory.length;i++){
-						    	  if(this.linehistory[i].lineName==a){
-						    	   	 return;
-						    	  }else{
-						    	   	  isData=true;
-						    	  }
-						    }
-						    if(isData){this.linehistory.push(searchName)}
-			    }else{
-			    	  this.linehistory.push(searchName)
-			    }
-          let str=JSON.stringify(this.linehistory);
-          window.localStorage.setItem('history', str);
-	      },
-	      toPointLine(id){
-	        //this.$router.push("/busLine/pointLine/" + id);
-	        //点击跳转的时候保存搜索信息
-	        let searchName={
-			    	"staName":id,
-			    }
-	        //去重操作
-	        if(this.pointhistory.length>0){
-			    	    let isData=false;
-						    for(let i=0;i<this.pointhistory.length;i++){
-						    	  if(this.pointhistory[i].staName==id){
-						    	   	 return;
-						    	  }else{
-						    	   	  isData=true;
-						    	  }
-						    }
-						    if(isData){this.pointhistory.push(searchName)}
-			    }else{
-			    	  this.pointhistory.push(searchName)
-			    }
-          let str=JSON.stringify(this.pointhistory);
-          window.localStorage.setItem('history2', str);
-	        
-	      },
-	      delHistory(){
-	      	 window.localStorage.removeItem('history');
-	      	 window.localStorage.removeItem('history2');
-	      	 this.linehistory=[];
-	         this.pointhistory=[];
-	      },
-	      delLine(i){
-	      	 this.linehistory.splice(i,1);
-	      	 window.localStorage.removeItem('history');
-	      	 let str=JSON.stringify(this.linehistory);
-           window.localStorage.setItem('history', str);
-	      },
-	      delPoint(i){
-	      	 this.pointhistory.splice(i,1);
-	      	 window.localStorage.removeItem('history2');
-	      	 let str=JSON.stringify(this.pointhistory);
-           window.localStorage.setItem('history2', str);
-	      },
+
+  export default {
+    name: "index",
+    data() {
+      return {
+        isOn: 0,//tab切换
+        showhistory: true,//历史记录的显示隐藏
+        userCollection: [],//我的收藏接口数据
+        searchKey: "",//线路站点信息关键字
+        stationList: [],//站点结果列表
+        lineList: [],//线路结果列表
+        linehistory: [],//历史记录暂存线路
+        pointhistory: [],//历史记录暂存站点
+
+
+        map: {},
+        userMark: "",
+        list: [],
+        nearMark: {},
+        busDialog: {},
+
+        const:0,
       }
+    },
+    computed: {
+      ...mapGetters([
+        "getUserId",
+        "getUserName",
+        "getCardId",
+        "getUserPhone",
+      ]),
+    },
+    mounted() {
+
+      let url = 'https://webapi.amap.com/maps?v=1.4.7&key=ec3bd89bc62edfe8928454dcbab04de4&plugin=AMap.Transfer,AMap.Autocomplete,AMap.PlaceSearch,AMap.Driving,AMap.Geolocation&callback=onLoad';
+      let jsapi = document.createElement('script');
+      jsapi.charset = 'utf-8';
+      jsapi.src = url;
+      document.head.appendChild(jsapi);
+
+      window.onLoad = () => {
+        let vue = this;
+        if (sessionStorage.getItem("userPosition")) {
+          vue.userPosition = sessionStorage.getItem("userPosition").split(",");
+          this.map = new AMap.Map('container', {
+            resizeEnable: true, //是否监控地图容器尺寸变化
+            zooms: [14, 20], //初始化地图层级
+            //center: [120.466456, 32.530996],
+            center: vue.userPosition,
+          });
+          this.moveLocation();
+          this.painNear();
+
+        } else {
+          this.map = new AMap.Map('container', {
+            resizeEnable: true, //是否监控地图容器尺寸变化
+            zooms: [14, 20], //初始化地图层级
+            center: [120.466456, 32.530996],
+          });
+
+          let time = setInterval(() => {
+            if (sessionStorage.getItem("userPosition")) {
+              clearInterval(time);
+              this.moveLocation();
+              this.painNear();
+            }
+          }, 200);
+
+          setTimeout(function () {
+            clearInterval(time);
+          }, 5000);
+        }
+      }
+      //我的收藏
+      this.queryMyCollection();
+
+      // 提取线路历史
+      let infoStr = window.localStorage.getItem('history');
+      let info = JSON.parse(infoStr);
+      if (info == null) {
+        this.linehistory = []
+      } else {
+        this.linehistory = info;
+      }
+
+      //提取站点历史
+      let infoStr2 = window.localStorage.getItem('history2');
+      let info2 = JSON.parse(infoStr2);
+      if (info2 == null) {
+        this.pointhistory = []
+      } else {
+        this.pointhistory = info2;
+      }
+    },
+    methods: {
+      changeLineDirection(n){
+        axios.post("/third-server/busInfo/switchUpDown.do",{
+          "lineId":this.list[n].lineId,
+          "dir":this.list[n].dir==0?'1':'0'
+        }).then(res=>{
+          this.list[n] = res.data.data;
+          this.fixOneNear(n)
+        })
+      },
+      moveLocation() {
+        if (sessionStorage.getItem("userPosition")) {
+          let vue = this;
+          vue.userPosition = sessionStorage.getItem("userPosition").split(",");
+          vue.map.remove(vue.userMark);
+
+          vue.userMark = new AMap.Marker({
+            map: vue.map,
+            position: vue.userPosition,
+          });
+
+          this.map.setCenter(vue.userPosition);
+        }
+      },
+      /*计算站点*/
+      fixOneNear(n){
+        axios.post("/third-server/busInfo/getNearestSite.do", {
+          "lineId": this.list[n].lineId,
+          "dir": this.list[n].dir,
+          "longitude": sessionStorage.getItem("userPosition").split(",")[0],
+          "latitude": sessionStorage.getItem("userPosition").split(",")[1],
+        }).then(res => {
+          this.list[n].near = res.data.data;
+          axios.post("/third-server/busInfo/queryBusLocation.do", {
+            "lineId": this.list[n].lineId,
+            "dir":this.list[n].dir
+          }).then(res => {
+            this.list[n].bus = res.data.data;
+
+            let nearInfo = -1;
+            for(let c = 0;c<this.list[n].bus.length;c++){
+              if(this.list[n].near.staNo - this.list[n].bus[c].parentNo>0&&((this.list[n].near.staNo - this.list[n].bus[c].parentNo<nearInfo)||nearInfo==-1)){
+                nearInfo = this.list[n].near.staNo - this.list[n].bus[c].parentNo;
+              }
+            }
+            if(nearInfo==-1){
+              this.list[n].nearInfo = "暂无"
+            }else{
+              this.list[n].nearInfo = "距您"+nearInfo+"站"
+            }
+
+            this.$forceUpdate();
+          })
+        })
+      },
+      fixNear(){
+        let vue = this;
+        for (let i = 0; i < vue.list.length; i++) {
+          axios.post("/third-server/busInfo/getNearestSite.do", {
+            "lineId": vue.list[i].lineId,
+            "dir": vue.list[i].dir,
+            "longitude": sessionStorage.getItem("userPosition").split(",")[0],
+            "latitude": sessionStorage.getItem("userPosition").split(",")[1],
+          }).then(res => {
+            vue.list[i].near = res.data.data;
+            vue.const++;
+          })
+
+          axios.post("/third-server/busInfo/queryBusLocation.do", {
+            "lineId": vue.list[i].lineId,
+            "dir":vue.list[i].dir
+          }).then(res => {
+            vue.list[i].bus = res.data.data;
+            vue.const++;
+          })
+        }
+
+        let tiem2 = setInterval(()=>{
+          if(vue.const == vue.list.length*2){
+            clearInterval(tiem2);
+
+            for(let z = 0;z<vue.list.length;z++){
+              let nearInfo = -1;
+              for(let c = 0;c<vue.list[z].bus.length;c++){
+                if(vue.list[z].near.staNo - vue.list[z].bus[c].parentNo>0&&((vue.list[z].near.staNo - vue.list[z].bus[c].parentNo<nearInfo)||nearInfo==-1)){
+                  nearInfo = vue.list[z].near.staNo - vue.list[z].bus[c].parentNo;
+                }
+              }
+              if(nearInfo==-1){
+                vue.list[z].nearInfo = "暂无"
+              }else{
+                vue.list[z].nearInfo = "距您"+nearInfo+"站"
+              }
+            }
+
+            vue.$forceUpdate();
+          }
+        },100)
+
+      },
+
+      toLineDetail(n) {
+        this.$router.push("/busLine/lineDetails/" + this.list[n].lineId + "/" + this.list[n].dir);
+      },
+      painNear() {
+        let vue = this;
+        axios.post('/third-server/busInfo/queryStationByPosition.do', {
+          "longitude": sessionStorage.getItem("userPosition").split(",")[0],
+          "latitude": sessionStorage.getItem("userPosition").split(",")[1]
+        }).then(res => {
+          this.nearStation = res.data.data.busStationList;
+          this.nearMark = this.nearStation[0];
+
+          /*默认绘制最近站点*/
+          axios.post("/third-server/busInfo/queryLineInfoByStaName.do", {
+            "staName": this.nearMark.staName,
+            "dir": "2"
+          }).then(res => {
+            let busList = res.data.data.busStationList;
+            let list = []
+            for(let i = 0; i < busList.length; i++){
+              let z = 0;
+              for(let j = 0;j< list.length;j++){
+                if(busList[i].lineId == list[j].lineId){
+                  break;
+                }else{
+                  z++;
+                }
+              }
+              if (z == list.length){
+                list.push(busList[i])
+              }
+            }
+
+            this.list = list;
+
+            this.fixNear();
+          })
+
+          for (let i = 0; i < this.nearStation.length; i++) {
+            let startIcon = new AMap.Icon({
+              // 图标尺寸
+              size: new AMap.Size(23, 29),
+              // 图标的取图地址
+              image: './static/img/bus/station.png',
+              // 图标所用图片大小
+              imageSize: new AMap.Size(21, 27),
+              // 图标取图偏移量
+            });
+            let marker = new AMap.Marker({
+              map: vue.map,
+              position: [vue.nearStation[i].staLng, vue.nearStation[i].staLat],
+              icon: startIcon,
+            });
+
+            AMap.event.addListener(marker, 'click', function () {
+              vue.const = 0;
+              vue.station = vue.nearStation[i].staName;
+
+              axios.post("/third-server/busInfo/queryLineInfoByStaName.do", {
+                "staName": vue.station,
+                "dir": "2"
+              }).then(res => {
+                let busList = res.data.data.busStationList;
+                let list = []
+                for(let i = 0; i < busList.length; i++){
+                  let z = 0;
+                  for(let j = 0;j< list.length;j++){
+                    if(busList[i].lineId == list[j].lineId){
+                      break;
+                    }else{
+                      z++;
+                    }
+                  }
+                  if (z == list.length){
+                    list.push(busList[i])
+                  }
+                }
+
+                vue.list = list;
+                vue.fixNear();
+              })
+            });
+          }
+        })
+      },
+      cut(i) {
+        this.isOn = i;
+      },
+      showHistory() {
+        this.isOn = 1;
+        this.showhistory = true;
+      },
+      jumplineSearch() {
+        this.$router.push("/busTravel/lineSearch");
+      },
+      search() {
+        this.showhistory = false;
+        axios.post("/third-server/busInfo/queryBusInfoByLineOrStation.do", {
+          "keyWord": this.searchKey
+        }).then(res => {
+          console.log(res)
+          this.stationList = res.data.data.queryInfo.staList;
+          this.lineList = res.data.data.queryInfo.lineList;
+        })
+      },
+      queryMyCollection() {
+        axios.post('/third-server/busInfo/queryMyCollection.do', {
+          //"userId": this.getUserId
+          "userId": "314r23e1r32e"
+        }).then(res => {
+          this.userCollection = res.data.data.collectionList;
+        })
+      },
+      toLine(id, dir, a, b, c) {
+        this.$router.push("/busTravel/lineBus/" + id + "/" + dir);
+        //点击跳转的时候保存搜索信息
+        let searchName = {
+          "lineName": a,
+          "beginStationName": b,
+          "endStationName": c
+        }
+        if (this.linehistory.length > 0) {
+          let isData = false;
+          for (let i = 0; i < this.linehistory.length; i++) {
+            if (this.linehistory[i].lineName == a) {
+              return;
+            } else {
+              isData = true;
+            }
+          }
+          if (isData) {
+            this.linehistory.push(searchName)
+          }
+        } else {
+          this.linehistory.push(searchName)
+        }
+        let str = JSON.stringify(this.linehistory);
+        window.localStorage.setItem('history', str);
+      },
+      toPointLine(id) {
+        //this.$router.push("/busLine/pointLine/" + id);
+        //点击跳转的时候保存搜索信息
+        let searchName = {
+          "staName": id,
+        }
+        //去重操作
+        if (this.pointhistory.length > 0) {
+          let isData = false;
+          for (let i = 0; i < this.pointhistory.length; i++) {
+            if (this.pointhistory[i].staName == id) {
+              return;
+            } else {
+              isData = true;
+            }
+          }
+          if (isData) {
+            this.pointhistory.push(searchName)
+          }
+        } else {
+          this.pointhistory.push(searchName)
+        }
+        let str = JSON.stringify(this.pointhistory);
+        window.localStorage.setItem('history2', str);
+
+      },
+      delHistory() {
+        window.localStorage.removeItem('history');
+        window.localStorage.removeItem('history2');
+        this.linehistory = [];
+        this.pointhistory = [];
+      },
+      delLine(i) {
+        this.linehistory.splice(i, 1);
+        window.localStorage.removeItem('history');
+        let str = JSON.stringify(this.linehistory);
+        window.localStorage.setItem('history', str);
+      },
+      delPoint(i) {
+        this.pointhistory.splice(i, 1);
+        window.localStorage.removeItem('history2');
+        let str = JSON.stringify(this.pointhistory);
+        window.localStorage.setItem('history2', str);
+      },
     }
+  }
 </script>
 
 <style scoped>
-   .busTop{
-   	width: 100%;
-   	 padding:14px 20px 0 20px;
-   	 position:fixed;
-   	 top:0;
-   }
-   .topSearch{
-   	width:100%;
-   	height:64px;
-   	position:relative;
-   }
-   .topSearch input{
-   	  width:600px;
-   	  height:64px;
-   	  background: #fff;
-   	  border:1px solid #eee;
-   	  float: left;
-   	  margin-bottom: 0;
-   	  padding-left:90px;
-   }
-   .cutImg{
-   	height:64px;
-   	margin-left:20px;
-   	float: right;
-   }
-   .searchImg{
-   	position:absolute;
-   	top:20px;
-   	left:35px;
-   	width:28px;
-   }
-   .tab{
-   	display: flex;
-   	align-items: center;
-   	justify-content: space-between;
-   	padding:18px 0;
-   }
-   .tab img{
-   	width:30px;
-   	vertical-align:middle ;
-   }
-   .tab div{
-   	color:#9a9a9a;
-   	font-size:28px;
-   	width:207px;
-   	height:50px;
-   	text-align: center;
-   	line-height: 50px;
-   }
-   .tab .active{
-   	   background: #7586ff;
-   	   border-radius: 40px;
-   	   color:#fff;
-   }
-   .map,.collection{
-   	 padding-top:164px;
-   }
-   .historySearch{
-   	padding:116px 20px 0 20px;
-   	width:100%;
-   }
-   .lineRes{
-   	width:100%;
-   	height:130px;
-   	border-bottom: 1px solid #eee;
-   	display: flex;
-   	align-items: center;
-   }
-   .lineRes>img{
-   	  width:60px;
-   }
-   .lineRes>div{
-   	padding-left:48px;
-   }
-   .lineName{
-   	 font-size: 32px;
-   	 color:#666;
-   	 line-height: 32px;
-   	 padding-bottom: 20px;
-   }
-   .pointName{
-   	  color:#999;
-   	  font-size: 28px;
-   	  line-height: 28px;
-   }
-   .pointName img{
-   	  width:23px;
-   	  margin:0 14px;
-   	  vertical-align: middle;
-   }
-   .pointText{
-   	 width:100%;
-   	 height:110px;
-   	 border-bottom: 1px solid #eee;
-   	 display: flex;
-   	 align-items: center;
-   }
-   .pointText img{
-   	 width:60px;
-   }
-   .pointText span{
-   	 font-size: 32px;
-   	 color:#666;
-   	 line-height: 32px;
-   	 padding-left:48px;
-   }
-   .his_top{
-   	font-size:28px;
-   }
-   .his_middle>div>img{
-   	 width:60px;
-   }
-   .his_middle>div{
-   	width:100%;
-   	height:110px;
-   	border-bottom: 1px solid #eee;
-   	display: flex;
-   	align-items: center;
-   	position:relative;
-   }
-   .delImg{
-   	 width:26px !important;
-   	 position:absolute;
-   	 right:0;
-   }
-   .lineName2{
-   	 font-size:32px;
-   	 color:#666;
-   	 padding:0 55px 0 20px;
-   	 line-height: 32px;
-   }
-   .his_foot{
-   	 font-size: 28px;
-   	 line-height: 28px;
-   	 padding-top:42px;
-   	 color:#999;
-   	 width:100%;
-   	 text-align: center;
-   }
-   /*我的收藏*/
+  .busTop {
+    width: 100%;
+    padding: 14px 20px 0 20px;
+    position: fixed;
+    top: 0;
+  }
+
+  .topSearch {
+    width: 100%;
+    height: 64px;
+    position: relative;
+  }
+
+  .topSearch input {
+    width: 600px;
+    height: 64px;
+    background: #fff;
+    font-size: 28px;
+    border: 1px solid #eee;
+    float: left;
+    text-align: left;
+    margin-bottom: 0;
+    padding-left: 90px;
+  }
+
+  .cutImg {
+    height: 64px;
+    margin-left: 20px;
+    float: right;
+  }
+
+  .searchImg {
+    position: absolute;
+    top: 20px;
+    left: 35px;
+    width: 28px;
+  }
+
+  .tab {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 0;
+  }
+
+  .tab img {
+    width: 30px;
+    vertical-align: middle;
+  }
+
+  .tab div {
+    color: #9a9a9a;
+    font-size: 28px;
+    width: 207px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+  }
+
+  .tab .active {
+    background: #7586ff;
+    border-radius: 40px;
+    color: #fff;
+  }
+
+  .collection {
+    padding-top: 164px;
+  }
+
+  .historySearch {
+    padding: 116px 20px 0 20px;
+    width: 100%;
+  }
+
+  .lineRes {
+    width: 100%;
+    height: 130px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+  }
+
+  .lineRes > img {
+    width: 60px;
+  }
+
+  .lineRes > div {
+    padding-left: 48px;
+  }
+
+  .lineName {
+    font-size: 32px;
+    color: #666;
+    line-height: 32px;
+    padding-bottom: 20px;
+  }
+
+  .pointName {
+    color: #999;
+    font-size: 28px;
+    line-height: 28px;
+  }
+
+  .pointName img {
+    width: 23px;
+    margin: 0 14px;
+    vertical-align: middle;
+  }
+
+  .pointText {
+    width: 100%;
+    height: 110px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+  }
+
+  .pointText img {
+    width: 60px;
+  }
+
+  .pointText span {
+    font-size: 32px;
+    color: #666;
+    line-height: 32px;
+    padding-left: 48px;
+  }
+
+  .his_top {
+    font-size: 28px;
+  }
+
+  .his_middle > div > img {
+    width: 60px;
+  }
+
+  .his_middle > div {
+    width: 100%;
+    height: 110px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+
+  .delImg {
+    width: 26px !important;
+    position: absolute;
+    right: 0;
+  }
+
+  .lineName2 {
+    font-size: 32px;
+    color: #666;
+    padding: 0 55px 0 20px;
+    line-height: 32px;
+  }
+
+  .his_foot {
+    font-size: 28px;
+    line-height: 28px;
+    padding-top: 42px;
+    color: #999;
+    width: 100%;
+    text-align: center;
+  }
+
+  /*我的收藏*/
   .collection > div {
     border-top: 20px solid rgba(245, 245, 245, 1);
     width: 100%;
@@ -399,6 +699,7 @@
     align-items: center;
     background: rgba(255, 255, 255, 1);
   }
+
   .toLine {
     display: flex;
     align-items: center;
@@ -406,9 +707,11 @@
     color: rgba(153, 153, 153, 1);
     margin-bottom: 20px;
   }
+
   .busImg {
     width: 90px;
   }
+
   .busMiddle {
     padding: 0px 0 0px 43px;
   }
@@ -443,6 +746,7 @@
     color: #666;
     margin-bottom: 20px;
   }
+
   div.noCollection {
     border: 0;
     text-align: center;
@@ -450,10 +754,142 @@
     font-size: 28px;
     color: #999;
   }
-  .pointPosition{
-  	position:relative;
+
+  .pointPosition {
+    position: relative;
   }
-  .pointPosition span{
-  	padding-left:20px;
+
+  .pointPosition span {
+    padding-left: 20px;
+  }
+
+  .map {
+    position: fixed;
+    top: 164px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  .busContent {
+    background: #fff;
+    height: 434px;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+
+    transition: bottom 0.25s ease-out;
+    -moz-transition: bottom 0.25s ease-out; /* Firefox 4 */
+    -webkit-transition: bottom 0.25s ease-out; /* Safari 和 Chrome */
+    -o-transition: bottom 0.25s ease-out; /* Opera */
+  }
+
+  .close {
+    bottom: -344px;
+  }
+
+  .busPoint {
+    height: 89px;
+    border-bottom: 1px solid #ebebeb;
+    padding: 16px 23px 0 23px;
+    font-size: 32px;
+    color: #3184f0;
+    display: flex;
+    align-items: center;
+    background: url("./../../../static/img/bus/radio.png") no-repeat;
+    background-size: 80px;
+    background-position: center 12px;
+  }
+
+  .busLine {
+    height: 345px;
+    overflow: scroll;
+  }
+
+  .line {
+    padding: 16px 23px;
+    border-bottom: 1px solid #ebebeb;
+    box-sizing: border-box;
+  }
+
+  .busIcon {
+    width: 39px;
+    margin-right: 34px;
+  }
+
+  .busItem {
+    border-bottom: 1px solid #EBEBEB;
+  }
+
+  .toLineIcon {
+    width: 24px;
+    margin: 0 16px;
+    position: relative;
+    top: -6px;
+  }
+
+  .busItem {
+    display: flex;
+    padding: 36px 16px;
+    justify-content: space-between;
+  }
+
+  .busLineLeft {
+    width: 300px;
+  }
+
+  .busLineRight {
+    width: 300px;
+  }
+
+  .busLineRight div {
+    text-align: right;
+  }
+
+  .busLineMind {
+    text-align: center;
+  }
+
+  .chageIndex {
+    width: 40px;
+    height: 40px;
+  }
+
+  .C_6F86FC {
+    color: #6F86FC;
+    font-size: 26px;
+    margin-top: 30px;
+    white-space: nowrap;
+  }
+
+  .C_999999 {
+    color: #999999;
+    font-size: 26px;
+    margin-top: 40px;
+  }
+
+  .T_333333 {
+    color: #333333;
+    font-size: 26px;
+  }
+
+  .busLineLeftLine {
+    font-size: 26px;
+    margin-top: 40px;
+  }
+
+  .T_999999 {
+    color: #999999;
+    font-size: 26px;
+  }
+</style>
+
+<style>
+  .amap-overlay-text-container {
+    border: 0;
+    background-color: transparent;
   }
 </style>

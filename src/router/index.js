@@ -591,6 +591,9 @@ export default new Router({
       path: '/busTravel', /*公交查询*/
       name: 'index',
       component: index,
+      meta:{
+        keepAlive:true
+      }
     },
     {
       path: '/busTravel/lineSearch', /*公交查询*/
@@ -602,10 +605,10 @@ export default new Router({
       name: 'lineBus',
       component: lineBus,
     },
-   
-   
-   
-   
+
+
+
+
     {
       path: '/busLine', /*公交查询*/
       name: 'busLine',
