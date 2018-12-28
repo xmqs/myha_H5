@@ -168,6 +168,7 @@
 			        })
 			    this.showhistory=false;
 			    this.ismarsk=false;
+			    this.isIndex=1000;
 			    //保存搜索 
 			    
 			    let searchName={
@@ -288,6 +289,7 @@
    .lineText input{
    	 height:70px;
    	 color:#333;
+   	 text-align: left;
    	 margin-bottom: 0;
    	 padding: 0;
      font-size: 28px;
@@ -350,7 +352,7 @@
    	 height:77px;
    	 margin-right:49px;
    	 position:absolute;
-   	 right:49px;
+   	 right:30px;
    }
    .contentMiddle div{
    	 font-size: 31px;
