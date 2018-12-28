@@ -259,14 +259,20 @@
               observeParents: true,
               slidesPerView: 5,// 一行显示slider的个数
 	          //slidesPerGroup: 5,// 定义slides的数量多少为一组
-            }) 
+      }) 
       axios.post("/third-server/busInfo/queryStationInfoDetail.do",{
-        "userId":this.getUserId,
-        "lineId":this.$route.params.id,
-        "dir":this.$route.params.dir,
-        "longitude":sessionStorage.getItem("userPosition").split(",")[0],
-        "latitude":sessionStorage.getItem("userPosition").split(",")[1]
+        //"userId":this.getUserId,
+        //"lineId":this.$route.params.id,
+        //"dir":this.$route.params.dir,
+        //"longitude":sessionStorage.getItem("userPosition").split(",")[0],
+        //"latitude":sessionStorage.getItem("userPosition").split(",")[1]
+        "lineId":"20000004",
+		"dir":"0",
+		"longitude":"120.476089",
+		"latitude":"32.535107",
+		"userId":"314r23e1r32e"
       }).then(res=>{
+      	//console.log(res)
         this.line = res.data.data.busStation.busStationInfoList;
         this.lineDetail = res.data.data.busStation.lineInfoDetail;
         this.isCollection = res.data.data.busStation.lineInfoDetail.isCollection;
@@ -306,8 +312,10 @@
       });
 
       axios.post("/third-server/busInfo/queryBusLocation.do",{
-        "lineId":this.$route.params.id,
-        "dir":this.$route.params.dir
+        //"lineId":this.$route.params.id,
+        //"dir":this.$route.params.dir
+        "lineId":"20000033",
+	    "dir":"1"
       }).then(res=>{
         this.nowPoint = res.data.data;
         this.painBus();
@@ -404,7 +412,7 @@
     background: #f5f5f5;
   }
   .main{
-    padding-top: 116px;
+    padding-top: 20px;
   }
 
   .main > div {

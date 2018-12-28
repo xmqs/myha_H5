@@ -266,8 +266,10 @@
    	  width:600px;
    	  height:64px;
    	  background: #fff;
+   	  font-size: 28px;
    	  border:1px solid #eee;
    	  float: left;
+   	  text-align: left;
    	  margin-bottom: 0;
    	  padding-left:90px;
    }
