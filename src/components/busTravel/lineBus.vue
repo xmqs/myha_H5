@@ -3,8 +3,8 @@
     <!--公交名称-->
    <div class="busName swiper-container">
      <div class="swiper-wrapper">
-     	<div class="busItem swiper-slide">336路</div>
-     	<div class="busItem swiper-slide">336路</div>
+     	<div class="busItem swiper-slide">991路</div>
+     	<div class="busItem swiper-slide">992路</div>
      	<div class="busItem swiper-slide">336路</div>
      	<div class="busItem swiper-slide">336路</div>
      	<div class="busItem swiper-slide">336路</div>
@@ -257,6 +257,8 @@
               autoHeight: true,
               observer: true,
               observeParents: true,
+              slidesPerView: 5,// 一行显示slider的个数
+	          //slidesPerGroup: 5,// 定义slides的数量多少为一组
             }) 
       axios.post("/third-server/busInfo/queryStationInfoDetail.do",{
         "userId":this.getUserId,

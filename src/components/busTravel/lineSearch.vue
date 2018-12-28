@@ -20,12 +20,12 @@
 		  			<div class="content" @click="show(index)">
 					  			<div class="contentTop">
 					  				<img src="../../../static/img/busTravel/形状 26@2x.png" alt="" />
-					  				<span>{{datas.beginLineName}}</span>
+					  				<div>{{datas.beginLineName.length>4?datas.beginLineName.slice(0,4)+"...":datas.beginLineName}}</div>
 					  			</div>
 					  			<img  v-show="datas.isTranfser==1" class="toImg" src="../../../static/img/busTravel/多边形 1@2x.png" alt="" />
 					  			<div class="contentTop" v-show="datas.isTranfser==1">
 					  				<img src="../../../static/img/busTravel/形状 26@2x.png" alt="" />
-					  				<span>{{datas.endLineName}}</span>
+					  				<div>{{datas.endLineName.length>4?datas.endLineName.slice(0,4)+"...":datas.endLineName}}</div>
 					  			</div>
 					  			<div class="contentMiddle">
 					  				<div>途径</div>
@@ -37,11 +37,11 @@
 			  		<!--信息栏-->
 			      <div class="busData" v-show="isIndex==index">
 			            <div class="endpoint">
-			               <img src="../../../static/img/bus/组 8@2x.png" alt=""/>
+			               <img src="../../../static/img/busTravel/组 8@2x.png" alt=""/>
 			               <div>{{datas.proList[0].beginStaName}}</div>
 			            </div>
 			            <div class="first">
-			              <img src="../../../static/img/bus/形状 24@2x.png" alt=""/>
+			              <img src="../../../static/img/busTravel/形状 24@2x.png" alt=""/>
 			              <div class="t1">乘坐：{{datas.proList[0].lineName}}</div>
 			              <!--<div class="score">票价：2元</div>-->
 			            </div>
@@ -52,7 +52,7 @@
 			            <!--转车循环体，可有可无-->
 			            <div v-for="(item,i) in datas.proList" v-show="datas.isTranfser==1 && i!==0">
 			              <div class="add">
-			                 <img src="../../../static/img/bus/形状 25@2x.png" alt=""/>
+			                 <img src="../../../static/img/busTravel/形状 25@2x.png" alt=""/>
 			                 <div>
 			                    <div class="t1">下车：{{item.beginStaName}}</div>
 			                    <div style="display:flex">
@@ -68,11 +68,11 @@
 			            </div>
 			            <!--转车循环体结束-->
 			            <div class="first">
-			               <img src="../../../static/img/bus/形状 24@2x.png" alt=""/>
+			               <img src="../../../static/img/busTravel/形状 24@2x.png" alt=""/>
 			               <div class="t1">下车：{{datas.proList[datas.proList.length-1].endStaName}}</div>
 			            </div>
 			            <div class="endpoint">
-			               <img src="../../../static/img/bus/组 8 拷贝@2x.png" alt=""/>
+			               <img src="../../../static/img/busTravel/组 8 拷贝@2x.png" alt=""/>
 			               <div>{{datas.proList[datas.proList.length-1].endStaName}}</div>
 			            </div>
 			      </div>
@@ -82,19 +82,20 @@
 	  <div class="history" v-show="showhistory">
 		  		<div v-show="true">
 			  		<div class="his_top">历史搜索</div>
-			  		<div class="his_middle">
+			  		<div class="his_middle" v-for="(val,index) in arr" @click="addInput(val.beginStationName,val.endStationName)">
 			  		   <div>
 			  		   	  <img src="../../../static/img/busTravel/组合logo@2x.png" alt="" />
-			  		   	  <div class="lineName2">116路</div>
+			  		   	  <!--<div class="lineName2">116路</div>-->
 			  		   	  <div class="pointName">
-		  						<span>汽车站</span>
+		  						<span>{{val.beginStationName}}</span>
 		  						<img src="../../../static/img/busTravel/23@2x.png" alt="" />
-		  						<span>邓庄</span>
+		  						<span>{{val.endStationName}}</span>
 		  				  </div>
-		  				  <img class="delImg" src="../../../static/img/busTravel/5@2x.png" alt="" />
+		  				  <img class="delImg" src="../../../static/img/busTravel/5@2x.png" alt="" @click.stop="del(index)"/>
 			  		   </div>
 			  		</div>
-			  		<div class="his_foot">清空历史记录</div>
+			  		<div class="his_foot" @click="delHistory()" v-show="arr.length!=0">清空历史记录</div>
+			  		<div class="his_foot" v-show="arr.length==0">暂无历史搜索记录</div>
 			  	</div>
 	  </div>
 	  <!--关键词提示-->
@@ -124,17 +125,20 @@
              staName:[],//关键提示结果集合
              ismarsk:false,//遮罩层显示隐藏
              isinput:0,//记录是哪个输入框
-             arr:[]
+             arr:[]//搜索历史数组
           }
       },
       mounted(){
       	  // 提取用户信息
 					var infoStr = window.localStorage.getItem('userInfo');
 					var info = JSON.parse(infoStr);
-					this.arr=info;
+					if(info==null){
+						this.arr=[]
+					}else{
+						this.arr=info;
+					}
 					console.log("存储的数据")
 					console.log(this.arr)
-          
       },
       methods:{
           show(i){
@@ -170,7 +174,22 @@
 			    	"beginStationName":this.beginStationName,
 						"endStationName":this.endStationName,
 			    }
-			    this.arr.push(searchName);
+			    //去重操作
+			    if(this.arr.length>0){
+			    	    let isData=false;
+						    for(let i=0;i<this.arr.length;i++){
+						    	  if(this.arr[i].beginStationName==this.beginStationName){
+						    	   	 return;
+						    	  }else{
+						    	   	  isData=true;
+						    	  }
+						    }
+						    if(isData){this.arr.push(searchName)}
+			    }else{
+			    	  this.arr.push(searchName)
+			    }
+			    
+			    
           let str=JSON.stringify(this.arr);
           window.localStorage.setItem('userInfo', str);
 	      },
@@ -210,10 +229,10 @@
 	      exchange(){
 	      	  this.isshow = 1000;
 	      	  let tmp;
-			  tmp = this.beginStationName;
-			  this.beginStationName = this.endStationName;
-			  this.endStationName = tmp;
-			  this.searchLine();
+					  tmp = this.beginStationName;
+					  this.beginStationName = this.endStationName;
+					  this.endStationName = tmp;
+					  this.searchLine();
 	      },
 	      changeName(inp,name){
 	      	//将遮罩层的值填入input，inp确认填入哪个input
@@ -224,6 +243,22 @@
 	      	}
 
 	      },
+	      delHistory(){
+	      	 window.localStorage.removeItem('userInfo');
+	      	 this.arr=[];
+	      },
+	      //删除指定下标历史记录
+	      del(i){
+	      	 this.arr.splice(i,1);
+	      	 window.localStorage.removeItem('userInfo');
+	      	 let str=JSON.stringify(this.arr);
+           window.localStorage.setItem('userInfo', str);
+	      },
+	      addInput(a,b){
+	      	this.beginStationName=a;
+          this.endStationName=b;
+	      	this.searchLine();
+	      }
       }
     }
 </script>
@@ -231,7 +266,9 @@
 <style scoped>
 	.lineTop{
 		padding:20px;
+		z-index: 10;
 		position:fixed;
+		background: #fff;
 	}
    .lineText{
    	display: flex;
@@ -249,7 +286,7 @@
    	margin-left:24px;
    }
    .lineText input{
-   	 height:60px;
+   	 height:70px;
    	 color:#333;
    	 margin-bottom: 0;
    	 padding: 0;
@@ -264,7 +301,7 @@
    	 border-bottom: 1px dashed #999;
    }
    .lineContent{
-   	padding-top:164px;
+   	padding-top:184px;
    }
    .lineContent>div{
    	border-bottom: 10px solid #f9f9f9;
@@ -291,17 +328,17 @@
    	 height:80px;
    	 border:4px solid #6F86FC;
    	 border-radius: 40px;
-   	 text-align: center;
-   	 line-height: 72px;
-   	 padding:0 25px;
+   	 display: flex;
+     justify-content: center;
+     align-items: center;
+   	 padding:0 20px;
    }
-   .contentTop>span{
+   .contentTop>div{
 		font-size:34px;
 		color:rgba(111,134,252,1);
-		line-height:70px;
    }
    .contentTop>img{
-   	margin-right:22px;
+   	margin-right:10px;
    }
    .mui-icon{
    	position:absolute;
@@ -428,6 +465,7 @@
    	  color:#999;
    	  font-size: 28px;
    	  line-height: 28px;
+   	  margin-left:20px;
    }
    .pointName img{
    	  width:23px;
