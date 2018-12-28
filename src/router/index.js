@@ -162,6 +162,9 @@ const busSearch = () => import('@/components/busLine/busSearch'/*webpackChunkNam
 const pointLine = () => import('@/components/busLine/pointLine'/*webpackChunkName: "busLine"*/)
 const lineDetails = () => import('@/components/busLine/lineDetails'/*webpackChunkName: "busLine"*/)
 
+const index = () => import('@/components/busTravel'/*webpackChunkName: "busTravel"*/)
+const lineSearch = () => import('@/components/busTravel/lineSearch'/*webpackChunkName: "busTravel"*/)
+const lineBus = () => import('@/components/busTravel/lineBus'/*webpackChunkName: "busTravel"*/)
 Vue.use(Router)
 
 export default new Router({
@@ -584,6 +587,25 @@ export default new Router({
       component: serviceCenter,
     },
     /*公交查询*/
+    {
+      path: '/busTravel', /*公交查询*/
+      name: 'index',
+      component: index,
+    },
+    {
+      path: '/busTravel/lineSearch', /*公交查询*/
+      name: 'lineSearch',
+      component: lineSearch,
+    },
+    {
+      path: '/busTravel/lineBus/:id/:dir', /*公交查询*/
+      name: 'lineBus',
+      component: lineBus,
+    },
+   
+   
+   
+   
     {
       path: '/busLine', /*公交查询*/
       name: 'busLine',

@@ -6,7 +6,7 @@
       <iframe id="frame" name="iframe" style="display:none;"></iframe>
       <form action="javascript:return true;" method="post">
         <div class="topSearch">
-          <input type="search" v-on:keyup.13="search()" autofocus="autofocus" v-model="searchKey" placeholder="请输入关键字"/>
+          <input type="search" v-on:keyup.13="search()" id="autofocus" v-model="searchKey" placeholder="请输入关键字"/>
           <div></div>
         </div>
         <!--<input type="search" id="input" class="search" placeholder="请输入搜索内容" v-model="searchKey">-->
@@ -131,20 +131,22 @@
     </div>
     <!--我的收藏-->
     <div v-show="isOn==2" class="busSearch" :class="{paddingTop:isOn!=2}">
-      <!--公交一个单元-->
-      <div  @click="toLine(item.lineId,item.dir)">
-          <img class="busImg" src="../../../static/img/bus/组合logo@2x.png" alt=""/>
-          <div class="busMiddle">
-            <div class="busName">116路(汽车站-邓庄)</div>
-            <div class="toLine"><span>邓庄</span>
-            	<img src="./../../../static/img/bus/toLine.png" alt="" class="toLineIcon"><span>汽车站</span>
-            </div>
-            <div class="fromLine">
-                              冬季 海安6:30-17:30  邓庄6:10-17:10 夏季 海安6:20-18:00  邓庄6:00-17:50
-            </div>
+      <div class="noCollection" v-show="userCollection.length==0">
+                     暂无收藏
+      </div>
+      <div v-for="item in userCollection" @click="toLine(item.lineId,item.dir)">
+        <img class="busImg" src="../../../static/img/bus/组合logo@2x.png" alt=""/>
+        <div class="busMiddle">
+          <div class="busName">{{item.lineName}}</div>
+          <div class="toLine">
+          	<span>{{item.beginStationName}}</span>
+            <img src="./../../../static/img/bus/toLine.png" alt="" class="toLineIcon"><span>{{item.endStationName}}</span>
+          </div>
+          <div class="fromLine">
+            {{item.firstLastTime}}
           </div>
         </div>
-      <!--公交一个单元结束-->
+      </div>
     </div>
 
     <!--底部tab-->
@@ -174,7 +176,7 @@
 
 <script>
   import axios from "axios"
-
+  import {mapGetters} from 'vuex'
   export default {
     data() {
       return {
@@ -190,11 +192,36 @@
         staName:[],//遮罩层搜索结果
         ismarsk:false,//遮罩层显示隐藏
         istop:false,//遮罩层向下偏移
+        tips: "请输入关键字查询",
+        userCollection: []
       }
     },
     methods: {
+	      init() {
+	        this.searchKey = "";
+	        this.stationList = [];
+	        this.lineList = [];
+	        this.tips = "请输入关键字查询";
+	        this.userCollection = [];
+	      },
+	      deleteAll() {
+	        this.searchKey = "";
+	        this.stationList = [];
+	        this.lineList = [];
+	        this.tips = "请输入关键字查询";
+	      },
 	      sel(i) {
 	        this.isOn = i;
+	        if (i == 2) {
+	          this.queryMyCollection();
+	        }
+	      },
+	      queryMyCollection() {
+	        axios.post('/third-server/busInfo/queryMyCollection.do', {
+	          "userId": this.getUserId
+	        }).then(res => {
+	          this.userCollection = res.data.data.collectionList;
+	        })
 	      },
 	      showLine(i) {
 	        this.isshow = i;
@@ -294,7 +321,26 @@
 						this.searchLine();
 	      }
     },
+    beforeRouteLeave(to, form, next) {
+      if (to.name == 'busLine') {
+        this.init()
+      }
+      next();
+    },
+    mounted() {
+      this.queryMyCollection();
+    },
+    activated() {
+      this.queryMyCollection();
+      document.getElementById("autofocus").focus();
+    },
     computed:{
+    	...mapGetters([
+        "getUserId",
+        "getUserName",
+        "getCardId",
+        "getUserPhone",
+      ]),
 	    fangan(i){
 	      return function(i){
 	         if(i==0){
@@ -767,5 +813,12 @@
   }
   .top{
   	top:128px;
+  }
+  .busSearch > div.noCollection {
+    border: 0;
+    text-align: center;
+    display: block;
+    font-size: 28px;
+    color: #999;
   }
 </style>
