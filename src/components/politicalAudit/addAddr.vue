@@ -5,7 +5,7 @@
       <div class="addrList">
         <li class="list_li">
           <div class="word">收件人</div>
-          <input type="text" name="" placeholder="请填写收货人" class="add_inp" v-model="receiveInfo.receivePerson">
+          <input type="text" name="" placeholder="请填写收件人" class="add_inp" v-model="receiveInfo.receivePerson">
         </li>
         <li class="list_li">
           <div class="word">联系电话</div>
