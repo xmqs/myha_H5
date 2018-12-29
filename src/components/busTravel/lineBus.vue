@@ -1,49 +1,46 @@
 <template>
   <div>
-    <!--公交名称-->
+  	 <!--公交名称-->
    <div class="busName swiper-container">
      <div class="swiper-wrapper">
-     	<div class="busItem swiper-slide">991路</div>
-     	<div class="busItem swiper-slide">992路</div>
-     	<div class="busItem swiper-slide">336路</div>
-     	<div class="busItem swiper-slide">336路</div>
-     	<div class="busItem swiper-slide">336路</div>
-     	<div class="busItem swiper-slide">336路</div>
-     	<div class="busItem swiper-slide">336路</div>
-     	<div class="busItem swiper-slide">336路</div>
+     	<div class="busItem swiper-slide" v-for="(val,index) in lineList" @click="cutLine(val.lineId,index)" :class="{busActive:isActive==index}">{{val.lineName}}</div>
      </div>
    </div>
-   <!--头部信息-->
-   <div class="topMsg">
-   	  <div class="lineName">336路</div>
-   	  <div class="pointName">
-   	  	<span>火车站</span>
-   	  	<img class="toImg" src="../../../static/img/busTravel/组 2@2x.png" alt="" />
-   	  	<span>曲塘医院</span>
-   	  </div>
-   	  <div class="foot1">06:00-22:00</div>
-   	  <div class="foot2">距您2站</div>
-   	  <img class="cutImg" src="../../../static/img/busTravel/组 10@2x.png" alt="" />
-   </div>
-    <div class="main">
-      <!--路线一个单元-->
-      <div v-for="(item,index) in line">
-        <div class="point">
-          <img src="../../../static/img/bus/point.png" alt=""  v-show="near !== item.staNo"/>
-          <img src="../../../static/img/bus/point2.png" alt=""  v-show="near == item.staNo"/>
-          <div>{{item.staName}}</div>
-          <div class="p3" v-show="near == item.staNo">(上车站点)</div>
-        </div>
-        <div class="point2" v-for="item in nowPoint" v-show="(item.parentNo-1) == index">
-          <img src="../../../static/img/bus/bus.png" alt=""/>
-          <div>
-            <div class="p2">{{item.busLicName}}</div>
+    <div class="page">
+      <div class="lienName">
+        <div class="busName">{{lineDetail.beginStationName}}>>{{lineDetail.endStationName}}<img src="./../../../static/img/bus/changeUpDown.png" alt="" class="changeUpDown" @click="changeUpDown"></div>
+        <!--<div class="busWay">{{lineDetail.beginStationName}}>>{{lineDetail.endStationName}}</div>-->
+        <div class="busDetail">{{lineDetail.firstLastTime}}</div>
+        <div class="busDetail">{{userNearPoint}}</div>
+      </div>
+      <div class="main">
+        <!--路线一个单元-->
+        <div v-for="(item,index) in line">
+          <div class="point">
+            <img src="../../../static/img/bus/point.png" alt="" v-show="near !== item.staNo"/>
+            <img src="../../../static/img/bus/point2.png" alt="" v-show="near == item.staNo"/>
+            <div>{{item.staName}}</div>
+            <div class="p3" v-show="near == item.staNo">(上车站点)</div>
+          </div>
+          <div class="point2" v-for="item in nowPoint" v-show="(item.parentNo-1) == index">
+            <img src="../../../static/img/bus/bus.png" alt=""/>
+            <div>
+              <div class="p2">{{item.busLicName}}</div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <div id="container" v-show="showMap"></div>
-    <div class="position" v-show="showMap" >
+    <div class="page2" v-show="showMap">
+      <div class="lienName">
+        <div class="busName">{{lineDetail.beginStationName}}>>{{lineDetail.endStationName}}<img src="./../../../static/img/bus/changeUpDown.png" alt="" class="changeUpDown" @click="changeUpDown"></div>
+        <!--<div class="busWay">{{lineDetail.beginStationName}}>>{{lineDetail.endStationName}}</div>-->
+        <div class="busDetail">{{lineDetail.firstLastTime}}</div>
+        <div class="busDetail">{{userNearPoint}}</div>
+      </div>
+      <div id="container"></div>
+    </div>
+    <div class="position" v-show="showMap">
       <img src="./../../../static/img/bus/icon4.png" alt="" @click="moveLocation">
     </div>
     <!--定位小图标-->
@@ -72,18 +69,27 @@
     data() {
       return {
         line: [],
-        nowPoint:[],
-        lineDetail:{
-          lineName:"",
+        nowPoint: [],
+        lineDetail: {
+          lineName: "",
         },
-        collectionId:'',
-        isCollection:0,
-        near:"",
-        showMap:false,
-        map:{},
+        collectionId: '',
+        isCollection: 0,
+        near: "",
+        showMap: false,
+        map: {},
+        userPosition: [],
+        userMark: {},
+        nearPoint: {}, /*最近站点*/
+
+        lineId: "",
+        dir: "",
+        
         swiper: {},
-        userPosition:[],
-        userMark:{}
+        lineList:[],//线路列表
+        isActive:0
+       
+
       }
     },
     computed: {
@@ -92,28 +98,55 @@
         "getUserName",
         "getCardId",
         "getUserPhone",
-      ])
+      ]),
+      userNearPoint() {
+        let dis = -1;
+        this.nowPoint.forEach((marker) => {
+          if (this.near - marker.parentNo >= 0 && ((dis > this.near - marker.parentNo) || dis == -1)) {
+            dis = this.near - marker.parentNo;
+          }
+        })
+        if (dis == -1) {
+          return "暂无最近车辆信息"
+        } else {
+          return "距您" + dis + "站"
+        }
+      }
     },
-    methods:{
-      collection(){
-        axios.post('/third-server/busInfo/collectionLineInfo.do',{
-          "userId":this.getUserId,
-          "lineId":this.$route.params.id,
-          "dir":this.$route.params.dir
-        }).then(res=>{
-          if(res.data.result==1){
-            mui.toast("收藏成功",{ duration:'short', type:'div' });
+    methods: {
+    	cutLine(id,i){
+    		  this.isActive=i;
+    		  this.lineId=id;
+    		  this.dir=0;
+    		  this.init();
+    	},
+      changeUpDown(){
+        if(this.dir == 0){
+          this.dir = 1
+        }else{
+          this.dir = 0
+        }
+        this.init()
+      },
+      collection() {
+        axios.post('/third-server/busInfo/collectionLineInfo.do', {
+          "userId": this.getUserId,
+          "lineId": this.lineId,
+          "dir": this.dir
+        }).then(res => {
+          if (res.data.result == 1) {
+            mui.toast("收藏成功", {duration: 'short', type: 'div'});
             this.collectionId = res.data.data.collectionInfo.collectionId;
             this.isCollection = 1
           }
         })
       },
-      cancelCollection(){
-        axios.post('/third-server/busInfo/cancelCollection.do',{
-          "collectionId":this.collectionId
-        }).then(res=>{
-          if(res.data.result==1){
-            mui.toast("已取消收藏",{ duration:'short', type:'div' });
+      cancelCollection() {
+        axios.post('/third-server/busInfo/cancelCollection.do', {
+          "collectionId": this.collectionId
+        }).then(res => {
+          if (res.data.result == 1) {
+            mui.toast("已取消收藏", {duration: 'short', type: 'div'});
             this.isCollection = 0;
             this.collectionId = "";
           }
@@ -133,77 +166,32 @@
           this.map.setCenter(vue.userPosition);
         }
       },
-      painBus(){
+      painIcon() {
         let vue = this;
-        this.nowPoint.forEach((marker)=> {
+
+        /*绘制公交站点*/
+        this.line.forEach((marker) => {
           let Mark = new AMap.Marker({
             map: this.map,
-            icon:new AMap.Icon({
-              image: "./static/img/bus/bus.png",
-              size: new AMap.Size(20, 20),  //图标大小
-              imageSize: new AMap.Size(20,20)
+            icon: new AMap.Icon({
+              image: "./static/img/bus/stationPointNew.png",
+              size: new AMap.Size(14, 14),  //图标大小
+              imageSize: new AMap.Size(14, 14)
             }),
-            position: [marker.busLng,marker.busLog],
-            offset: new AMap.Pixel(-10, -10)
+            position: [marker.staLng, marker.staLat],
+            offset: new AMap.Pixel(-7, -7),
           })
-          Mark.on('click',()=>{
-            let infoWindow = new AMap.InfoWindow({
-              isCustom: true,  //使用自定义窗体
-              content: createInfoWindow(marker.busLicName),
-              offset: new AMap.Pixel(0, -32)
-            });
-            function closeInfoWindow() {
-              vue.map.clearInfoWindow();
-            }
-            function createInfoWindow(title, content) {
-              let info = document.createElement("div");
-              info.className = "custom-info input-card content-window-card";
-              //可以通过下面的方式修改自定义窗体的宽高
-              //info.style.width = "150px";
-              // 定义顶部标题
-              let top = document.createElement("div");
-              let titleD = document.createElement("div");
-              let closeX = document.createElement("img");
-              top.className = "info-top";
-              titleD.innerHTML = title + "&nbsp;&nbsp;&nbsp;";
-              top.style.backgroundColor = 'white';
-              top.style.display = "flex";
-              top.style.padding = "5px 10px";
-              top.style.alignItems = "center";
-              top.style.justifyContent = "space-between";
-              closeX.src = "./static/img/bicycle/close.png";
-              closeX.style.width = "15px"
-              closeX.onclick = closeInfoWindow;
-              top.appendChild(titleD);
-              top.appendChild(closeX);
-              info.appendChild(top);
-              // 定义中部内容
-
-              return info;
-            }
-
-            infoWindow.open(vue.map, Mark.getPosition());
-          })
-        });
-      },
-      painIcon(){
-        let vue = this;
-        this.line.forEach((marker)=> {
-          let Mark = new AMap.Marker({
-            map: this.map,
-            icon: "./static/img/bus/stationPoint.png",
-            position: [marker.staLng,marker.staLat],
-            offset: new AMap.Pixel(-8, -8),
-          })
-          Mark.on('click',()=>{
+          Mark.on('click', () => {
             let infoWindow = new AMap.InfoWindow({
               isCustom: true,  //使用自定义窗体
               content: createInfoWindow(marker.staName),
               offset: new AMap.Pixel(0, -12)
             });
+
             function closeInfoWindow() {
               vue.map.clearInfoWindow();
             }
+
             function createInfoWindow(title, content) {
               let info = document.createElement("div");
               info.className = "custom-info input-card content-window-card";
@@ -235,112 +223,248 @@
           })
         });
 
+
+        /*最近站点*/
+        let nearMark = new AMap.Marker({
+          map: this.map,
+          icon: new AMap.Icon({
+            image: "./static/img/bus/nearPoint.png",
+            size: new AMap.Size(14, 14),  //图标大小
+            imageSize: new AMap.Size(14, 14)
+          }),
+          position: [this.nearPoint.staLng, this.nearPoint.staLat],
+          offset: new AMap.Pixel(-7, -7),
+        })
+        nearMark.setLabel({
+          //修改label相对于maker的位置
+          offset: new AMap.Pixel(-24, 16),
+          content: "<span style='color: #F39911;'>上车站点</span>"
+        });
+
+        /*绘制开始结束站点*/
+        let startMark = new AMap.Marker({
+          map: this.map,
+          icon: new AMap.Icon({
+            image: "./static/img/bus/startPoint.png",
+            size: new AMap.Size(30, 40),  //图标大小
+            imageSize: new AMap.Size(30, 40)
+          }),
+          position: [this.line[0].staLng, this.line[0].staLat],
+          offset: new AMap.Pixel(-15, -36),
+        })
+
+        /*结束站点*/
+        let endtMark = new AMap.Marker({
+          map: this.map,
+          icon: new AMap.Icon({
+            image: "./static/img/bus/endPoint.png",
+            size: new AMap.Size(30, 40),  //图标大小
+            imageSize: new AMap.Size(30, 40)
+          }),
+          position: [this.line[this.line.length - 1].staLng, this.line[this.line.length - 1].staLat],
+          offset: new AMap.Pixel(-15, -36),
+        })
+
+        /*绘制实时公交车点*/
+        axios.post("/third-server/busInfo/queryBusLocation.do", {
+          "lineId": this.lineId,
+          "dir": this.dir
+        }).then(res => {
+          this.nowPoint = res.data.data;
+
+          this.nowPoint.forEach((marker, n) => {
+            let Mark = new AMap.Marker({
+              map: this.map,
+              icon: new AMap.Icon({
+                image: "./static/img/bus/bus.png",
+                size: new AMap.Size(20, 20),  //图标大小
+                imageSize: new AMap.Size(20, 20)
+              }),
+              position: [marker.busLng, marker.busLog],
+              offset: new AMap.Pixel(-10, -10),
+            })
+
+            let Mark2 = new AMap.Marker({
+              map: this.map,
+              icon: new AMap.Icon({
+                image: "./static/img/bus/dialog.png",
+                size: new AMap.Size(120, 75),  //图标大小
+                imageSize: new AMap.Size(120, 75)
+              }),
+              position: [marker.busLng, marker.busLog],
+              offset: new AMap.Pixel(-69, -76),
+            })
+
+
+            let carN = new AMap.Text({
+              map: this.map,
+              text: "<span style='color: #F39911'>第" + (n + 1) + "辆车</span>",
+              position: [marker.busLng, marker.busLog],
+              offset: new AMap.Pixel(-20, -64),
+            })
+            let BusName = new AMap.Text({
+              map: this.map,
+              text: "<span style='color: #7EAFE3'>(" + marker.busLicName + ")</span>",
+              position: [marker.busLng, marker.busLog],
+              offset: new AMap.Pixel(-10, -48),
+            })
+            let busDistence = vue.near - marker.parentNo;
+            let innerText = ""
+            if (busDistence >= 0) {
+              innerText = "距离您" + busDistence + "站";
+            } else {
+              innerText = "已错过该车"
+            }
+            let nearStation = new AMap.Text({
+              map: this.map,
+              text: "<span style='color: #ABABAB'>" + innerText + "</span>",
+              position: [marker.busLng, marker.busLog],
+              offset: new AMap.Pixel(-10, -31),
+            })
+
+          });
+
+        })
+
+
+        /*绘制路线*/
         let line = [];
-        for (let i = 0;i<this.line.length;i++){
-          line.push([this.line[i].staLng,this.line[i].staLat]);
+        for (let i = 0; i < this.line.length; i++) {
+          line.push([this.line[i].staLng, this.line[i].staLat]);
         }
         let polyline = new AMap.Polyline({
           path: line,          //设置线覆盖物路径
-          strokeColor: "#25C2F2", //线颜色
+          strokeColor: "#7486FF", //线颜色
           strokeOpacity: 1,       //线透明度
-          strokeWeight: 4,        //线宽
+          strokeWeight: 6,        //线宽
           strokeStyle: "solid",   //线样式
-          strokeDasharray: [10, 5] //补充线样式
+          strokeDasharray: [10, 5], //补充线样式
+
+          showDir: true,
+          dirColor: '#fff',
         });
         polyline.setMap(this.map);
+      },
+
+      init() {
+        /*清除覆盖物*/
+        if(this.map.clearMap){
+          this.map.clearMap();
+        }
+        let time = setInterval(() => {
+          if (sessionStorage.getItem("userPosition")) {
+            clearInterval(time);
+
+            let vue = this;
+
+            axios.post("/third-server/busInfo/queryStationInfoDetail.do", {
+              "userId": this.getUserId,
+              "lineId": this.lineId,
+              "dir": this.dir,
+              "longitude": sessionStorage.getItem("userPosition").split(",")[0],
+              "latitude": sessionStorage.getItem("userPosition").split(",")[1]
+            }).then(res => {
+              this.line = res.data.data.busStation.busStationInfoList;
+              this.lineDetail = res.data.data.busStation.lineInfoDetail;
+              this.isCollection = res.data.data.busStation.lineInfoDetail.isCollection;
+              this.collectionId = res.data.data.busStation.lineInfoDetail.collectionId ? res.data.data.busStation.lineInfoDetail.collectionId : "";
+
+              this.near = res.data.data.busStation.busStationInfo.staNo;
+
+              this.nearPoint = res.data.data.busStation.busStationInfo;
+
+              if (sessionStorage.getItem("userPosition")) {
+                vue.userPosition = sessionStorage.getItem("userPosition").split(",");
+                this.map = new AMap.Map('container', {
+                  resizeEnable: true, //是否监控地图容器尺寸变化
+                  zooms: [12, 20], //初始化地图层级
+                  //center: [120.466456, 32.530996],
+                  center: vue.userPosition,
+                });
+                this.moveLocation();
+                this.painIcon();
+              } else {
+                this.map = new AMap.Map('container', {
+                  resizeEnable: true, //是否监控地图容器尺寸变化
+                  zooms: [12, 20],//初始化地图层级
+                  center: [120.466456, 32.530996],
+                });
+
+                let time = setInterval(() => {
+                  if (sessionStorage.getItem("userPosition")) {
+                    clearInterval(time);
+                    this.moveLocation();
+                    this.painIcon();
+                  }
+                }, 200);
+
+                setTimeout(function () {
+                  clearInterval(time);
+                }, 20000);
+              }
+            });
+
+          }
+        }, 200);
       }
     },
     mounted() {
-      this.swiper = new Swiper('.swiper-container', {
+       this.swiper = new Swiper('.swiper-container', {
               direction: 'horizontal', // 垂直切换选项
               loop: false, // 循环模式选项
               autoHeight: true,
               observer: true,
               observeParents: true,
-              slidesPerView: 5,// 一行显示slider的个数
-	          //slidesPerGroup: 5,// 定义slides的数量多少为一组
+              slidesPerView :3,// 一行显示slider的个数
+              //autoWidth:true,
+	            //slidesPerGroup: 5,// 定义slides的数量多少为一组
       }) 
-      axios.post("/third-server/busInfo/queryStationInfoDetail.do",{
-        //"userId":this.getUserId,
-        //"lineId":this.$route.params.id,
-        //"dir":this.$route.params.dir,
-        //"longitude":sessionStorage.getItem("userPosition").split(",")[0],
-        //"latitude":sessionStorage.getItem("userPosition").split(",")[1]
-        "lineId":"20000004",
-		"dir":"0",
-		"longitude":"120.476089",
-		"latitude":"32.535107",
-		"userId":"314r23e1r32e"
-      }).then(res=>{
-      	//console.log(res)
-        this.line = res.data.data.busStation.busStationInfoList;
-        this.lineDetail = res.data.data.busStation.lineInfoDetail;
-        this.isCollection = res.data.data.busStation.lineInfoDetail.isCollection;
-        this.collectionId = res.data.data.busStation.lineInfoDetail.collectionId?res.data.data.busStation.lineInfoDetail.collectionId:"";
-
-        this.near = res.data.data.busStation.busStationInfo.staNo;
-
-        if (sessionStorage.getItem("userPosition")) {
-          vue.userPosition = sessionStorage.getItem("userPosition").split(",");
-          this.map = new AMap.Map('container', {
-            resizeEnable: true, //是否监控地图容器尺寸变化
-            zoom: 12, //初始化地图层级
-            //center: [120.466456, 32.530996],
-            center: vue.userPosition,
-          });
-          this.moveLocation();
-          this.painIcon();
-        } else {
-          this.map = new AMap.Map('container', {
-            resizeEnable: true, //是否监控地图容器尺寸变化
-            zoom: 12, //初始化地图层级
-            center: [120.466456, 32.530996],
-          });
-
-          let time = setInterval(() => {
-            if (sessionStorage.getItem("userPosition")) {
-              clearInterval(time);
-              this.moveLocation();
-              this.painIcon();
-            }
-          }, 200);
-
-          setTimeout(function () {
-            clearInterval(time);
-          }, 5000);
-        };
-      });
-
-      axios.post("/third-server/busInfo/queryBusLocation.do",{
-        //"lineId":this.$route.params.id,
-        //"dir":this.$route.params.dir
-        "lineId":"20000033",
-	    "dir":"1"
-      }).then(res=>{
-        this.nowPoint = res.data.data;
-        this.painBus();
+      console.log(this.$route.params.id)
+      axios.post("/third-server/busInfo/queryLineInfoByStaName.do", {
+              "staName":this.$route.params.id,
+	            "dir":"0"
+      }).then(res => {
+            	  console.log(res.data.data.busStationList)
+            	  this.lineList=res.data.data.busStationList;
+            	  this.lineId=res.data.data.busStationList[0].lineId;
+    		        this.dir=0;
+    		        this.init();
       })
+      /*let url = 'https://webapi.amap.com/maps?v=1.4.7&key=ec3bd89bc62edfe8928454dcbab04de4&plugin=AMap.Transfer,AMap.Autocomplete,AMap.PlaceSearch,AMap.Driving,AMap.Geolocation&callback=onLoad';
+      let jsapi = document.createElement('script');
+      jsapi.charset = 'utf-8';
+      jsapi.src = url;
+      document.head.appendChild(jsapi);
 
-
-      let vue = this;
+      window.onLoad  = ()=>{*/
+          
     }
 
   }
 </script>
 
 <style scoped>
-  .busName{
+	
+  #container {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-grow: 1;
+  }
+   .busName{
 		width:100%;
 		height:90px;
+		
 	}
 	.busName>div{
 		padding:16px 0 24px 20px;
 	}
 	.busItem{
 		height:50px;
-		width:134px !important;
+		/*width:204px !important;*/
 		border:1px solid #6F86FC;
-		float:left;        
+		float:left;   
+		text-align: center;     
 		font-size:30px;
 		color:rgba(111,134,252,1);
 		line-height:48px;
@@ -348,60 +472,10 @@
 		padding:0 20px;
 		margin-right:22px;
 	}
-	.topMsg{
+	.busActive{
 		background: #6F86FC;
 		color:#fff;
-		position:relative;
-		min-height:278px;
-		width:100%;
-		padding-left:60px;
 	}
-	.toImg{
-		width:23px;
-	}
-	.cutImg{
-		width:54px;
-		position:absolute;
-		top:28px;
-		right:54px;
-	}
-	.lineName{
-		font-size:40px;
-		color:rgba(255,255,255,1);
-		line-height:40px;
-		padding-top:33px;
-	}
-	.pointName {
-		padding-top:31px;
-	}
-	.pointName span{
-		font-size:36px;
-		color:rgba(255,255,255,1);
-		line-height:36px;
-		
-	}
-	.foot1{
-		padding-top:39px;
-		font-size:28px;
-		color:rgba(255,255,255,1);
-		line-height:28px;
-	}
-	.foot2{
-		padding-top:20px;
-		font-size:28px;
-		color:rgba(255,255,255,1);
-		line-height:28px;
-	}
-  #container {
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    z-index: 100;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  }
   .top {
     width: 100%;
     height: 60px;
@@ -411,26 +485,11 @@
     line-height: 60px;
     background: #f5f5f5;
   }
-  .main{
-    padding-top: 20px;
-  }
-
-  .main > div {
-    width: 100%;
-    min-height: 80px;
-    border: none;
-    position: relative;
-
-    background: url(../../../static/img/bus/line.png) no-repeat;
-    background-size: 10px;
-    background-position: 202px -50px;
-    margin-top: -10px;
-  }
 
   .point {
     display: flex;
     align-items: center;
-    padding-left: 194px;
+    padding-left: 250px;
 
   }
 
@@ -448,12 +507,12 @@
   .point2 {
     align-items: center;
     display: flex;
-    flex-direction:row-reverse;
-    padding:16px;
+    flex-direction: row-reverse;
+    padding: 16px;
     position: relative;
     width: 300px;
     justify-content: right;
-    right:62px;
+    right: 5px;
   }
 
   .point2 > img {
@@ -504,20 +563,9 @@
     margin-top: 13px;
     line-height: 26px;
   }
-  .lienName{
-    padding: 32px;
-    font-size: 32px;
-    color: #fff;
-    background: #18B4FE;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 50;
-  }
 
-  .position{
-    position:fixed;
+  .position {
+    position: fixed;
     left: 30px;
     bottom: 30px;
     z-index: 300;
@@ -527,8 +575,99 @@
     -webkit-transition: bottom 0.25s ease-out; /* Safari 和 Chrome */
     -o-transition: bottom 0.25s ease-out; /* Opera */
   }
-  .position img{
+
+  .position img {
     width: 100px;
     height: 100px;
+  }
+
+  .busName {
+    font-size: 36px;
+    padding: 8px 0;
+  }
+
+  .busWay {
+    font-size: 32px;
+    padding: 8px 0;
+  }
+
+  .busDetail {
+    font-size: 28px;
+    padding: 8px 0;
+  }
+
+  .page {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 0;
+    top: 90px;
+    right: 0;
+    bottom: 0;
+  }
+
+  .page2 {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 0;
+    top: 90px;
+    right: 0;
+    bottom: 0;
+    z-index: 200;
+  }
+
+  .lienName {
+    padding: 12px 32px;
+    color: #fff;
+    background: #7586FF;
+  }
+
+  .main {
+    padding-top: 16px;
+    padding-bottom: 32px;
+    flex-grow: 1;
+    overflow-y: scroll;
+  }
+
+  .main > div {
+    width: 100%;
+    min-height: 80px;
+    border: none;
+    position: relative;
+
+    background: url(../../../static/img/bus/line.png) no-repeat;
+    background-size: 10px;
+    background-position: 257px -50px;
+    margin-top: -10px;
+  }
+
+  .changeUpDown{
+    width: 54px;
+    height: 54px;
+    float: right;
+  }
+</style>
+<style>
+  .amap-icon img {
+    width: 25px;
+    height: 34px;
+  }
+
+  .amap-marker-label {
+    border: 0;
+    background-color: transparent;
+  }
+
+  .info {
+    position: relative;
+    top: 0;
+    right: 0;
+    min-width: 0;
+  }
+
+  .amap-overlay-text-container {
+    border: 0;
+    background-color: transparent;
   }
 </style>

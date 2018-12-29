@@ -89,7 +89,7 @@
         <div class="his_top">历史搜索</div>
         <!--线路-->
         <div class="his_middle">
-          <div v-for="(val,index) in linehistory">
+          <div v-for="(val,index) in linehistory" @click="showRes(val.lineName)">
             <img src="../../../static/img/busTravel/组合logo.png" alt=""/>
             <div class="lineName2">{{val.lineName.length>4?val.lineName.slice(0,4)+"...":val.lineName}}
             </div>
@@ -99,14 +99,14 @@
               <span>{{val.endStationName}}</span>
             </div>
             <img class="delImg" src="../../../static/img/busTravel/5@2x.png" alt=""
-                 @click="delLine(index)"/>
+                 @click.stop="delLine(index)"/>
           </div>
         </div>
         <!--站点-->
-        <div class="pointText pointPosition" v-for="(value,index) in pointhistory">
+        <div class="pointText pointPosition" v-for="(value,index) in pointhistory" @click="showRes(value.staName)">
           <img src="../../../static/img/busTravel/组logo@2x.png" alt=""/>
           <span>{{value.staName}}</span>
-          <img class="delImg" src="../../../static/img/busTravel/5@2x.png" alt="" @click="delPoint(index)"/>
+          <img class="delImg" src="../../../static/img/busTravel/5@2x.png" alt="" @click.stop="delPoint(index)"/>
         </div>
         <div class="his_foot" @click="delHistory()" v-show="linehistory.length!=0 || pointhistory.length!=0">
           清空历史记录
@@ -121,7 +121,7 @@
       </div>
       <div v-for="item in userCollection"
            @click="toLine(item.lineId,item.dir,item.lineName,item.beginStationName,item.endStationName)">
-        <img class="busImg" src="../../../static/img/busTravel/组合logo@2x.png" alt=""/>
+        <img class="busImg" src="../../../static/img/busTravel/组合logo.png" alt=""/>
         <div class="busMiddle">
           <div class="busName">{{item.lineName}}</div>
           <div class="toLine">
@@ -340,7 +340,7 @@
       },
 
       toLineDetail(n) {
-        this.$router.push("/busLine/lineDetails/" + this.list[n].lineId + "/" + this.list[n].dir);
+        this.$router.push("/busTravel/busDetails/" + this.list[n].lineId + "/" + this.list[n].dir);
       },
       painNear() {
         let vue = this;
@@ -515,14 +515,14 @@
       },
       queryMyCollection() {
         axios.post('/third-server/busInfo/queryMyCollection.do', {
-          //"userId": this.getUserId
-          "userId": "314r23e1r32e"
+          "userId": this.getUserId
+          //"userId":"7551838a-7284-4146-a77c-9fffc226bfd9"
         }).then(res => {
           this.userCollection = res.data.data.collectionList;
         })
       },
       toLine(id, dir, a, b, c) {
-        this.$router.push("/busTravel/lineBus/" + id + "/" + dir);
+        this.$router.push("/busTravel/busDetails/" + id + "/" + dir);
         //点击跳转的时候保存搜索信息
         let searchName = {
           "lineName": a,
@@ -548,7 +548,7 @@
         window.localStorage.setItem('history', str);
       },
       toPointLine(id) {
-        //this.$router.push("/busLine/pointLine/" + id);
+        this.$router.push("/busTravel/lineBus/" + id);
         //点击跳转的时候保存搜索信息
         let searchName = {
           "staName": id,
@@ -591,6 +591,10 @@
         let str = JSON.stringify(this.pointhistory);
         window.localStorage.setItem('history2', str);
       },
+      showRes(name){
+      	 this.searchKey=name;
+      	 this.search();
+      }
     }
   }
 </script>
