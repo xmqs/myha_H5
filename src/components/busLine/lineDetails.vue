@@ -393,13 +393,6 @@
     },
     mounted() {
 
-      /*let url = 'https://webapi.amap.com/maps?v=1.4.7&key=ec3bd89bc62edfe8928454dcbab04de4&plugin=AMap.Transfer,AMap.Autocomplete,AMap.PlaceSearch,AMap.Driving,AMap.Geolocation&callback=onLoad';
-      let jsapi = document.createElement('script');
-      jsapi.charset = 'utf-8';
-      jsapi.src = url;
-      document.head.appendChild(jsapi);
-
-      window.onLoad  = ()=>{*/
       this.lineId = this.$route.params.id;
       this.dir = this.$route.params.dir;
       this.init();
