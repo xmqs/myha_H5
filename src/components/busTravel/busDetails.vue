@@ -16,7 +16,7 @@
             <div>{{item.staName}}</div>
             <div class="p3" v-show="near == item.staNo">(上车站点)</div>
           </div>
-          <div class="point2" v-for="item in nowPoint" v-show="(item.parentNo-1) == index">
+          <div class="point2" v-for="item in nowPoint" v-show="item.parentNo == index">
             <img src="../../../static/img/bus/bus.png" alt=""/>
             <div>
               <div class="p2">{{item.busLicName}}</div>
@@ -254,6 +254,8 @@
           "dir": this.dir
         }).then(res => {
           this.nowPoint = res.data.data;
+
+          this.$forceUpdate();
 
           this.nowPoint.forEach((marker, n) => {
             let Mark = new AMap.Marker({

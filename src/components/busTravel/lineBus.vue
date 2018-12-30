@@ -22,7 +22,7 @@
             <div>{{item.staName}}</div>
             <div class="p3" v-show="near == item.staNo">(上车站点)</div>
           </div>
-          <div class="point2" v-for="item in nowPoint" v-show="(item.parentNo-1) == index">
+          <div class="point2" v-for="item in nowPoint" v-show="item.parentNo == index">
             <img src="../../../static/img/bus/bus.png" alt=""/>
             <div>
               <div class="p2">{{item.busLicName}}</div>
@@ -84,11 +84,11 @@
 
         lineId: "",
         dir: "",
-        
+
         swiper: {},
         lineList:[],//线路列表
         isActive:0
-       
+
 
       }
     },
@@ -418,7 +418,7 @@
               slidesPerView :3,// 一行显示slider的个数
               //autoWidth:true,
 	            //slidesPerGroup: 5,// 定义slides的数量多少为一组
-      }) 
+      })
       console.log(this.$route.params.id)
       axios.post("/third-server/busInfo/queryLineInfoByStaName.do", {
               "staName":this.$route.params.id,
@@ -437,14 +437,14 @@
       document.head.appendChild(jsapi);
 
       window.onLoad  = ()=>{*/
-          
+
     }
 
   }
 </script>
 
 <style scoped>
-	
+
   #container {
     display: flex;
     height: 100%;
@@ -454,7 +454,7 @@
    .busName{
 		width:100%;
 		height:90px;
-		
+
 	}
 	.busName>div{
 		padding:16px 0 24px 20px;
@@ -463,8 +463,8 @@
 		height:50px;
 		/*width:204px !important;*/
 		border:1px solid #6F86FC;
-		float:left;   
-		text-align: center;     
+		float:left;
+		text-align: center;
 		font-size:30px;
 		color:rgba(111,134,252,1);
 		line-height:48px;
