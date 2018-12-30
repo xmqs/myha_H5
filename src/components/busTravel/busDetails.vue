@@ -5,7 +5,7 @@
         <div class="busName">{{lineDetail.lineName}}<img src="./../../../static/img/bus/changeUpDown.png" alt="" class="changeUpDown" @click="changeUpDown"></div>
         <div class="busWay">{{lineDetail.beginStationName}}>>{{lineDetail.endStationName}}</div>
         <div class="busDetail">{{lineDetail.firstLastTime}}</div>
-        <div class="busDetail">{{userNearPoint}}</div>
+        <div class="busDetail">{{lineDetail.distanceStation?"距您"+lineDetail.distanceStation+"站":"暂无"}}</div>
       </div>
       <div class="main">
         <!--路线一个单元-->
@@ -30,7 +30,7 @@
         <div class="busName">{{lineDetail.lineName}}<img src="./../../../static/img/bus/changeUpDown.png" alt="" class="changeUpDown" @click="changeUpDown"></div>
         <div class="busWay">{{lineDetail.beginStationName}}>>{{lineDetail.endStationName}}</div>
         <div class="busDetail">{{lineDetail.firstLastTime}}</div>
-        <div class="busDetail">{{userNearPoint}}</div>
+        <div class="busDetail">{{lineDetail.distanceStation?"距您"+lineDetail.distanceStation+"站":"暂无"}}</div>
       </div>
       <div id="container"></div>
     </div>
@@ -88,7 +88,7 @@
         "getCardId",
         "getUserPhone",
       ]),
-      userNearPoint() {
+      /*userNearPoint() {
         let dis = -1;
         this.nowPoint.forEach((marker) => {
           if (this.near - marker.parentNo >= 0 && ((dis > this.near - marker.parentNo) || dis == -1)) {
@@ -100,7 +100,7 @@
         } else {
           return "距您" + dis + "站"
         }
-      }
+      }*/
     },
     methods: {
       changeUpDown(){
@@ -333,9 +333,6 @@
 
       init() {
         /*清除覆盖物*/
-        if(this.map.clearMap){
-          this.map.clearMap();
-        }
         let time = setInterval(() => {
           if (sessionStorage.getItem("userPosition")) {
             clearInterval(time);
@@ -358,11 +355,15 @@
 
               this.nearPoint = res.data.data.busStation.busStationInfo;
 
+              if(this.map.clearMap){
+                this.map.clearMap();
+              }
+
               if (sessionStorage.getItem("userPosition")) {
                 vue.userPosition = sessionStorage.getItem("userPosition").split(",");
                 this.map = new AMap.Map('container', {
                   resizeEnable: true, //是否监控地图容器尺寸变化
-                  zooms: [12, 20], //初始化地图层级
+                  zoom:12, //初始化地图层级
                   //center: [120.466456, 32.530996],
                   center: vue.userPosition,
                 });
@@ -371,7 +372,7 @@
               } else {
                 this.map = new AMap.Map('container', {
                   resizeEnable: true, //是否监控地图容器尺寸变化
-                  zooms: [12, 20],//初始化地图层级
+                  zoom: 12,//初始化地图层级
                   center: [120.466456, 32.530996],
                 });
 

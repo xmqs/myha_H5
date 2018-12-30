@@ -55,7 +55,7 @@
           </div>
           <div class="busLineRight" @click="toLineDetail(index)">
             <div class="T_333333">最近车辆</div>
-            <div class="C_999999">{{item.nearInfo}}</div>
+            <div class="C_999999">{{item.distanceStation?"距您"+item.distanceStation+"站":"暂无"}}</div>
           </div>
         </div>
       </div>
@@ -93,7 +93,7 @@
       return {
         isOn: 0,//tab切换
         userCollection: [],//我的收藏接口数据
-        
+
 
         map: {},
         userMark: "",
@@ -131,7 +131,7 @@
           vue.userPosition = sessionStorage.getItem("userPosition").split(",");
           this.map = new AMap.Map('container', {
             resizeEnable: true, //是否监控地图容器尺寸变化
-            zooms: [14, 20], //初始化地图层级
+            zoom: 14, //初始化地图层级
             //center: [120.466456, 32.530996],
             center: vue.userPosition,
           });
@@ -141,7 +141,7 @@
         } else {
           this.map = new AMap.Map('container', {
             resizeEnable: true, //是否监控地图容器尺寸变化
-            zooms: [14, 20], //初始化地图层级
+            zoom: 14, //初始化地图层级
             center: [120.466456, 32.530996],
           });
 
@@ -159,7 +159,7 @@
         }
       }
       //定时器加载我的收藏
-      
+
 //    var timer=setInterval(function(){
 //    	if(this.userCollection.length!=0){
 //    		 this.queryMyCollection();
@@ -171,10 +171,13 @@
       changeLineDirection(n){
         axios.post("/third-server/busInfo/switchUpDown.do",{
           "lineId":this.list[n].lineId,
-          "dir":this.list[n].dir==0?'1':'0'
+          "dir":this.list[n].dir==0?'1':'0',
+          "longitude": sessionStorage.getItem("userPosition").split(",")[0],
+          "latitude": sessionStorage.getItem("userPosition").split(",")[1]
         }).then(res=>{
           this.list[n] = res.data.data;
-          this.fixOneNear(n)
+          this.$forceUpdate();
+          /*this.fixOneNear(n)*/
         })
       },
       moveLocation() {
@@ -283,7 +286,9 @@
           /*默认绘制最近站点*/
           axios.post("/third-server/busInfo/queryLineInfoByStaName.do", {
             "staName": this.nearMark.staName,
-            "dir": "2"
+            "dir": "2",
+            "longitude": sessionStorage.getItem("userPosition").split(",")[0],
+            "latitude": sessionStorage.getItem("userPosition").split(",")[1],
           }).then(res => {
             let busList = res.data.data.busStationList;
             let list = []
@@ -303,7 +308,7 @@
 
             this.list = list;
 
-            this.busDialog = new AMap.Marker({
+           /* this.busDialog = new AMap.Marker({
               map: vue.map,
               icon: new AMap.Icon({
                 image: "./static/img/bus/dialog.png",
@@ -368,9 +373,9 @@
                 position: [vue.nearMark.staLng, vue.nearMark.staLat],
                 offset: new AMap.Pixel(28, -66),
               })
-            }
+            }*/
 
-            this.fixNear();
+            /*this.fixNear();*/
           })
 
           /*开始绘制所有最近点*/
@@ -396,7 +401,9 @@
 
               axios.post("/third-server/busInfo/queryLineInfoByStaName.do", {
                 "staName": vue.station,
-                "dir": "2"
+                "dir": "2",
+                "longitude": sessionStorage.getItem("userPosition").split(",")[0],
+                "latitude": sessionStorage.getItem("userPosition").split(",")[1]
               }).then(res => {
                 let busList = res.data.data.busStationList;
                 let list = []
@@ -415,7 +422,7 @@
                 }
 
                 vue.list = list;
-                vue.fixNear();
+                /*vue.fixNear();*/
 
               })
             });
@@ -438,7 +445,7 @@
       jumplineSearch() {
         this.$router.push("/busTravel/lineSearch");
       },
-      
+
       queryMyCollection() {
         axios.post('/third-server/busInfo/queryMyCollection.do', {
           "userId": this.getUserId

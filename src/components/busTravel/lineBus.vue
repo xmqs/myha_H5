@@ -11,7 +11,7 @@
         <div class="busName">{{lineDetail.beginStationName}}>>{{lineDetail.endStationName}}<img src="./../../../static/img/bus/changeUpDown.png" alt="" class="changeUpDown" @click="changeUpDown"></div>
         <!--<div class="busWay">{{lineDetail.beginStationName}}>>{{lineDetail.endStationName}}</div>-->
         <div class="busDetail">{{lineDetail.firstLastTime}}</div>
-        <div class="busDetail">{{userNearPoint}}</div>
+        <div class="busDetail">{{lineDetail.distanceStation?"距您"+lineDetail.distanceStation+"站":"暂无"}}</div>
       </div>
       <div class="main">
         <!--路线一个单元-->
@@ -36,7 +36,7 @@
         <div class="busName">{{lineDetail.beginStationName}}>>{{lineDetail.endStationName}}<img src="./../../../static/img/bus/changeUpDown.png" alt="" class="changeUpDown" @click="changeUpDown"></div>
         <!--<div class="busWay">{{lineDetail.beginStationName}}>>{{lineDetail.endStationName}}</div>-->
         <div class="busDetail">{{lineDetail.firstLastTime}}</div>
-        <div class="busDetail">{{userNearPoint}}</div>
+        <div class="busDetail">{{lineDetail.distanceStation?"距您"+lineDetail.distanceStation+"站":"暂无"}}</div>
       </div>
       <div id="container"></div>
     </div>
