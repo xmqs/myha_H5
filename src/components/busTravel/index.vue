@@ -33,6 +33,9 @@
     </div>
     <div class="map" v-show="isOn==0" id="container">
     </div>
+    <div class="position" v-show="isOn==0">
+      <img src="./../../../static/img/bus/icon4.png" alt="" @click="moveLocation">
+    </div>
     <div class="busContent" v-show="isOn==0">
       <div class="busPoint">
         <img src="./../../../static/img/bus/busIcon.png" alt="" class="busIcon">{{nearMark.staName}}
@@ -822,6 +825,25 @@
   .T_999999 {
     color: #999999;
     font-size: 26px;
+  }
+
+  .position{
+    position:fixed;
+    left: 10px;
+    bottom: 443px;
+    z-index: 80;
+
+    transition: bottom 0.25s ease-out;
+    -moz-transition: bottom 0.25s ease-out; /* Firefox 4 */
+    -webkit-transition: bottom 0.25s ease-out; /* Safari 和 Chrome */
+    -o-transition: bottom 0.25s ease-out; /* Opera */
+  }
+  .up200{
+    bottom: 463px;
+  }
+  .position img{
+    width: 100px;
+    height: 100px;
   }
 </style>
 
