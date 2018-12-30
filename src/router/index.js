@@ -166,6 +166,7 @@ const index = () => import('@/components/busTravel'/*webpackChunkName: "busTrave
 const lineSearch = () => import('@/components/busTravel/lineSearch'/*webpackChunkName: "busTravel"*/)
 const lineBus = () => import('@/components/busTravel/lineBus'/*webpackChunkName: "busTravel"*/)
 const busDetails = () => import('@/components/busTravel/busDetails'/*webpackChunkName: "busTravel"*/)
+const busHistory = () => import('@/components/busTravel/busHistory'/*webpackChunkName: "busTravel"*/)
 Vue.use(Router)
 
 export default new Router({
@@ -611,7 +612,11 @@ export default new Router({
       name: 'busDetails',
       component: busDetails,
     },
-
+    {
+      path: '/busTravel/busHistory', /*公交查询*/
+      name: 'busHistory',
+      component: busHistory,
+    },
 
 
     {

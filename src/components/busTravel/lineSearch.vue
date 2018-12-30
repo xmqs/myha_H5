@@ -102,11 +102,10 @@
 	  <div class="marsk" v-show="ismarsk">
 		      <div v-for="item in staName" @click="changeName(isinput,item.staName)">{{item.staName}}</div>
 		</div>
-		<!--收藏图标-->
-		<!--<div class="collection">
-			<img src="../../../static/img/busTravel/形状 3@2x.png" alt="" />
-			<div>收藏</div>
-		</div>-->
+		<!--暂无查询结果数据-->
+		<div class="his_foot" v-show="isRes">
+			<div>暂无查询结果数据</div>
+		</div>
 </div>
 </template>
 
@@ -117,6 +116,7 @@
       data(){
           return{
              isIndex:1000,
+             isRes:false,//查询结果无数据的提示显示隐藏
              lineDatas:[],
              beginStationName:"",
              endStationName:"",
@@ -145,6 +145,7 @@
           	  this.isIndex==i?this.isIndex=1000:this.isIndex=i;
           },
           searchLine(){
+          	 this.isRes=false;
 	      	   //this.ismarsk=false//点搜索时弹出框消失
 	      	   if(this.beginStationName==""){
 	      	   	   mui.alert("请输入出发地","提示")
@@ -163,12 +164,17 @@
 						"endStationName":this.endStationName,
 
 			        }).then(res => {
+			        	console.log("查询结果数据")
+			        	console.log(res)
 			          this.lineDatas=res.data.data.proList
-			          console.log(this.lineDatas)
+			          if(res.data.data.proList==undefined){
+			          	this.isRes=true
+			          }
 			        })
 			    this.showhistory=false;
 			    this.ismarsk=false;
 			    this.isIndex=1000;
+			    
 			    //保存搜索 
 			    
 			    let searchName={
@@ -196,6 +202,7 @@
 	      },
 	      //input输入框内容改变触发事件
 	      marskMsg(i){
+	      	 this.isRes=false;
 	      	 this.ismarsk=true;
 	      	 this.showhistory=false;
 	      	 let staName="";//根据i确定是哪个输入框

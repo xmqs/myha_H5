@@ -6,15 +6,14 @@
         <iframe id="frame" name="iframe" style="display:none;"></iframe>
         <form action="javascript:return true;" method="post">
           <div class="topSearch">
-            <input type="search" placeholder="请输入公交线路或站点名称" v-on:keyup.13="search()" v-model="searchKey"
-                   v-on:focus="showHistory()"/>
+            <input type="search" placeholder="请输入公交线路或站点名称" v-on:focus="showHistory()"/>
             <img class="cutImg" src="../../../static/img/busTravel/cutLine.png" alt=""
                  @click="jumplineSearch()"/>
             <img class="searchImg" src="../../../static/img/busTravel/Fill 1@3x.png" alt=""/>
           </div>
         </form>
       </div>
-      <div class="tab" v-show="isOn!=1">
+      <div class="tab">
         <div :class="{active:isOn==0}" @click="cut(0)">
           <img v-show="isOn==0" src="../../../static/img/busTravel/tab1.png" alt=""/>
           <img v-show="isOn!=0" src="../../../static/img/busTravel/形状25拷贝@2x.png" alt=""/>
@@ -61,59 +60,6 @@
         </div>
       </div>
     </div>
-    <!--历史记录-->
-    <div class="historySearch" v-show="isOn==1">
-      <!--搜索结果-->
-      <div v-show="!showhistory">
-        <!--线路结果-->
-        <div class="lineRes" v-for="item in lineList"
-             @click="toLine(item.lineId,item.dir,item.lineName,item.beginStationName,item.endStationName)">
-          <img src="../../../static/img/busTravel/组合logo.png" alt=""/>
-          <div class="lineText">
-            <div class="lineName">{{item.lineName}}</div>
-            <div class="pointName">
-              <span>{{item.beginStationName}}</span>
-              <img src="../../../static/img/busTravel/23@2x.png" alt=""/>
-              <span>{{item.endStationName}}</span>
-            </div>
-          </div>
-        </div>
-        <!--站点结果-->
-        <div class="pointText" v-for="item in stationList" @click="toPointLine(item.staName)">
-          <img src="../../../static/img/busTravel/组logo@2x.png" alt=""/>
-          <span>{{item.staName}}</span>
-        </div>
-      </div>
-      <!--历史记录弹出-->
-      <div v-show="showhistory">
-        <div class="his_top">历史搜索</div>
-        <!--线路-->
-        <div class="his_middle">
-          <div v-for="(val,index) in linehistory" @click="showRes(val.lineName)">
-            <img src="../../../static/img/busTravel/组合logo.png" alt=""/>
-            <div class="lineName2">{{val.lineName.length>4?val.lineName.slice(0,4)+"...":val.lineName}}
-            </div>
-            <div class="pointName">
-              <span>{{val.beginStationName}}</span>
-              <img src="../../../static/img/busTravel/23@2x.png" alt=""/>
-              <span>{{val.endStationName}}</span>
-            </div>
-            <img class="delImg" src="../../../static/img/busTravel/5@2x.png" alt=""
-                 @click.stop="delLine(index)"/>
-          </div>
-        </div>
-        <!--站点-->
-        <div class="pointText pointPosition" v-for="(value,index) in pointhistory" @click="showRes(value.staName)">
-          <img src="../../../static/img/busTravel/组logo@2x.png" alt=""/>
-          <span>{{value.staName}}</span>
-          <img class="delImg" src="../../../static/img/busTravel/5@2x.png" alt="" @click.stop="delPoint(index)"/>
-        </div>
-        <div class="his_foot" @click="delHistory()" v-show="linehistory.length!=0 || pointhistory.length!=0">
-          清空历史记录
-        </div>
-        <div class="his_foot" v-show="linehistory.length==0 && pointhistory.length==0">暂无历史搜索记录</div>
-      </div>
-    </div>
     <!--我的收藏-->
     <div v-show="isOn==2" class="collection">
       <div class="noCollection" v-show="userCollection.length==0">
@@ -146,13 +92,8 @@
     data() {
       return {
         isOn: 0,//tab切换
-        showhistory: true,//历史记录的显示隐藏
         userCollection: [],//我的收藏接口数据
-        searchKey: "",//线路站点信息关键字
-        stationList: [],//站点结果列表
-        lineList: [],//线路结果列表
-        linehistory: [],//历史记录暂存线路
-        pointhistory: [],//历史记录暂存站点
+        
 
         map: {},
         userMark: "",
@@ -217,26 +158,14 @@
           }, 5000);
         }
       }
-      //我的收藏
-      this.queryMyCollection();
+      //定时器加载我的收藏
+      
+//    var timer=setInterval(function(){
+//    	if(this.userCollection.length!=0){
+//    		 this.queryMyCollection();
+//    	}
+//			},200)
 
-      // 提取线路历史
-      let infoStr = window.localStorage.getItem('history');
-      let info = JSON.parse(infoStr);
-      if (info == null) {
-        this.linehistory = []
-      } else {
-        this.linehistory = info;
-      }
-
-      //提取站点历史
-      let infoStr2 = window.localStorage.getItem('history2');
-      let info2 = JSON.parse(infoStr2);
-      if (info2 == null) {
-        this.pointhistory = []
-      } else {
-        this.pointhistory = info2;
-      }
     },
     methods: {
       changeLineDirection(n){
@@ -494,107 +423,32 @@
         })
       },
       cut(i) {
-        this.isOn = i;
+        if(i==1){
+        	this.$router.push("/busTravel/busHistory");
+        }else if(i==2){
+        	this.isOn = i;
+        	this.queryMyCollection();
+        }else{
+        	this.isOn = i;
+        }
       },
       showHistory() {
-        this.isOn = 1;
-        this.showhistory = true;
+        this.$router.push("/busTravel/busHistory");
       },
       jumplineSearch() {
         this.$router.push("/busTravel/lineSearch");
       },
-      search() {
-        this.showhistory = false;
-        axios.post("/third-server/busInfo/queryBusInfoByLineOrStation.do", {
-          "keyWord": this.searchKey
-        }).then(res => {
-          console.log(res)
-          this.stationList = res.data.data.queryInfo.staList;
-          this.lineList = res.data.data.queryInfo.lineList;
-        })
-      },
+      
       queryMyCollection() {
         axios.post('/third-server/busInfo/queryMyCollection.do', {
           "userId": this.getUserId
           //"userId":"7551838a-7284-4146-a77c-9fffc226bfd9"
         }).then(res => {
           this.userCollection = res.data.data.collectionList;
+          console.log("我的收藏")
+          console.log(this.userCollection)
         })
       },
-      toLine(id, dir, a, b, c) {
-        this.$router.push("/busTravel/busDetails/" + id + "/" + dir);
-        //点击跳转的时候保存搜索信息
-        let searchName = {
-          "lineName": a,
-          "beginStationName": b,
-          "endStationName": c
-        }
-        if (this.linehistory.length > 0) {
-          let isData = false;
-          for (let i = 0; i < this.linehistory.length; i++) {
-            if (this.linehistory[i].lineName == a) {
-              return;
-            } else {
-              isData = true;
-            }
-          }
-          if (isData) {
-            this.linehistory.push(searchName)
-          }
-        } else {
-          this.linehistory.push(searchName)
-        }
-        let str = JSON.stringify(this.linehistory);
-        window.localStorage.setItem('history', str);
-      },
-      toPointLine(id) {
-        this.$router.push("/busTravel/lineBus/" + id);
-        //点击跳转的时候保存搜索信息
-        let searchName = {
-          "staName": id,
-        }
-        //去重操作
-        if (this.pointhistory.length > 0) {
-          let isData = false;
-          for (let i = 0; i < this.pointhistory.length; i++) {
-            if (this.pointhistory[i].staName == id) {
-              return;
-            } else {
-              isData = true;
-            }
-          }
-          if (isData) {
-            this.pointhistory.push(searchName)
-          }
-        } else {
-          this.pointhistory.push(searchName)
-        }
-        let str = JSON.stringify(this.pointhistory);
-        window.localStorage.setItem('history2', str);
-
-      },
-      delHistory() {
-        window.localStorage.removeItem('history');
-        window.localStorage.removeItem('history2');
-        this.linehistory = [];
-        this.pointhistory = [];
-      },
-      delLine(i) {
-        this.linehistory.splice(i, 1);
-        window.localStorage.removeItem('history');
-        let str = JSON.stringify(this.linehistory);
-        window.localStorage.setItem('history', str);
-      },
-      delPoint(i) {
-        this.pointhistory.splice(i, 1);
-        window.localStorage.removeItem('history2');
-        let str = JSON.stringify(this.pointhistory);
-        window.localStorage.setItem('history2', str);
-      },
-      showRes(name){
-      	 this.searchKey=name;
-      	 this.search();
-      }
     }
   }
 </script>
