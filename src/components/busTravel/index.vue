@@ -69,7 +69,7 @@
         暂无收藏
       </div>
       <div v-for="item in userCollection"
-           @click="toLine(item.lineId,item.dir,item.lineName,item.beginStationName,item.endStationName)">
+           @click="toLine(item.lineId,item.dir)">
         <img class="busImg" src="../../../static/img/busTravel/组合logo.png" alt=""/>
         <div class="busMiddle">
           <div class="busName">{{item.lineName}}</div>
@@ -173,7 +173,7 @@
     },
     activated() {
     	this.queryMyCollection()
-    	   
+
     },
     methods: {
       changeLineDirection(n){
@@ -279,6 +279,10 @@
 
       },
 
+
+      toLine(lineId,dir){
+        this.$router.push("/busTravel/busDetails/" + lineId + "/" + dir);
+      },
       toLineDetail(n) {
         this.$router.push("/busTravel/busDetails/" + this.list[n].lineId + "/" + this.list[n].dir);
       },
@@ -456,12 +460,9 @@
 
       queryMyCollection() {
         axios.post('/third-server/busInfo/queryMyCollection.do', {
-          //"userId": this.getUserId
-          "userId":"7551838a-7284-4146-a77c-9fffc226bfd9"
+          "userId": this.getUserId
         }).then(res => {
           this.userCollection = res.data.data.collectionList;
-          console.log("我的收藏")
-          console.log(this.userCollection)
         })
       },
     }

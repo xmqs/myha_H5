@@ -1,14 +1,22 @@
 <template>
   <div>
-  	 <!--公交名称-->
+    <!--公交名称-->
     <div class="scroll">
-        <ul>
-            <li v-for="(val,index) in lineList" @click="cutLine(val.lineId,index)" :class="{busActive:isActive==index}">{{val.lineName}}</li>
-        </ul>
+      <div class="swiper-container">
+        <div class="swiper-wrapper">
+          <div v-for="(val,index) in lineList" @click="cutLine(val.lineId,index)" class="swiper-slide"
+               :class="{busActive:isActive==index}">{{val.lineName}}
+          </div>
+        </div>
+      </div>
+      <!--<ul>
+          <li v-for="(val,index) in lineList" @click="cutLine(val.lineId,index)" :class="{busActive:isActive==index}">{{val.lineName}}</li>
+      </ul>-->
     </div>
     <div class="page">
       <div class="lienName">
-        <div class="busName">{{lineDetail.beginStationName}}>>{{lineDetail.endStationName}}<img src="./../../../static/img/bus/changeUpDown.png" alt="" class="changeUpDown" @click="changeUpDown"></div>
+        <div class="busName">{{lineDetail.beginStationName}}>>{{lineDetail.endStationName}}<img
+          src="./../../../static/img/bus/changeUpDown.png" alt="" class="changeUpDown" @click="changeUpDown"></div>
         <!--<div class="busWay">{{lineDetail.beginStationName}}>>{{lineDetail.endStationName}}</div>-->
         <div class="busDetail">{{lineDetail.firstLastTime}}</div>
         <div class="busDetail">{{lineDetail.distanceStation?"距您"+lineDetail.distanceStation+"站":"暂无"}}</div>
@@ -33,7 +41,8 @@
     </div>
     <div class="page2" v-show="showMap">
       <div class="lienName">
-        <div class="busName">{{lineDetail.beginStationName}}>>{{lineDetail.endStationName}}<img src="./../../../static/img/bus/changeUpDown.png" alt="" class="changeUpDown" @click="changeUpDown"></div>
+        <div class="busName">{{lineDetail.beginStationName}}>>{{lineDetail.endStationName}}<img
+          src="./../../../static/img/bus/changeUpDown.png" alt="" class="changeUpDown" @click="changeUpDown"></div>
         <!--<div class="busWay">{{lineDetail.beginStationName}}>>{{lineDetail.endStationName}}</div>-->
         <div class="busDetail">{{lineDetail.firstLastTime}}</div>
         <div class="busDetail">{{lineDetail.distanceStation?"距您"+lineDetail.distanceStation+"站":"暂无"}}</div>
@@ -62,9 +71,11 @@
 </template>
 
 <script>
+  import 'swiper/dist/css/swiper.css';
   import {mapGetters} from 'vuex'
   import axios from "axios"
   import Swiper from "swiper"
+
   export default {
     data() {
       return {
@@ -86,8 +97,8 @@
         dir: "",
 
         swiper: {},
-        lineList:[],//线路列表
-        isActive:0
+        lineList: [],//线路列表
+        isActive: 0
 
 
       }
@@ -114,16 +125,16 @@
       }
     },
     methods: {
-    	cutLine(id,i){
-    		  this.isActive=i;
-    		  this.lineId=id;
-    		  this.dir=0;
-    		  this.init();
-    	},
-      changeUpDown(){
-        if(this.dir == 0){
+      cutLine(id, i) {
+        this.isActive = i;
+        this.lineId = id;
+        this.dir = 0;
+        this.init();
+      },
+      changeUpDown() {
+        if (this.dir == 0) {
           this.dir = 1
-        }else{
+        } else {
           this.dir = 0
         }
         this.init()
@@ -348,9 +359,6 @@
 
       init() {
         /*清除覆盖物*/
-        if(this.map.clearMap){
-          this.map.clearMap();
-        }
         let time = setInterval(() => {
           if (sessionStorage.getItem("userPosition")) {
             clearInterval(time);
@@ -372,6 +380,10 @@
               this.near = res.data.data.busStation.busStationInfo.staNo;
 
               this.nearPoint = res.data.data.busStation.busStationInfo;
+
+              if (this.map.clearMap) {
+                this.map.clearMap();
+              }
 
               if (sessionStorage.getItem("userPosition")) {
                 vue.userPosition = sessionStorage.getItem("userPosition").split(",");
@@ -409,28 +421,30 @@
       }
     },
     mounted() {
-       this.swiper = new Swiper('.swiper-container', {
-              direction: 'horizontal', // 垂直切换选项
-              loop: false, // 循环模式选项
-              autoHeight: true,
-              observer: true,
-              observeParents: true,
-              slidesPerView :3,// 一行显示slider的个数
-              //autoWidth:true,
-	            //slidesPerGroup: 5,// 定义slides的数量多少为一组
-      })
       console.log(this.$route.params.id)
       axios.post("/third-server/busInfo/queryLineInfoByStaName.do", {
-              "staName":this.$route.params.id,
-	            "dir":"0",
-	            "longitude": sessionStorage.getItem("userPosition").split(",")[0],
-              "latitude": sessionStorage.getItem("userPosition").split(",")[1]
+        "staName": this.$route.params.id,
+        "dir": "0",
+        "longitude": sessionStorage.getItem("userPosition").split(",")[0],
+        "latitude": sessionStorage.getItem("userPosition").split(",")[1]
       }).then(res => {
-            	  console.log(res.data.data.busStationList)
-            	  this.lineList=res.data.data.busStationList;
-            	  this.lineId=res.data.data.busStationList[0].lineId;
-    		        this.dir=0;
-    		        this.init();
+        console.log(res.data.data.busStationList)
+        this.lineList = res.data.data.busStationList;
+        this.lineId = res.data.data.busStationList[0].lineId;
+        this.dir = 0;
+
+
+        this.$nextTick(() => {
+          this.swiper = new Swiper('.swiper-container', {
+            loop: false,
+            observer: true,
+            observeParents: true,
+            slidesPerView: 'auto',
+          })
+        })
+
+        this.init();
+
       })
       /*let url = 'https://webapi.amap.com/maps?v=1.4.7&key=ec3bd89bc62edfe8928454dcbab04de4&plugin=AMap.Transfer,AMap.Autocomplete,AMap.PlaceSearch,AMap.Driving,AMap.Geolocation&callback=onLoad';
       let jsapi = document.createElement('script');
@@ -453,11 +467,15 @@
     width: 100%;
     flex-grow: 1;
   }
+
   .scroll{
+    width: 750px;
+  }
+  /*.scroll{
      overflow-x: auto;
      overflow-y: hidden;
-  }
-  ul{
+  }*/
+  /*ul{
      width: 200%;
      height: 90px;
      overflow: hidden;
@@ -478,12 +496,13 @@
 		border-radius: 20px;
 		padding:0 20px;
 		margin-right:22px;
+  }*/
+
+  .busActive {
+    background: #6F86FC;
+    color: #fff;
   }
 
-	.busActive{
-		background: #6F86FC;
-		color:#fff;
-	}
   .top {
     width: 100%;
     height: 60px;
@@ -650,10 +669,28 @@
     margin-top: -10px;
   }
 
-  .changeUpDown{
+  .changeUpDown {
     width: 54px;
     height: 54px;
     float: right;
+  }
+
+  .swiper-slide {
+    white-space: nowrap;
+    display: flex;
+    flex-grow: 1;
+    width: auto!important;
+    height: 50px;
+    text-align: center;
+    border: 1px solid #6F86FC;
+    font-size: 30px;
+    color: rgba(111, 134, 252, 1);
+    border-radius: 20px;
+    padding: 0 20px;
+    margin: 20px 10px;
+  }
+  .busActive{
+    color: #fff;
   }
 </style>
 <style>
