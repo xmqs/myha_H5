@@ -62,7 +62,7 @@
 			                 </div>
 			              </div>
 			              <div class="second">
-			                <div>上车：{{item.endStaName}}</div>
+			                <div>上车：{{item.beginStaName}}</div>
 			                <div>途径：{{item.staNum}}站</div>
 			              </div>
 			            </div>
@@ -116,7 +116,7 @@
       data(){
           return{
              isIndex:1000,
-             isRes:false,//查询结果无数据的提示显示隐藏
+             isRes:false,//
              lineDatas:[],
              beginStationName:"",
              endStationName:"",

@@ -122,6 +122,7 @@
       ]),
     },
     mounted() {
+    	this.queryMyCollection();
       let url = 'https://webapi.amap.com/maps?v=1.4.7&key=ec3bd89bc62edfe8928454dcbab04de4&plugin=AMap.Transfer,AMap.Autocomplete,AMap.PlaceSearch,AMap.Driving,AMap.Geolocation&callback=onLoad';
       let jsapi = document.createElement('script');
       jsapi.charset = 'utf-8';
@@ -169,6 +170,10 @@
 //    	}
 //			},200)
 
+    },
+    activated() {
+    	this.queryMyCollection()
+    	   
     },
     methods: {
       changeLineDirection(n){
@@ -451,8 +456,8 @@
 
       queryMyCollection() {
         axios.post('/third-server/busInfo/queryMyCollection.do', {
-          "userId": this.getUserId
-          //"userId":"7551838a-7284-4146-a77c-9fffc226bfd9"
+          //"userId": this.getUserId
+          "userId":"7551838a-7284-4146-a77c-9fffc226bfd9"
         }).then(res => {
           this.userCollection = res.data.data.collectionList;
           console.log("我的收藏")

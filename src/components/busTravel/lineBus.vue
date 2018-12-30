@@ -1,11 +1,11 @@
 <template>
   <div>
   	 <!--公交名称-->
-   <div class="busName swiper-container">
-     <div class="swiper-wrapper">
-     	<div class="busItem swiper-slide" v-for="(val,index) in lineList" @click="cutLine(val.lineId,index)" :class="{busActive:isActive==index}">{{val.lineName}}</div>
-     </div>
-   </div>
+    <div class="scroll">
+        <ul>
+            <li v-for="(val,index) in lineList" @click="cutLine(val.lineId,index)" :class="{busActive:isActive==index}">{{val.lineName}}</li>
+        </ul>
+    </div>
     <div class="page">
       <div class="lienName">
         <div class="busName">{{lineDetail.beginStationName}}>>{{lineDetail.endStationName}}<img src="./../../../static/img/bus/changeUpDown.png" alt="" class="changeUpDown" @click="changeUpDown"></div>
@@ -422,7 +422,9 @@
       console.log(this.$route.params.id)
       axios.post("/third-server/busInfo/queryLineInfoByStaName.do", {
               "staName":this.$route.params.id,
-	            "dir":"0"
+	            "dir":"0",
+	            "longitude": sessionStorage.getItem("userPosition").split(",")[0],
+              "latitude": sessionStorage.getItem("userPosition").split(",")[1]
       }).then(res => {
             	  console.log(res.data.data.busStationList)
             	  this.lineList=res.data.data.busStationList;
@@ -451,27 +453,33 @@
     width: 100%;
     flex-grow: 1;
   }
-   .busName{
-		width:100%;
-		height:90px;
-
-	}
-	.busName>div{
-		padding:16px 0 24px 20px;
-	}
-	.busItem{
-		height:50px;
-		/*width:204px !important;*/
-		border:1px solid #6F86FC;
-		float:left;
-		text-align: center;
+  .scroll{
+     overflow-x: auto;
+     overflow-y: hidden;
+  }
+  ul{
+     width: 200%;
+     height: 90px;
+     overflow: hidden;
+     display: inline-flex;
+     padding:16px 0 24px 20px;
+  }
+  li{
+    height: 50px;
+    text-align: center;
+    line-height: 90px;
+    float: left;
+    list-style: none;
+    border:1px solid #6F86FC;
+    text-align: center;
 		font-size:30px;
 		color:rgba(111,134,252,1);
 		line-height:48px;
 		border-radius: 20px;
 		padding:0 20px;
 		margin-right:22px;
-	}
+  }
+
 	.busActive{
 		background: #6F86FC;
 		color:#fff;

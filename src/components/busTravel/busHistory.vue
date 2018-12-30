@@ -42,7 +42,7 @@
         <div class="his_top">历史搜索</div>
         <!--线路-->
         <div class="his_middle">
-          <div v-for="(val,index) in linehistory" @click="showRes(val.lineName)">
+          <div v-for="(val,index) in linehistory" @click="showRes1(val.lineId,val.dir)">
             <img src="../../../static/img/busTravel/组合logo.png" alt=""/>
             <div class="lineName2">{{val.lineName.length>4?val.lineName.slice(0,4)+"...":val.lineName}}
             </div>
@@ -56,7 +56,7 @@
           </div>
         </div>
         <!--站点-->
-        <div class="pointText pointPosition" v-for="(value,index) in pointhistory" @click="showRes(value.staName)">
+        <div class="pointText pointPosition" v-for="(value,index) in pointhistory" @click="showRes2(value.staName)">
           <img src="../../../static/img/busTravel/组logo@2x.png" alt=""/>
           <span>{{value.staName}}</span>
           <img class="delImg" src="../../../static/img/busTravel/5@2x.png" alt="" @click.stop="delPoint(index)"/>
@@ -113,6 +113,9 @@
       } else {
         this.pointhistory = info2;
       }
+      
+      
+      console.log(this.linehistory)
     },
     methods: {
       jumplineSearch() {
@@ -134,7 +137,9 @@
         let searchName = {
           "lineName": a,
           "beginStationName": b,
-          "endStationName": c
+          "endStationName": c,
+          "dir":dir,
+          "lineId":id
         }
         if (this.linehistory.length > 0) {
           let isData = false;
@@ -198,9 +203,11 @@
         let str = JSON.stringify(this.pointhistory);
         window.localStorage.setItem('history2', str);
       },
-      showRes(name){
-      	 this.searchKey=name;
-      	 this.search();
+      showRes1(id,dir){
+      	 this.$router.push("/busTravel/busDetails/" + id + "/" + dir);
+      },
+      showRes2(id){
+      	 this.$router.push("/busTravel/lineBus/" + id);
       }
     }
   }
