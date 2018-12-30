@@ -66,6 +66,10 @@
         </div>
         <div class="his_foot" v-show="linehistory.length==0 && pointhistory.length==0">暂无历史搜索记录</div>
       </div>
+      <!--暂无查询结果数据-->
+	    <div class="his_foot" v-show="isRes">
+	      <div>暂无查询结果数据</div>
+	    </div>
     </div>
   </div>
 </template>
@@ -84,6 +88,7 @@
         lineList: [],//线路结果列表
         linehistory: [],//历史记录暂存线路
         pointhistory: [],//历史记录暂存站点
+        isRes:false//搜索无结果的提示
       }
     },
     computed: {
@@ -123,12 +128,14 @@
       },
       search() {
         this.showhistory = false;
+        this.isRes=false;
         axios.post("/third-server/busInfo/queryBusInfoByLineOrStation.do", {
           "keyWord": this.searchKey
         }).then(res => {
           console.log(res)
           this.stationList = res.data.data.queryInfo.staList;
           this.lineList = res.data.data.queryInfo.lineList;
+          if(res.data.data.queryInfo.lineList.length==0){this.isRes=true;}
         })
       },
       toLine(id, dir, a, b, c) {
