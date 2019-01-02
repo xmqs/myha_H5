@@ -22,12 +22,12 @@
         <div class="content" @click="show(index)">
           <div class="contentTop">
             <img src="../../../static/img/busTravel/形状 26@2x.png" alt=""/>
-            <div>{{datas.beginLineName.length>4?datas.beginLineName.slice(0,4)+"...":datas.beginLineName}}</div>
+            <div>{{(datas.beginLineName&&datas.beginLineName.length)>4?datas.beginLineName.slice(0,4)+"...":datas.beginLineName}}</div>
           </div>
           <img v-show="datas.isTranfser==1" class="toImg" src="../../../static/img/busTravel/多边形 1@2x.png" alt=""/>
           <div class="contentTop" v-show="datas.isTranfser==1">
             <img src="../../../static/img/busTravel/形状 26@2x.png" alt=""/>
-            <div>{{datas.endLineName.length>4?datas.endLineName.slice(0,4)+"...":datas.endLineName}}</div>
+            <div>{{(datas.endLineName&&datas.endLineName.length>4)?datas.endLineName.slice(0,4)+"...":datas.endLineName}}</div>
           </div>
           <div class="contentMiddle">
             <div>途径</div>
@@ -226,7 +226,6 @@
         axios.post("/third-server/busInfo/queryStationInfo.do", {
           "staName": staName
         }).then(res => {
-          console.log(res.data.data.busStationList)
           this.staName = res.data.data.busStationList
         })
       },
@@ -310,7 +309,7 @@
   }
 
   .lineText input {
-    height: 70px;
+    height: 68px;
     color: #333;
     text-align: left;
     margin-bottom: 0;

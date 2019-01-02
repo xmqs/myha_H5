@@ -475,6 +475,7 @@
     padding: 14px 20px 0 20px;
     position: fixed;
     top: 0;
+    background: #fff;
   }
 
   .topSearch {
@@ -671,6 +672,8 @@
   .busMiddle img {
     height: 9px;
     content: normal !important;
+    position: relative;
+    top:1px;
   }
 
   .busFoot {

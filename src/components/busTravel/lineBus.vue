@@ -470,33 +470,11 @@
 
   .scroll{
     width: 750px;
+    position: fixed;
+    top: 0;
+    left:0;
+    right: 0;
   }
-  /*.scroll{
-     overflow-x: auto;
-     overflow-y: hidden;
-  }*/
-  /*ul{
-     width: 200%;
-     height: 90px;
-     overflow: hidden;
-     display: inline-flex;
-     padding:16px 0 24px 20px;
-  }
-  li{
-    height: 50px;
-    text-align: center;
-    line-height: 90px;
-    float: left;
-    list-style: none;
-    border:1px solid #6F86FC;
-    text-align: center;
-		font-size:30px;
-		color:rgba(111,134,252,1);
-		line-height:48px;
-		border-radius: 20px;
-		padding:0 20px;
-		margin-right:22px;
-  }*/
 
   .busActive {
     background: #6F86FC;
@@ -677,8 +655,6 @@
 
   .swiper-slide {
     white-space: nowrap;
-    display: flex;
-    flex-grow: 1;
     width: auto!important;
     height: 50px;
     text-align: center;

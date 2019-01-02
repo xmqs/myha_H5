@@ -118,8 +118,8 @@
       } else {
         this.pointhistory = info2;
       }
-      
-      
+
+
       console.log(this.linehistory)
     },
     methods: {
@@ -223,9 +223,10 @@
 <style scoped>
   .busTop {
     width: 100%;
-    padding: 14px 20px 0 20px;
+    padding: 14px 20px 14px 20px;
     position: fixed;
     top: 0;
+    background: #fff;
   }
 
   .topSearch {
