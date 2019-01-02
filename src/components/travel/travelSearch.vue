@@ -1,7 +1,13 @@
 <template>
   <div>
     <div class="top">
-      <input type="text" placeholder="搜索景点/酒店/美食等" v-model="searchKey" v-on:keyup.13="search()"/>
+    	<iframe id="frame" name="iframe" style="display:none;"></iframe>
+      <form action="javascript:return true;" method="post">
+        <div class="topSearch">
+          <input type="text" placeholder="搜索景点/酒店/美食等" v-model="searchKey" v-on:keyup.13="search()"/>
+        </div>
+      </form>
+     <!-- <input type="text" placeholder="搜索景点/酒店/美食等" v-model="searchKey" v-on:keyup.13="search()"/>-->
       <div class="s1" @click="removeKey">取消</div>
       <div class="search"><img src="../../../static/img/travel/Group 22@3x.png" alt=""/></div>
     </div>
