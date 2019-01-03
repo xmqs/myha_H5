@@ -123,6 +123,8 @@
     },
     mounted() {
     	this.queryMyCollection();
+
+
       let url = 'https://webapi.amap.com/maps?v=1.4.7&key=ec3bd89bc62edfe8928454dcbab04de4&plugin=AMap.Transfer,AMap.Autocomplete,AMap.PlaceSearch,AMap.Driving,AMap.Geolocation&callback=onLoad';
       let jsapi = document.createElement('script');
       jsapi.charset = 'utf-8';
@@ -320,10 +322,10 @@
 
             this.list = list;
 
-           /* this.busDialog = new AMap.Marker({
+           this.busDialog = new AMap.Marker({
               map: vue.map,
               icon: new AMap.Icon({
-                image: "./static/img/bus/dialog.png",
+                image: "./static/img/busTravel/busDialog.png",
                 size: new AMap.Size(164, 106),  //图标大小
                 imageSize: new AMap.Size(164, 106)
               }),
@@ -331,61 +333,61 @@
               offset: new AMap.Pixel(-92, -126),
             })
 
-            this.dialogName = new AMap.Text({
-              map: this.map,
-              text: "<span style='color: #F39911'>"+vue.nearMark.staName+"</span>",
-              position: [vue.nearMark.staLng, vue.nearMark.staLat],
-              offset: new AMap.Pixel(-44, -108),
-            })
-            let array = [];
-            for(let i = 0;i<this.list.length;i++){
-              array.push(this.list[i].lineName)
-            }
-            this.dialogBus1 = new AMap.Text({
-              map: this.map,
-              text: "<div style='color: #7EAFE3;width: 80px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;'>"+array[0]+"</div>",
-              position: [vue.nearMark.staLng, vue.nearMark.staLat],
-              offset: new AMap.Pixel(-32, -86),
-            })
-            this.dialogBus2 = new AMap.Text({
-              map: this.map,
-              text: "<div style='color: #7EAFE3;width: 80px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;'>"+array[1]+"</div>",
-              position: [vue.nearMark.staLng, vue.nearMark.staLat],
-              offset: new AMap.Pixel(-32, -66),
-            })
+            /*this.dialogName = new AMap.Text({
+             map: this.map,
+             text: "<span style='color: #F39911'>"+vue.nearMark.staName+"</span>",
+             position: [vue.nearMark.staLng, vue.nearMark.staLat],
+             offset: new AMap.Pixel(-44, -108),
+           })
+           let array = [];
+           for(let i = 0;i<this.list.length;i++){
+             array.push(this.list[i].lineName)
+           }
+           this.dialogBus1 = new AMap.Text({
+             map: this.map,
+             text: "<div style='color: #7EAFE3;width: 80px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;'>"+array[0]+"</div>",
+             position: [vue.nearMark.staLng, vue.nearMark.staLat],
+             offset: new AMap.Pixel(-32, -86),
+           })
+           this.dialogBus2 = new AMap.Text({
+             map: this.map,
+             text: "<div style='color: #7EAFE3;width: 80px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;'>"+array[1]+"</div>",
+             position: [vue.nearMark.staLng, vue.nearMark.staLat],
+             offset: new AMap.Pixel(-32, -66),
+           })
 
 
 
-            if(this.list[0].dir==0){
-              this.ud1 = new AMap.Text({
-                map: this.map,
-                text: "<span style='color: #999;'>上行线</span>",
-                position: [vue.nearMark.staLng, vue.nearMark.staLat],
-                offset: new AMap.Pixel(28, -86),
-              })
-            }else{
-              this.ud1 = new AMap.Text({
-                map: this.map,
-                text: "<span style='color: #999;'>下行线</span>",
-                position: [vue.nearMark.staLng, vue.nearMark.staLat],
-                offset: new AMap.Pixel(28, -86),
-              })
-            }
-            if(this.list[1].dir==0){
-              this.ud2 = new AMap.Text({
-                map: this.map,
-                text: "<span style='color: #999;'>上行线</span>",
-                position: [vue.nearMark.staLng, vue.nearMark.staLat],
-                offset: new AMap.Pixel(28, -66),
-              })
-            }else{
-              this.ud2 = new AMap.Text({
-                map: this.map,
-                text: "<span style='color: #999;'>下行线</span>",
-                position: [vue.nearMark.staLng, vue.nearMark.staLat],
-                offset: new AMap.Pixel(28, -66),
-              })
-            }*/
+           if(this.list[0].dir==0){
+             this.ud1 = new AMap.Text({
+               map: this.map,
+               text: "<span style='color: #999;'>上行线</span>",
+               position: [vue.nearMark.staLng, vue.nearMark.staLat],
+               offset: new AMap.Pixel(28, -86),
+             })
+           }else{
+             this.ud1 = new AMap.Text({
+               map: this.map,
+               text: "<span style='color: #999;'>下行线</span>",
+               position: [vue.nearMark.staLng, vue.nearMark.staLat],
+               offset: new AMap.Pixel(28, -86),
+             })
+           }
+           if(this.list[1].dir==0){
+             this.ud2 = new AMap.Text({
+               map: this.map,
+               text: "<span style='color: #999;'>上行线</span>",
+               position: [vue.nearMark.staLng, vue.nearMark.staLat],
+               offset: new AMap.Pixel(28, -66),
+             })
+           }else{
+             this.ud2 = new AMap.Text({
+               map: this.map,
+               text: "<span style='color: #999;'>下行线</span>",
+               position: [vue.nearMark.staLng, vue.nearMark.staLat],
+               offset: new AMap.Pixel(28, -66),
+             })
+           }*/
 
             /*this.fixNear();*/
           })
@@ -410,6 +412,7 @@
             AMap.event.addListener(marker, 'click', function () {
               vue.const = 0;
               vue.station = vue.nearStation[i].staName;
+              vue.nearMark = vue.nearStation[i];
 
               axios.post("/third-server/busInfo/queryLineInfoByStaName.do", {
                 "staName": vue.station,
@@ -434,6 +437,8 @@
                 }
 
                 vue.list = list;
+
+                //计算
                 /*vue.fixNear();*/
 
               })

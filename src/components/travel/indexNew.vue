@@ -150,21 +150,6 @@
           </div>
         </div>
 
-
-        <!--<div class="interesting_content_card">
-          <div v-for="(item,index) in list4" v-show="index<3"  @click="toDetail(item.properties.pageUrl)">
-            <div class="img_box">
-              <img :src="item.properties.cover" alt=""/>
-            </div>
-            <div class="interesting_content_card_content">
-
-              <div class="interesting_content_card_content_inner">
-                <p class="card_title">{{item.sourceLabel}}</p>
-                <p class="card_content">{{item.properties.remark}}</p>
-              </div>
-            </div>
-          </div>
-        </div>-->
       </div>
     </div>
 
