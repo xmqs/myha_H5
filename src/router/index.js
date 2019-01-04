@@ -167,6 +167,11 @@ const lineSearch = () => import('@/components/busTravel/lineSearch'/*webpackChun
 const lineBus = () => import('@/components/busTravel/lineBus'/*webpackChunkName: "busTravel"*/)
 const busDetails = () => import('@/components/busTravel/busDetails'/*webpackChunkName: "busTravel"*/)
 const busHistory = () => import('@/components/busTravel/busHistory'/*webpackChunkName: "busTravel"*/)
+
+/*学校介绍模块*/
+const schoolMain = () => import('@/components/schoolIntroduction/schoolMain'/*webpackChunkName: "schoolIntroduction"*/)
+const schoolList = () => import('@/components/schoolIntroduction/schoolList'/*webpackChunkName: "schoolIntroduction"*/)
+
 Vue.use(Router)
 
 export default new Router({
@@ -794,7 +799,20 @@ export default new Router({
       name: 'shareHaian',
       component: shareHaian,
     },
-
+    /*学校介绍*/
+    {
+      path: '/schoolIntroduction/schoolMain',
+      name: 'schoolMain',
+      component: schoolMain,
+    },
+    {
+      path: '/schoolIntroduction/schoolList/:catalogAlias',//学校类别参数
+      name: 'schoolList',
+      component: schoolList,
+      meta: {
+        keepAlive: true
+      }
+    },
 
     /*公共模块*/
     {
