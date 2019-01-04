@@ -132,14 +132,7 @@
       }
     },
     mounted() {
-      axios.post("/third-server/busInfo/queryStationByPosition.do",{
-        "longitude": sessionStorage.getItem("userPosition").split(",")[0],
-        "latitude": sessionStorage.getItem("userPosition").split(",")[1]
-      }).then(res=>{
-        this.beginStationName = res.data.data.busStationList[0].staName
-      })
-
-      // 提取用户信息
+    	// 提取用户信息
       var infoStr = window.localStorage.getItem('userInfo');
       var info = JSON.parse(infoStr);
       if (info == null) {
@@ -149,6 +142,17 @@
       }
       console.log("存储的数据")
       console.log(this.arr)
+      
+      
+      axios.post("/third-server/busInfo/queryStationByPosition.do",{
+        "longitude": sessionStorage.getItem("userPosition").split(",")[0],
+        "latitude": sessionStorage.getItem("userPosition").split(",")[1]
+      }).then(res=>{
+        this.beginStationName = res.data.data.busStationList[0].staName
+      })
+
+      
+      
     },
     methods: {
       show(i) {
@@ -193,6 +197,7 @@
         }
         //去重操作
         if (this.arr.length > 0) {
+        	
           let isData = false;
           for (let i = 0; i < this.arr.length; i++) {
             if (this.arr[i].beginStationName == this.beginStationName) {
@@ -207,8 +212,6 @@
         } else {
           this.arr.push(searchName)
         }
-
-
         let str = JSON.stringify(this.arr);
         window.localStorage.setItem('userInfo', str);
       },

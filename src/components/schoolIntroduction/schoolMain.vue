@@ -18,7 +18,7 @@
 <script>
   import axios from "axios"
   import './../../../static/js/mui.picker.min'
-  import $ from 'jquery'
+  //import $ from 'jquery'
   //import {mapGetters} from 'vuex'
   export default {
     data() {
@@ -36,13 +36,13 @@
 //  },
     mounted() {
          //动态获取屏幕高度，使背景填满屏幕
-         let h=document.documentElement.clientHeight ;//屏幕
-         if(h<=1335){
-         	  //图片高度1335px，相当于178vw。放止屏幕高度不足内容高度时，背景填充不完整的问题
-         	  $('.school').css('height','178vw')
-         }else{
-         	  $('.school').css('height',h+'px')
-         }
+//       let h=document.documentElement.clientHeight ;//屏幕
+//       if(h<=1335){
+//       	  //图片高度1335px，相当于178vw。放止屏幕高度不足内容高度时，背景填充不完整的问题
+//       	  $('.school').css('height','178vw')
+//       }else{
+//       	  $('.school').css('height',h+'px')
+//       }
     },
     methods: { 
        jump(catalogAlias){
@@ -55,9 +55,11 @@
 <style scoped>
     .school{
     	width: 100%;
+    	min-height:1334px;
 	    background: #64d0eb url(./../../../static/img/schoolIntroduction/schoolbg.png) no-repeat top;
 	    background-size: 750px;
 	    position:relative;
+	    background-size: cover;
     }
     .sBorder{
     	width:716px;
