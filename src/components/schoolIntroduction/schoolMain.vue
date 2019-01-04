@@ -55,18 +55,17 @@
 <style scoped>
     .school{
     	width: 100%;
-    	min-height:1334px;
+    	height:100%;
 	    background: #64d0eb url(./../../../static/img/schoolIntroduction/schoolbg.png) no-repeat top;
 	    background-size: 750px;
-	    position:relative;
-	    background-size: cover;
+	    position:absolute;
     }
     .sBorder{
     	width:716px;
     	height:716px;
     	border:1px dashed #fff;
     	position:absolute;
-    	top:569px;
+    	bottom:50px;
     	left:17px;
     }
     .sBg{
