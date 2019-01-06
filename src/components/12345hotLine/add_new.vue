@@ -231,6 +231,7 @@
         var that = this;
 
         window.uploadImgOver = function (str) {
+
           that.data.filePaths.push(JSON.parse(str).data);
         }
 

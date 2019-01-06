@@ -664,6 +664,7 @@
     border-radius: 20px;
     padding: 0 20px;
     margin: 20px 10px;
+    line-height: 50px;
   }
   .busActive{
     color: #fff;

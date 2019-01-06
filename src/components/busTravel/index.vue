@@ -33,11 +33,11 @@
     </div>
     <div class="map" v-show="isOn==0" id="container">
     </div>
-    <div class="position" v-show="isOn==0">
+    <div class="position" v-show="isOn==0" :class="{'up200':!bottomShow}">
       <img src="./../../../static/img/bus/icon4.png" alt="" @click="moveLocation">
     </div>
-    <div class="busContent" v-show="isOn==0">
-      <div class="busPoint">
+    <div class="busContent" v-show="isOn==0" :class="{'close':bottomShow}">
+      <div class="busPoint" @click="changeBottom">
         <img src="./../../../static/img/bus/busIcon.png" alt="" class="busIcon">{{nearMark.staName}}
       </div>
       <div class="busLine">
@@ -45,20 +45,17 @@
           <div class="busLineLeft" @click="toLineDetail(index)">
             <div class="T_333333">{{item.lineName}}</div>
             <div class="busLineLeftLine">
-              <span class="T_999999">{{item.beginStationName}}</span>
-              <img src="./../../../static/img/bus/toLine.png" alt="" class="toLineIcon">
-              <span class="T_999999">{{item.endStationName}}</span>
+              <span class="T_999999">{{item.beginStationName}}&nbsp;&gt;&nbsp;{{item.endStationName}}</span>
             </div>
           </div>
           <div class="busLineMind" @click="changeLineDirection(index)">
             <img src="./../../../static/img/bus/changeIndex.png" alt="" class="chageIndex">
-            <div class="C_6F86FC">
+            <span class="C_6F86FC">
               始末切换
-            </div>
+            </span>
           </div>
           <div class="busLineRight" @click="toLineDetail(index)">
-            <div class="T_333333">最近车辆</div>
-            <div class="C_999999">{{item.distanceStation?"距您"+item.distanceStation+"站":"暂无"}}</div>
+            <div class="busDistance">{{item.distanceStation?"距您"+item.distanceStation+"站":"暂无"}}</div>
           </div>
         </div>
       </div>
@@ -75,7 +72,8 @@
           <div class="busName">{{item.lineName}}</div>
           <div class="toLine">
             <span>{{item.beginStationName}}</span>
-            <img src="./../../../static/img/busTravel/23@2x.png" alt="" class="toLineIcon"><span>{{item.endStationName}}</span>
+            <img src="./../../../static/img/busTravel/23@2x.png" alt=""
+                 class="toLineIcon"><span>{{item.endStationName}}</span>
           </div>
           <div class="fromLine">
             {{item.firstLastTime}}
@@ -104,13 +102,17 @@
         nearMark: {},
 
         busDialog: {},
-        dialogName:{},
-        dialogBus1:{},
-        dialogBus2:{},
-        ud1:{},
-        ud2:{},
+        dialogName: {},
+        dialogBus1: {},
+        dialogBus2: {},
+        ud1: {},
+        ud2: {},
+        bd1: {},
+        bd2: {},
 
-        const:0,
+        const: 0,
+
+        bottomShow: false
       }
     },
     computed: {
@@ -122,7 +124,7 @@
       ]),
     },
     mounted() {
-    	this.queryMyCollection();
+      this.queryMyCollection();
 
 
       let url = 'https://webapi.amap.com/maps?v=1.4.7&key=ec3bd89bc62edfe8928454dcbab04de4&plugin=AMap.Transfer,AMap.Autocomplete,AMap.PlaceSearch,AMap.Driving,AMap.Geolocation&callback=onLoad';
@@ -174,17 +176,21 @@
 
     },
     activated() {
-    	this.queryMyCollection()
-
+      this.queryMyCollection()
     },
     methods: {
-      changeLineDirection(n){
-        axios.post("/third-server/busInfo/switchUpDown.do",{
-          "lineId":this.list[n].lineId,
-          "dir":this.list[n].dir==0?'1':'0',
+      /*收缩下面菜单*/
+      changeBottom() {
+        this.bottomShow = !this.bottomShow;
+      },
+      /*切换上下行*/
+      changeLineDirection(n) {
+        axios.post("/third-server/busInfo/switchUpDown.do", {
+          "lineId": this.list[n].lineId,
+          "dir": this.list[n].dir == 0 ? '1' : '0',
           "longitude": sessionStorage.getItem("userPosition").split(",")[0],
           "latitude": sessionStorage.getItem("userPosition").split(",")[1]
-        }).then(res=>{
+        }).then(res => {
           this.list[n] = res.data.data;
           this.$forceUpdate();
           /*this.fixOneNear(n)*/
@@ -205,7 +211,7 @@
         }
       },
       /*计算站点*/
-      fixOneNear(n){
+      fixOneNear(n) {
         axios.post("/third-server/busInfo/getNearestSite.do", {
           "lineId": this.list[n].lineId,
           "dir": this.list[n].dir,
@@ -215,27 +221,27 @@
           this.list[n].near = res.data.data;
           axios.post("/third-server/busInfo/queryBusLocation.do", {
             "lineId": this.list[n].lineId,
-            "dir":this.list[n].dir
+            "dir": this.list[n].dir
           }).then(res => {
             this.list[n].bus = res.data.data;
 
             let nearInfo = -1;
-            for(let c = 0;c<this.list[n].bus.length;c++){
-              if(this.list[n].near.staNo - this.list[n].bus[c].parentNo>0&&((this.list[n].near.staNo - this.list[n].bus[c].parentNo<nearInfo)||nearInfo==-1)){
+            for (let c = 0; c < this.list[n].bus.length; c++) {
+              if (this.list[n].near.staNo - this.list[n].bus[c].parentNo > 0 && ((this.list[n].near.staNo - this.list[n].bus[c].parentNo < nearInfo) || nearInfo == -1)) {
                 nearInfo = this.list[n].near.staNo - this.list[n].bus[c].parentNo;
               }
             }
-            if(nearInfo==-1){
+            if (nearInfo == -1) {
               this.list[n].nearInfo = "暂无"
-            }else{
-              this.list[n].nearInfo = "距您"+nearInfo+"站"
+            } else {
+              this.list[n].nearInfo = "距您" + nearInfo + "站"
             }
 
             this.$forceUpdate();
           })
         })
       },
-      fixNear(){
+      fixNear() {
         let vue = this;
         for (let i = 0; i < vue.list.length; i++) {
           axios.post("/third-server/busInfo/getNearestSite.do", {
@@ -250,39 +256,39 @@
 
           axios.post("/third-server/busInfo/queryBusLocation.do", {
             "lineId": vue.list[i].lineId,
-            "dir":vue.list[i].dir
+            "dir": vue.list[i].dir
           }).then(res => {
             vue.list[i].bus = res.data.data;
             vue.const++;
           })
         }
 
-        let tiem2 = setInterval(()=>{
-          if(vue.const == vue.list.length*2){
+        let tiem2 = setInterval(() => {
+          if (vue.const == vue.list.length * 2) {
             clearInterval(tiem2);
 
-            for(let z = 0;z<vue.list.length;z++){
+            for (let z = 0; z < vue.list.length; z++) {
               let nearInfo = -1;
-              for(let c = 0;c<vue.list[z].bus.length;c++){
-                if(vue.list[z].near.staNo - vue.list[z].bus[c].parentNo>0&&((vue.list[z].near.staNo - vue.list[z].bus[c].parentNo<nearInfo)||nearInfo==-1)){
+              for (let c = 0; c < vue.list[z].bus.length; c++) {
+                if (vue.list[z].near.staNo - vue.list[z].bus[c].parentNo > 0 && ((vue.list[z].near.staNo - vue.list[z].bus[c].parentNo < nearInfo) || nearInfo == -1)) {
                   nearInfo = vue.list[z].near.staNo - vue.list[z].bus[c].parentNo;
                 }
               }
-              if(nearInfo==-1){
+              if (nearInfo == -1) {
                 vue.list[z].nearInfo = "暂无"
-              }else{
-                vue.list[z].nearInfo = "距您"+nearInfo+"站"
+              } else {
+                vue.list[z].nearInfo = "距您" + nearInfo + "站"
               }
             }
 
             vue.$forceUpdate();
           }
-        },100)
+        }, 100)
 
       },
 
 
-      toLine(lineId,dir){
+      toLine(lineId, dir) {
         this.$router.push("/busTravel/busDetails/" + lineId + "/" + dir);
       },
       toLineDetail(n) {
@@ -306,88 +312,89 @@
           }).then(res => {
             let busList = res.data.data.busStationList;
             let list = []
-            for(let i = 0; i < busList.length; i++){
+            for (let i = 0; i < busList.length; i++) {
               let z = 0;
-              for(let j = 0;j< list.length;j++){
-                if(busList[i].lineId == list[j].lineId){
+              for (let j = 0; j < list.length; j++) {
+                if (busList[i].lineId == list[j].lineId) {
                   break;
-                }else{
+                } else {
                   z++;
                 }
               }
-              if (z == list.length){
+              if (z == list.length) {
                 list.push(busList[i])
               }
             }
 
             this.list = list;
 
-           this.busDialog = new AMap.Marker({
+            this.busDialog = new AMap.Marker({
               map: vue.map,
               icon: new AMap.Icon({
                 image: "./static/img/busTravel/busDialog.png",
-                size: new AMap.Size(164, 106),  //图标大小
-                imageSize: new AMap.Size(164, 106)
+                size: new AMap.Size(156, 80),  //图标大小
+                imageSize: new AMap.Size(156, 80)
               }),
               position: [vue.nearMark.staLng, vue.nearMark.staLat],
-              offset: new AMap.Pixel(-92, -126),
+              offset: new AMap.Pixel(-108, -110),
             })
 
-            /*this.dialogName = new AMap.Text({
-             map: this.map,
-             text: "<span style='color: #F39911'>"+vue.nearMark.staName+"</span>",
-             position: [vue.nearMark.staLng, vue.nearMark.staLat],
-             offset: new AMap.Pixel(-44, -108),
-           })
-           let array = [];
-           for(let i = 0;i<this.list.length;i++){
-             array.push(this.list[i].lineName)
-           }
-           this.dialogBus1 = new AMap.Text({
-             map: this.map,
-             text: "<div style='color: #7EAFE3;width: 80px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;'>"+array[0]+"</div>",
-             position: [vue.nearMark.staLng, vue.nearMark.staLat],
-             offset: new AMap.Pixel(-32, -86),
-           })
-           this.dialogBus2 = new AMap.Text({
-             map: this.map,
-             text: "<div style='color: #7EAFE3;width: 80px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;'>"+array[1]+"</div>",
-             position: [vue.nearMark.staLng, vue.nearMark.staLat],
-             offset: new AMap.Pixel(-32, -66),
-           })
+            this.dialogName = new AMap.Text({
+              map: this.map,
+              text: "<div style='color: #F39911;font-size:14px;width: 132px;'>" + vue.nearMark.staName + "</div>",
+              position: [vue.nearMark.staLng, vue.nearMark.staLat],
+              offset: new AMap.Pixel(-30, -90),
+            })
+            let array = [];
+            for (let i = 0; i < this.list.length; i++) {
+              array.push(this.list[i].lineName)
+            }
+            let t1 = array[0] ? array[0] : '';
+            this.dialogBus1 = new AMap.Text({
+              map: this.map,
+              text: "<div style='color:#6F86FC;width: 36px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;font-size:10px'>" + t1 + "</div>",
+              position: [vue.nearMark.staLng, vue.nearMark.staLat],
+              offset: new AMap.Pixel(-78, -72),
+            })
+            let t2 = array[1] ? array[1] : '';
+            this.dialogBus2 = new AMap.Text({
+              map: this.map,
+              text: "<div style='color:#6F86FC;width: 36px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;font-size:10px'>" + t2 + "</div>",
+              position: [vue.nearMark.staLng, vue.nearMark.staLat],
+              offset: new AMap.Pixel(-78, -56),
+            })
 
+            let t3 = this.list[0] ? "开往" + this.list[0].endStationName : '';
+            this.ud1 = new AMap.Text({
+              map: this.map,
+              text: "<div style='color:#999999;width: 50px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;font-size:10px'>" + t3 + "</div>",
+              position: [vue.nearMark.staLng, vue.nearMark.staLat],
+              offset: new AMap.Pixel(-30, -72),
+            })
 
+            let t4 = this.list[1] ? "开往" + this.list[1].endStationName : '';
+            this.ud2 = new AMap.Text({
+              map: this.map,
+              text: "<div style='color:#999999;width: 50px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;font-size:10px'>" + t4 + "</div>",
+              position: [vue.nearMark.staLng, vue.nearMark.staLat],
+              offset: new AMap.Pixel(-30, -56),
+            })
 
-           if(this.list[0].dir==0){
-             this.ud1 = new AMap.Text({
-               map: this.map,
-               text: "<span style='color: #999;'>上行线</span>",
-               position: [vue.nearMark.staLng, vue.nearMark.staLat],
-               offset: new AMap.Pixel(28, -86),
-             })
-           }else{
-             this.ud1 = new AMap.Text({
-               map: this.map,
-               text: "<span style='color: #999;'>下行线</span>",
-               position: [vue.nearMark.staLng, vue.nearMark.staLat],
-               offset: new AMap.Pixel(28, -86),
-             })
-           }
-           if(this.list[1].dir==0){
-             this.ud2 = new AMap.Text({
-               map: this.map,
-               text: "<span style='color: #999;'>上行线</span>",
-               position: [vue.nearMark.staLng, vue.nearMark.staLat],
-               offset: new AMap.Pixel(28, -66),
-             })
-           }else{
-             this.ud2 = new AMap.Text({
-               map: this.map,
-               text: "<span style='color: #999;'>下行线</span>",
-               position: [vue.nearMark.staLng, vue.nearMark.staLat],
-               offset: new AMap.Pixel(28, -66),
-             })
-           }*/
+            let t5 = this.list[0] ? this.list[0].distanceStation ? "距" + this.list[0].distanceStation + "站" : '暂无' : '';
+            this.bd1 = new AMap.Text({
+              map: this.map,
+              text: "<div style='color:#999999;width: 50px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;font-size:10px'>" + t5 + "</div>",
+              position: [vue.nearMark.staLng, vue.nearMark.staLat],
+              offset: new AMap.Pixel(30, -72),
+            })
+
+            let t6 = this.list[1] ? this.list[1].distanceStation ? "距" + this.list[1].distanceStation + "站" : '暂无' : '';
+            this.bd2 = new AMap.Text({
+              map: this.map,
+              text: "<div style='color:#999999;width: 50px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;font-size:10px'>" + t6 + "</div>",
+              position: [vue.nearMark.staLng, vue.nearMark.staLat],
+              offset: new AMap.Pixel(30, -56),
+            })
 
             /*this.fixNear();*/
           })
@@ -422,22 +429,98 @@
               }).then(res => {
                 let busList = res.data.data.busStationList;
                 let list = []
-                for(let i = 0; i < busList.length; i++){
+                for (let i = 0; i < busList.length; i++) {
                   let z = 0;
-                  for(let j = 0;j< list.length;j++){
-                    if(busList[i].lineId == list[j].lineId){
+                  for (let j = 0; j < list.length; j++) {
+                    if (busList[i].lineId == list[j].lineId) {
                       break;
-                    }else{
+                    } else {
                       z++;
                     }
                   }
-                  if (z == list.length){
+                  if (z == list.length) {
                     list.push(busList[i])
                   }
                 }
 
                 vue.list = list;
 
+                vue.map.remove(vue.busDialog);
+                vue.map.remove(vue.dialogName);
+                vue.map.remove(vue.dialogBus1);
+                vue.map.remove(vue.dialogBus2);
+                vue.map.remove(vue.ud1);
+                vue.map.remove(vue.ud2);
+                vue.map.remove(vue.bd1);
+                vue.map.remove(vue.bd2);
+
+                vue.busDialog = new AMap.Marker({
+                  map: vue.map,
+                  icon: new AMap.Icon({
+                    image: "./static/img/busTravel/busDialog.png",
+                    size: new AMap.Size(156, 80),  //图标大小
+                    imageSize: new AMap.Size(156, 80)
+                  }),
+                  position: [vue.nearMark.staLng, vue.nearMark.staLat],
+                  offset: new AMap.Pixel(-108, -110),
+                })
+
+                vue.dialogName = new AMap.Text({
+                  map: vue.map,
+                  text: "<div style='color: #F39911;font-size:14px;width: 132px;'>" + vue.nearMark.staName + "</div>",
+                  position: [vue.nearMark.staLng, vue.nearMark.staLat],
+                  offset: new AMap.Pixel(-30, -90),
+                })
+                let array = [];
+                for (let i = 0; i < vue.list.length; i++) {
+                  array.push(vue.list[i].lineName)
+                }
+                let t1 = array[0] ? array[0] : '';
+                vue.dialogBus1 = new AMap.Text({
+                  map: vue.map,
+                  text: "<div style='color:#6F86FC;width: 36px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;font-size:10px'>" + t1 + "</div>",
+                  position: [vue.nearMark.staLng, vue.nearMark.staLat],
+                  offset: new AMap.Pixel(-78, -72),
+                })
+                let t2 = array[1] ? array[1] : '';
+                vue.dialogBus2 = new AMap.Text({
+                  map: vue.map,
+                  text: "<div style='color:#6F86FC;width: 36px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;font-size:10px'>" + t2 + "</div>",
+                  position: [vue.nearMark.staLng, vue.nearMark.staLat],
+                  offset: new AMap.Pixel(-78, -56),
+                })
+
+                let t3 = vue.list[0] ? "开往" + vue.list[0].endStationName : '';
+                vue.ud1 = new AMap.Text({
+                  map: vue.map,
+                  text: "<div style='color:#999999;width: 50px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;font-size:10px'>" + t3 + "</div>",
+                  position: [vue.nearMark.staLng, vue.nearMark.staLat],
+                  offset: new AMap.Pixel(-30, -72),
+                })
+
+                let t4 = vue.list[1] ? "开往" + vue.list[1].endStationName : '';
+                vue.ud2 = new AMap.Text({
+                  map: vue.map,
+                  text: "<div style='color:#999999;width: 50px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;font-size:10px'>" + t4 + "</div>",
+                  position: [vue.nearMark.staLng, vue.nearMark.staLat],
+                  offset: new AMap.Pixel(-30, -56),
+                })
+
+                let t5 = vue.list[0] ? vue.list[0].distanceStation ? "距" + vue.list[0].distanceStation + "站" : '暂无' : '';
+                vue.bd1 = new AMap.Text({
+                  map: vue.map,
+                  text: "<div style='color:#999999;width: 50px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;font-size:10px'>" + t5 + "</div>",
+                  position: [vue.nearMark.staLng, vue.nearMark.staLat],
+                  offset: new AMap.Pixel(30, -72),
+                })
+
+                let t6 = vue.list[1] ? vue.list[1].distanceStation ? "距" + vue.list[1].distanceStation + "站" : '暂无' : '';
+                vue.bd2 = new AMap.Text({
+                  map: vue.map,
+                  text: "<div style='color:#999999;width: 50px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;font-size:10px'>" + t6 + "</div>",
+                  position: [vue.nearMark.staLng, vue.nearMark.staLat],
+                  offset: new AMap.Pixel(30, -56),
+                })
                 //计算
                 /*vue.fixNear();*/
 
@@ -447,13 +530,13 @@
         })
       },
       cut(i) {
-        if(i==1){
-        	this.$router.push("/busTravel/busHistory");
-        }else if(i==2){
-        	this.isOn = i;
-        	this.queryMyCollection();
-        }else{
-        	this.isOn = i;
+        if (i == 1) {
+          this.$router.push("/busTravel/busHistory");
+        } else if (i == 2) {
+          this.isOn = i;
+          this.queryMyCollection();
+        } else {
+          this.isOn = i;
         }
       },
       showHistory() {
@@ -678,7 +761,7 @@
     height: 9px;
     content: normal !important;
     position: relative;
-    top:1px;
+    top: 1px;
   }
 
   .busFoot {
@@ -793,11 +876,14 @@
   }
 
   .busLineLeft {
-    width: 300px;
+    width: 360px;
   }
 
   .busLineRight {
-    width: 300px;
+    width: 200px;
+    display: flex;
+    align-items: center;
+    height: 100px;
   }
 
   .busLineRight div {
@@ -805,19 +891,21 @@
   }
 
   .busLineMind {
-    text-align: center;
+    display: flex;
+    align-items: center;
+    height: 100px;
   }
 
   .chageIndex {
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
   }
 
   .C_6F86FC {
     color: #6F86FC;
     font-size: 26px;
-    margin-top: 30px;
     white-space: nowrap;
+    margin-left: 10px;
   }
 
   .C_999999 {
@@ -828,12 +916,12 @@
 
   .T_333333 {
     color: #333333;
-    font-size: 26px;
+    font-size: 36px;
   }
 
   .busLineLeftLine {
     font-size: 26px;
-    margin-top: 40px;
+    margin-top: 20px;
   }
 
   .T_999999 {
@@ -841,10 +929,10 @@
     font-size: 26px;
   }
 
-  .position{
-    position:fixed;
+  .position {
+    position: fixed;
     left: 10px;
-    bottom: 443px;
+    bottom: 90px;
     z-index: 80;
 
     transition: bottom 0.25s ease-out;
@@ -852,12 +940,20 @@
     -webkit-transition: bottom 0.25s ease-out; /* Safari 和 Chrome */
     -o-transition: bottom 0.25s ease-out; /* Opera */
   }
-  .up200{
-    bottom: 463px;
+
+  .up200 {
+    bottom: 433px;
   }
-  .position img{
+
+  .position img {
     width: 100px;
     height: 100px;
+  }
+
+  .busDistance {
+    color: #333;
+    font-size: 30px;
+    width: 180px;
   }
 </style>
 
