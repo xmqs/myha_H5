@@ -2,13 +2,11 @@
   <div class="school">
      <div class="sBorder">
      	<div class="sBg">
-     	    <img class="img1" @click="jump('school_youeryuan')" src="../../../static/img/schoolIntroduction/组 1@3x.png" alt="" />
+     	    <img class="img1" @click="jump('school_youeryuan')" src="../../../static/img/schoolIntroduction/组2@2x.png" alt="" />
      	    <img class="img2" @click="jump('school_xiaoxue')" src="../../../static/img/schoolIntroduction/组 2 拷贝@3x.png" alt="" />
      	    <img class="img3" @click="jump('school_zhongxue')" src="../../../static/img/schoolIntroduction/组 1@3x.png" alt="" />
      	    <img class="img4" @click="jump('school_zhiyexuexiao')" src="../../../static/img/schoolIntroduction/组 2 拷贝 2@3x.png" alt="" />
-     	    <div class="middleImg">
-     	    	<div>学校分类</div>
-     	    </div>
+     	    <img class="middleImg" src="../../../static/img/schoolIntroduction/middleImg.png" alt="" />
      	    
      	</div>
      </div>
@@ -80,14 +78,10 @@
     .middleImg{
     	position:absolute;
     	width:210px;
-    	height:210px;
-    	top:252px;
-    	left:252px;
-    	background: url(./../../../static/img/schoolIntroduction/middleImg.png) no-repeat;
-	    background-size: 210px;
-	    padding:56px 0 0 60px;
+    	top:235px;
+    	left:235px;
     }
-    .middleImg div{
+    /*.middleImg div{
     	width:98px;
     	height:79px;
     	font-size:40px;
@@ -95,7 +89,7 @@
 		  font-weight:400;
 		  color:rgba(254,255,255,1);
 		  line-height:49px;
-    }
+    }*/
     .img1{
     	margin:31px 105px 140px 41px;
     }
