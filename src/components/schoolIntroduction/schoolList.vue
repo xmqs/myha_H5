@@ -18,7 +18,7 @@
       <div class="list">
       	 
       	 <div class="listItem" v-for="item in schoolList" @click="jumpDetails(item.properties.pageUrl)">
-      	 	  <img :src="item.properties.cover==''?'../../../static/img/schoolIntroduction/noImg3.png':item.properties.cover" alt="" />
+      	 	  <img :src="item.properties.cover==''?'./static/img/schoolIntroduction/noImg3.png':item.properties.cover" alt="" />
       	 	  <div>
       	 	  	 <div class="listTitle">{{item.properties.name==""?"暂无":item.properties.name}}</div>
       	 	  	 <div class="listIntro">{{item.properties.remark==""?"暂无介绍信息":(item.properties.remark.length>45?item.properties.remark.slice(0,45)+"...":item.properties.remark)}}</div>
