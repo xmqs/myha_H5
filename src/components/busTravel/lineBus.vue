@@ -513,7 +513,7 @@
     align-items: center;
     display: flex;
     flex-direction: row-reverse;
-    padding: 16px;
+    padding: 18px;
     position: relative;
     width: 300px;
     justify-content: right;
