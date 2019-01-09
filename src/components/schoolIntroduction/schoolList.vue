@@ -110,11 +110,11 @@
 	          if(sessionStorage.getItem("haveAmap") == "false"){
 	            window.location.href = 'http://daohang.amap.com/index.php';
 	          }else{
-	            window.location.href = 'androidamap://navi?sourceApplication=amap&poiname='+name+'&lat='+lat+'&lon='+lon+'&dev=1&style=2';
+	            window.location.href = 'androidamap://navi?sourceApplication=amap&poiname='+name+'&lat='+lon+'&lon='+lat+'&dev=1&style=2';
 	          }
 	        }
 	        if (isiOS) {
-	          window.location = 'iosamap://navi?sourceApplication=amap&poiname='+name+'&lat='+lat+'&lon='+lon+'&dev=1&style=2';
+	          window.location = 'iosamap://navi?sourceApplication=amap&poiname='+name+'&lat='+lon+'&lon='+lat+'&dev=1&style=2';
 	        }
 	
 	      },
