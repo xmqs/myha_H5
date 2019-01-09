@@ -23,8 +23,8 @@
       	 	  	 <div class="listTitle">{{item.properties.name==""?"暂无":item.properties.name}}</div>
       	 	  	 <div class="listIntro">{{item.properties.remark==""?"暂无介绍信息":(item.properties.remark.length>45?item.properties.remark.slice(0,45)+"...":item.properties.remark)}}</div>
       	 	  	 <div class="listTel" @click.stop="fun()" v-show="item.properties.mobile!=''">联系电话：<a :href="'tel:'+item.properties.mobile">{{item.properties.mobile}}</a></div>
-      	 	  	 <div class="listTel" v-show="item.properties.mobile==''">联系电话：暂无联系信息</div>
-      	 	  	 <div class="listAddr">
+      	 	  	 <div class="listTel" v-show="item.properties.mobile=='' || item.properties.mobile=='暂无'">联系电话：暂无</div>
+      	 	  	 <div class="listAddr" @click.stop=toMap(item.properties.name,item.properties.latitude,item.properties.longitude)>
       	 	  	 	  <span>地址：{{item.properties.address==""?"暂无地址信息":item.properties.address}}</span>
       	 	  	 	  <img src="../../../static/img/schoolIntroduction/location.png" alt="" />
       	 	  	 </div>
@@ -33,14 +33,13 @@
       	 
       </div>
       <!--暂无结果-->
-      <div class="noList" v-show="schoolList.length==0">暂无搜索结果</div>
+      <div class="noList" v-show="isshow">暂无搜索结果</div>
   </div>
 </template>
 
 <script>
   import axios from "axios"
   import './../../../static/js/mui.picker.min'
-  //import {mapGetters} from 'vuex'
   export default {
     data() {
       return {
@@ -48,24 +47,16 @@
            Addr:"全海安",
            searchKey:"",
            schoolList:[],
+           isshow:false,//暂无搜索结果的显示隐藏，不能直接用addrList.length==0页面会优先渲染导致暂无数据闪屏
       }
     },
-//  computed: {
-//    ...mapGetters([
-//      "getUserId",
-//      "getUserName",
-//      "getCardId",
-//      "getUserPhone",
-//      "getAuditAddress",
-//    ]),
-//  },
     mounted() {
-    	   this.search();
+				 this.search();
          //获取所有区域接口
    	     axios.get("/myha-server/common/getServiceArea.do")
    	       .then(res=>{
             this.addrList=res.data.data;
-            console.log(this.addrList)
+            //console.log(this.addrList)
          })        
     },
     //跳转到主页不触发keepAlive
@@ -94,6 +85,8 @@
 	                "areaKey":this.Addr
    	       }).then(res=>{
 	            this.schoolList=res.data.data;
+	            console.log(res.data.data)
+	            res.data.data.length==0?this.isshow=true:this.isshow=false;
 	         })
         },
         jumpDetails(url){
@@ -102,7 +95,29 @@
         //放止点击联系电话触发跳转事件
         fun(){
         	return;
-        }
+        },
+        //地址坐标跳转高德地图
+        toMap(name,lat,lon){
+        	
+	        if(lat==undefined || lat==""){
+	          return;
+	        }
+	        var u = navigator.userAgent;
+	        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+	        var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+	
+	        if (isAndroid) {
+	          if(sessionStorage.getItem("haveAmap") == "false"){
+	            window.location.href = 'http://daohang.amap.com/index.php';
+	          }else{
+	            window.location.href = 'androidamap://navi?sourceApplication=amap&poiname='+name+'&lat='+lat+'&lon='+lon+'&dev=1&style=2';
+	          }
+	        }
+	        if (isiOS) {
+	          window.location = 'iosamap://navi?sourceApplication=amap&poiname='+name+'&lat='+lat+'&lon='+lon+'&dev=1&style=2';
+	        }
+	
+	      },
     }
   }
 </script>
