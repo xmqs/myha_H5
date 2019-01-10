@@ -22,7 +22,7 @@
       	 	  <div>
       	 	  	 <div class="listTitle">{{item.properties.name==""?"暂无":item.properties.name}}</div>
       	 	  	 <div class="listIntro">{{item.properties.remark==""?"暂无介绍信息":(item.properties.remark.length>45?item.properties.remark.slice(0,45)+"...":item.properties.remark)}}</div>
-      	 	  	 <div class="listTel" @click.stop="fun()" v-show="item.properties.mobile!=''">联系电话：<a :href="'tel:'+item.properties.mobile">{{item.properties.mobile}}</a></div>
+      	 	  	 <div class="listTel" @click.stop="fun()" v-show="item.properties.mobile!=''&& item.properties.mobile!='暂无' ">联系电话：<a :href="'tel:'+item.properties.mobile">{{item.properties.mobile}}</a></div>
       	 	  	 <div class="listTel" v-show="item.properties.mobile=='' || item.properties.mobile=='暂无'">联系电话：暂无</div>
       	 	  	 <div class="listAddr" @click.stop=toMap(item.properties.name,item.properties.latitude,item.properties.longitude)>
       	 	  	 	  <span>地址：{{item.properties.address==""?"暂无地址信息":item.properties.address}}</span>
