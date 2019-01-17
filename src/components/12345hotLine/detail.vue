@@ -121,7 +121,7 @@
 	        <ul v-show="data.hisAdvList==undefined">
 	          <li  :style="icoImg(1000)">
 	          		<div>[工单建立] &nbsp;&nbsp;&nbsp;未派发</div>
-							  <div>{{data.busiForm.eventDate}}</div>
+							  <div>{{data.busiForm.createTime}}</div>
 	          </li>
 	        </ul>
     	  </div>

@@ -11,15 +11,15 @@
         <!--路线一个单元-->
         <div v-for="(item,index) in line">
           <div class="point">
-            <img src="../../../static/img/bus/point.png" alt="" v-show="near !== item.staNo"/>
-            <img src="../../../static/img/bus/point2.png" alt="" v-show="near == item.staNo"/>
+            <img src="../../../static/img/busTravel/point.png" alt="" v-show="near !== item.staNo"/>
+            <img src="../../../static/img/busTravel/point2.png" alt="" v-show="near == item.staNo"/>
             <div>{{item.staName}}</div>
-            <div class="p3" v-show="near == item.staNo">(上车站点)</div>
+            <div class="p3" v-show="near == item.staNo">(离我最近)</div>
           </div>
           <div class="point2" v-for="item in nowPoint" v-show="item.parentNo == index">
-            <img src="../../../static/img/bus/bus.png" alt=""/>
+          	<img src="../../../static/img/busTravel/组合logo.png" alt=""/>
             <div>
-              <div class="p2">{{item.busLicName}}</div>
+              <div class="p2">最近一辆  ID:{{item.busLicName}}</div>
             </div>
           </div>
         </div>
@@ -432,14 +432,14 @@
   .point {
     display: flex;
     align-items: center;
-    padding-left: 250px;
+    padding-left: 133px;
 
   }
 
   .point img {
-    width: 26px;
-    height: 26px;
-    margin-right: 31px;
+    width: 16px;
+    height: 16px;
+    margin-right: 35px;
   }
 
   .point > div {
@@ -450,18 +450,13 @@
   .point2 {
     align-items: center;
     display: flex;
-    flex-direction: row-reverse;
-    padding: 18px;
-    position: relative;
-    width: 300px;
-    justify-content: right;
-    right: 5px;
+    padding: 23px 40px 23px 120px;
   }
 
   .point2 > img {
-    margin-left: 10px;
-    width: 30px;
-    height: 30px;
+    margin-right: 24px;
+    width: 40px;
+    height: 40px;
   }
 
   .p1 {
@@ -472,13 +467,16 @@
 
   .p2 {
     font-size: 20px;
-    color: #7EAFE3;
+    color: #fff;
     line-height: 28px;
+    padding:10px 60px;
+    background:linear-gradient(90deg,rgba(255,255,255,1) 0%,rgba(41,10,89,1) 0%,rgba(101,126,252,1) 0%,rgba(80,157,252,1) 100%);
+    border-radius:6px;
   }
 
   .p3 {
-    font-size: 20px !important;
-    color: rgba(247, 144, 75, 1) !important;
+    font-size: 24px !important;
+    color: rgba(101,126,252,1) !important;
     margin-left: 31px;
   }
 
@@ -578,11 +576,9 @@
     min-height: 80px;
     border: none;
     position: relative;
-
-    background: url(../../../static/img/bus/line.png) no-repeat;
-    background-size: 10px;
-    background-position: 257px -50px;
-    margin-top: -10px;
+    background: url(../../../static/img/busTravel/line.png) no-repeat;
+    background-size: 2px;
+    background-position: 140px 0px;
   }
 
   .changeUpDown{
