@@ -29,7 +29,7 @@
       </div>
       <div class="line">
         <div class="lab">投票状态：</div>
-        <div class="txt"><span class="state1">进行中</span></div>
+        <div class="txt"><span class="state1" v-show="data.voteStatus==0">进行中</span><span class="state3" v-show="data.voteStatus==1">已结束</span></div>
       </div>
       <div class="line">
         <div class="lab">投票结果：</div>
@@ -54,67 +54,72 @@
   import {mapGetters} from 'vuex'
   import axios from "axios"
   import './../../../static/js/mui.picker.min'
-    export default {
-      name: "thingDetail",
-      data(){
-        return{
-          data:{},
-          voteSuggest:1
+  export default {
+    name: "thingDetail",
+    data(){
+      return{
+        data:{},
+        voteSuggest:1
+      }
+    },
+    computed: {
+      ...mapGetters([
+        "getUserId",
+        "getUserName",
+        "getCardId",
+        "getUserPhone",
+      ])
+    },
+    mounted(){
+      axios.post("/myha-server/property/voteDetail.do",{
+        id:this.$route.params.id
+      }).then(res=>{
+        this.data = res.data.data;
+      })
+    },
+    methods:{
+      toManagementChars(){
+        this.$router.push("/managementChars/"+this.data.id);
+      },
+      chose(){
+
+        if(this.data.voteStatus==1){
+          mui.toast('投票已结束',{ duration:'short', type:'div' });
+          return
         }
-      },
-      computed: {
-        ...mapGetters([
-          "getUserId",
-          "getUserName",
-          "getCardId",
-          "getUserPhone",
-        ])
-      },
-      mounted(){
-        axios.post("/myha-server/property/voteDetail.do",{
-          id:this.$route.params.id
-        }).then(res=>{
-          this.data = res.data.data;
+        let vue = this;
+        var picker = new mui.PopPicker();
+        picker.setData([{
+          value: "1",
+          text: "同意"
+        }, {
+          value: "0",
+          text: "不同意"
+        }])
+        picker.show(function(SelectedItem) {
+          vue.voteSuggest = SelectedItem[0].value;
         })
       },
-      methods:{
-        toManagementChars(){
-          this.$router.push("/managementChars/"+this.data.id);
-        },
-        chose(){
-          let vue = this;
-          var picker = new mui.PopPicker();
-          picker.setData([{
-            value: "1",
-            text: "同意"
-          }, {
-            value: "0",
-            text: "不同意"
-          }])
-          picker.show(function(SelectedItem) {
-            vue.voteSuggest = SelectedItem[0].value;
-          })
-        },
-        vote(){
-          axios.post('/myha-server/property/vote.do',{
-            voteId:this.data.id,
-            userId:this.getUserId,
-            voteSuggest:this.voteSuggest
-          }).then(res=>{
-            if(res.data.result==1){
-              mui.toast('投票成功',{ duration:'short', type:'div' });
-              this.$router.go(-1);
-            }else{
-              mui.toast(res.data.errMsg,{ duration:'short', type:'div' });
-            }
+      vote(){
+        axios.post('/myha-server/property/vote.do',{
+          voteId:this.data.id,
+          userId:this.getUserId,
+          voteSuggest:this.voteSuggest
+        }).then(res=>{
+          if(res.data.result==1){
+            mui.toast('投票成功',{ duration:'short', type:'div' });
+            this.$router.go(-1);
+          }else{
+            mui.toast(res.data.errMsg,{ duration:'short', type:'div' });
+          }
 
-          }).catch(err=> {
-            this.canadd = true;
-            mui.toast("出了点小差错，请稍后尝试",{ duration:'short', type:'div' });
-          })
-        }
+        }).catch(err=> {
+          this.canadd = true;
+          mui.toast("出了点小差错，请稍后尝试",{ duration:'short', type:'div' });
+        })
       }
     }
+  }
 </script>
 
 <style scoped>
@@ -148,11 +153,16 @@
   }
   .state1{
     color: #3ad558;
-    font-size: 32px;
+    font-size:28px;
   }
+
   .state2{
     color: #0d9bf2;
-    font-size: 32px;
+    font-size:28px;
+  }
+  .state3{
+    color: #ccc;
+    font-size:28px;
   }
   .submit{
     width: 686px;
