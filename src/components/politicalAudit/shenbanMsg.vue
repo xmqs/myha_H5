@@ -161,8 +161,8 @@
             this.userMsg.userId = this.getUserId;
             //身份验证
 			axios.post("/myha-server/govService/getAccountGuid.do",{
-				"idNum":"3e9dff50-54a8-46af-88cf-52ef2d8c8cc3"
-				//"idNum":this.userMsg.userId
+				//"idNum":"3e9dff50-54a8-46af-88cf-52ef2d8c8cc3"
+				"idNum":this.userMsg.userId
 			})
 			.then(res=>{
 				this.accountguid=res.data.data.IdList[0].accountguid;
