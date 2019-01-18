@@ -92,7 +92,7 @@
 							   <div>{{val.submittype}}</div>
 						   </div>
 						   <div>
-						   	 <a @click="toImg(val.exampleattachguid)"><img  src="../../../static/img/politicalAudit/Group 5@2x.png"/>&nbsp;&nbsp;预览</a>
+						   	 <a @click="toImg(val.imageFlag,val.exampleattachguid)"><img  src="../../../static/img/politicalAudit/Group 5@2x.png"/>&nbsp;&nbsp;预览</a>
 						   	 <a @click="load(val.templateattachguid)"><img  src="../../../static/img/politicalAudit/Fill 1@2x.png"/>&nbsp;&nbsp;下载</a>
 						   </div>
 						</div>
@@ -160,14 +160,14 @@
             this.userMsg.userName = this.getUserName;
             this.userMsg.userId = this.getUserId;
             //身份验证
-			axios.post("/myha-server/govService/getAccountGuid.do",{
-				"idNum":"3e9dff50-54a8-46af-88cf-52ef2d8c8cc3"
-				//"idNum":this.userMsg.userId
+			axios.post("/third-server/govService/getAccountGuid.do",{
+				//"idNum":"3e9dff50-54a8-46af-88cf-52ef2d8c8cc3"
+				"idNum":this.userMsg.userId
 			})
 			.then(res=>{
 				this.accountguid=res.data.data.IdList[0].accountguid;
 				//申请材料接口
-				axios.post("/myha-server/govService/initProjectReturnMaterials.do",{
+				axios.post("/third-server/govService/initProjectReturnMaterials.do",{
 					"accountGuid":this.accountguid,
 					"taskGuid":this.requestData.taskGuid,
 				})
@@ -179,7 +179,7 @@
 			//获取事项详情
 			this.requestData.taskGuid=this.$route.params.taskguid;
 			this.allowapp=this.$route.params.allowapp;
-			axios.post("/myha-server/govService/taskBasicInfo.do",this.requestData)
+			axios.post("/third-server/govService/taskBasicInfo.do",this.requestData)
 			.then(res=>{
 				this.shenbanList=res.data.data;
 				console.log("事项详情数据")
@@ -188,18 +188,28 @@
 
 		},
 		methods:{
-      toImg(img){
-        var u = navigator.userAgent;
-        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
-        var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+      toImg(isImg,img){
+        if(isImg){
+          var u = navigator.userAgent;
+          var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+          var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 
-        if (isAndroid) {
-          window.location.href = img;
+          if (isAndroid) {
+            window.location.href = img;
+          }
+
+          if (isiOS) {
+            window.location.href = img+"&hanNewH5";
+          }
+        }else{
+          let json = {
+            "file_title":"文件详情",
+            "file_url":img
+          }
+          json = JSON.stringify(json);
+          window.haFile.openFile(json);
         }
 
-        if (isiOS) {
-          window.location.href = img+"&hanNewH5";
-        }
       },
 	      toPage(n){
 	        this.page = n;

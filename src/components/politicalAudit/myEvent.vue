@@ -50,19 +50,19 @@
       this.userMsg.userName = this.getUserName;
       this.userMsg.userId = this.getUserId;
 
-      if(this.getIsLogin=="0"||this.getIsLogin==0){
-        let time = setInterval(()=>{
-          if(this.getCardId!==""){
+      if (this.getIsLogin == "0" || this.getIsLogin == 0) {
+        let time = setInterval(() => {
+          if (this.getCardId !== "") {
             clearInterval(time);
-            axios.post("/myha-server/govService/getAccountGuid.do", {
+            axios.post("/third-server/govService/getAccountGuid.do", {
               //"idNum":"3e9dff50-54a8-46af-88cf-52ef2d8c8cc3"
               "idNum": this.getCardId
             })
               .then(res => {
-                if(res.data.result==1){
+                if (res.data.result == 1) {
                   this.accountguid = res.data.data.IdList[0].accountguid;
                   //获取办事列表
-                  axios.post("/myha-server/govService/myProjects.do", {
+                  axios.post("/third-server/govService/myProjects.do", {
                     "currentPage": "0",//当前页
                     "pageSize": "100",//每页数目
                     "keyword": "",//搜索内容
@@ -73,13 +73,13 @@
                   }).then(res => {
                     this.datas = res.data.data;
                   })
-                }else{
+                } else {
                   mui.toast('网络出了点小差错，请稍后尝试或联系管理人员', {duration: 'short', type: 'div'});
                 }
               })
           }
         }, 200);
-      }else{
+      } else {
         var u = navigator.userAgent;
         var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
         var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
@@ -162,14 +162,16 @@
     border-radius: 8px;
   }
 
-  .noData{
+  .noData {
     width: 260px;
   }
-  .showNo{
+
+  .showNo {
     text-align: center;
     padding-top: 260px;
   }
-  .showNo p{
+
+  .showNo p {
     margin-top: 36px;
     font-size: 36px;
     color: #666;

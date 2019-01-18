@@ -126,7 +126,7 @@
           <div class="coll">
             <div class="photoTitle">{{item.projectmaterialname}}<span class="red" v-show="item.necessary==1">*</span>
             </div>
-            <a @click="toImg(item.exampleattachguid)">
+            <a @click="toImg(item.imageFlag,item.exampleattachguid)">
               <div class="showExample">查看样例</div>
             </a>
           </div>
@@ -202,7 +202,8 @@
                 <div class="submittype">{{item.submittype}}</div>
               </div>
               <div>
-                <a @click="toImg(item.exampleattachguid)"><img src="../../../static/img/politicalAudit/Group 5@2x.png"/>&nbsp;&nbsp;预览</a>
+                <a @click="toImg(item.imageFlag,item.exampleattachguid)"><img
+                  src="../../../static/img/politicalAudit/Group 5@2x.png"/>&nbsp;&nbsp;预览</a>
                 <a @click="load(item.templateattachguid)"><img src="../../../static/img/politicalAudit/Fill 1@2x.png"/>&nbsp;&nbsp;下载</a>
                 <!--<a><img src="../../../static/img/politicalAudit/Group 5@2x.png"/>&nbsp;&nbsp;预览</a>
                 <a><img src="../../../static/img/politicalAudit/Fill 1@2x.png"/>&nbsp;&nbsp;下载</a>-->
@@ -332,8 +333,8 @@
 
           remark: "",//备注
 
-          mobileM:"",//发件人手机号码
-          sendNameM:"",//发件人姓名
+          mobileM: "",//发件人手机号码
+          sendNameM: "",//发件人姓名
           sendCityM: "",//	发件区域城市
           sendCountryM: "",//	发件区域区县
           sendProvM: "",//	发件区域省份
@@ -372,7 +373,7 @@
         /**判断是否是草稿修改*/
         if (this.$route.params.projectguid) {
           /*修改申请*/
-          axios.post("/myha-server/govService/projectDetail.do", {
+          axios.post("/third-server/govService/projectDetail.do", {
             areaCode: '320621',
             projectGuid: this.$route.params.projectguid
           }).then(res => {
@@ -383,13 +384,13 @@
             this.way2 = res.data.data.thirdGovernmentProject.ifExpress;
 
 
-            if (this.data.ifExpressMa == '1'&&this.data.is_send == '2') {
+            if (this.data.ifExpressMa == '1' && this.data.is_send == '2') {
               this.way = '1';
             }
             if (this.data.ifExpressMa == '2') {
               this.way = '3';
             }
-            if (this.data.ifExpressMa == '3'&&this.data.is_send == '1') {
+            if (this.data.ifExpressMa == '3' && this.data.is_send == '1') {
               this.way = '1';
             }
 
@@ -429,22 +430,22 @@
           })
         } else {
           /*新增申请*/
-          axios.post('/myha-server/govService/getAccountGuid.do', {
+          this.data.applyerName = this.getUserName;
+          this.data.idCard = this.getCardId;
+          this.data.contactMobile = this.getUserPhone;
+
+          axios.post('/third-server/govService/getAccountGuid.do', {
             idNum: this.getCardId,
             mobile: this.getUserPhone,
             username: this.getUserName
           }).then(res => {
             this.data.accountGuid = res.data.data.IdList[0].accountguid;
             this.data.taskGuid = this.$route.params.taskGuid;
-            axios.post('/myha-server/govService/initProjectReturnMaterials.do', {
+            axios.post('/third-server/govService/initProjectReturnMaterials.do', {
               //初始化信息接口
               accountGuid: res.data.data.IdList[0].accountguid,
               taskGuid: this.$route.params.taskGuid,
             }).then(res2 => {
-              this.data.applyerName = this.getUserName;
-              this.data.idCard = this.getCardId;
-              this.data.contactMobile = this.getUserPhone;
-
               /**材料列表接口*/
               this.materiallist = res2.data.data.materiallist;
               for (let i = 0; i < this.materiallist.length; i++) {
@@ -458,7 +459,7 @@
             })
           })
 
-          axios.post('/myha-server/receiveInfo/queryDefaultInfo.do', {
+          axios.post('/third-server/receiveInfo/queryDefaultInfo.do', {
             userId: this.getUserId,
           }).then(res => {
             if (res.data.message !== '该用户下暂无默认地址') {
@@ -484,11 +485,11 @@
 
               backAddress.fromAddress.rcvName = res.data.data.receiveInfo.receivePerson;
               backAddress.fromAddress.rcvPhone = res.data.data.receiveInfo.contactPhone;
-              backAddress.fromAddress.rcvStreet = res.data.data.receiveInfo.receiveStreetCode+" "+res.data.data.receiveInfo.receiveAddress;
+              backAddress.fromAddress.rcvStreet = res.data.data.receiveInfo.receiveStreetCode + " " + res.data.data.receiveInfo.receiveAddress;
 
               backAddress.backAddress.sendNameM = res.data.data.receiveInfo.receivePerson;
               backAddress.backAddress.mobileM = res.data.data.receiveInfo.contactPhone;
-              backAddress.backAddress.sendStrectM = res.data.data.receiveInfo.receiveStreetCode+" "+res.data.data.receiveInfo.receiveAddress;
+              backAddress.backAddress.sendStrectM = res.data.data.receiveInfo.receiveStreetCode + " " + res.data.data.receiveInfo.receiveAddress;
 
               this.$store.commit("setAuditAddress", backAddress);
 
@@ -500,7 +501,7 @@
         /**判断是否是草稿修改*/
         if (this.$route.params.projectguid) {
           /*修改申请*/
-          axios.post("/myha-server/govService/projectDetail.do", {
+          axios.post("/third-server/govService/projectDetail.do", {
             areaCode: '320621',
             projectGuid: this.$route.params.projectguid
           }).then(res => {
@@ -512,13 +513,13 @@
             this.way2 = res.data.data.thirdGovernmentProject.ifExpress;
 
 
-            if (this.data.ifExpressMa == '1'&&this.data.is_send == '2') {
+            if (this.data.ifExpressMa == '1' && this.data.is_send == '2') {
               this.way = '1';
             }
             if (this.data.ifExpressMa == '2') {
               this.way = '3';
             }
-            if (this.data.ifExpressMa == '1'&&this.data.is_send == '1') {
+            if (this.data.ifExpressMa == '1' && this.data.is_send == '1') {
               this.way = '2';
             }
 
@@ -558,21 +559,21 @@
           })
         } else {
           /*新增申请*/
-          axios.post('/myha-server/govService/getAccountGuid.do', {
+          this.data.applyerName = this.getUserName;
+          this.data.idCard = this.getCardId;
+          this.data.contactMobile = this.getUserPhone;
+          axios.post('/third-server/govService/getAccountGuid.do', {
             idNum: this.getCardId,
             mobile: this.getUserPhone,
             username: this.getUserName
           }).then(res => {
             this.data.accountGuid = res.data.data.IdList[0].accountguid;
             this.data.taskGuid = this.$route.params.taskGuid;
-            axios.post('/myha-server/govService/initProjectReturnMaterials.do', {
+            axios.post('/third-server/govService/initProjectReturnMaterials.do', {
               //初始化信息接口
               accountGuid: res.data.data.IdList[0].accountguid,
               taskGuid: this.$route.params.taskGuid,
             }).then(res2 => {
-              this.data.applyerName = this.getUserName;
-              this.data.idCard = this.getCardId;
-              this.data.contactMobile = this.getUserPhone;
 
               /**材料列表接口*/
               this.materiallist = res2.data.data.materiallist;
@@ -587,7 +588,7 @@
             })
           })
 
-          axios.post('/myha-server/receiveInfo/queryDefaultInfo.do', {
+          axios.post('/third-server/receiveInfo/queryDefaultInfo.do', {
             userId: this.getUserId,
           }).then(res => {
             if (res.data.message !== '该用户下暂无默认地址') {
@@ -613,11 +614,11 @@
 
               backAddress.fromAddress.rcvName = res.data.data.receiveInfo.receivePerson;
               backAddress.fromAddress.rcvPhone = res.data.data.receiveInfo.contactPhone;
-              backAddress.fromAddress.rcvStreet = res.data.data.receiveInfo.receiveStreetCode+" "+res.data.data.receiveInfo.receiveAddress;
+              backAddress.fromAddress.rcvStreet = res.data.data.receiveInfo.receiveStreetCode + " " + res.data.data.receiveInfo.receiveAddress;
 
               backAddress.backAddress.sendNameM = res.data.data.receiveInfo.receivePerson;
               backAddress.backAddress.mobileM = res.data.data.receiveInfo.contactPhone;
-              backAddress.backAddress.sendStrectM = res.data.data.receiveInfo.receiveStreetCode+" "+res.data.data.receiveInfo.receiveAddress;
+              backAddress.backAddress.sendStrectM = res.data.data.receiveInfo.receiveStreetCode + " " + res.data.data.receiveInfo.receiveAddress;
 
               this.$store.commit("setAuditAddress", backAddress);
             }
@@ -626,17 +627,26 @@
       }
     },
     methods: {
-      toImg(img){
-        var u = navigator.userAgent;
-        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
-        var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+      toImg(isImg, img) {
+        if (isImg) {
+          var u = navigator.userAgent;
+          var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+          var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 
-        if (isAndroid) {
-          window.location.href = img;
-        }
+          if (isAndroid) {
+            window.location.href = img;
+          }
 
-        if (isiOS) {
-          window.location.href = img+"&hanNewH5";
+          if (isiOS) {
+            window.location.href = img + "&hanNewH5";
+          }
+        } else {
+          let json = {
+            "file_title": "文件详情",
+            "file_url": img
+          }
+          json = JSON.stringify(json);
+          window.haFile.openFile(json);
         }
       },
       load(templateattachguid) {
@@ -718,8 +728,8 @@
 
           remark: "",//备注
 
-          mobileM:"",//发件人手机号码
-          sendNameM:"",//发件人姓名
+          mobileM: "",//发件人手机号码
+          sendNameM: "",//发件人姓名
           sendCityM: "",//	发件区域城市
           sendCountryM: "",//	发件区域区县
           sendProvM: "",//	发件区域省份
@@ -768,7 +778,7 @@
 
         this.loading = true;
 
-        axios.post('/myha-server/govService/saveProjectInfo.do', this.data).then(res => {
+        axios.post('/third-server/govService/saveProjectInfo.do', this.data).then(res => {
           if (res.data.result == 1) {
             this.loading = false;
             mui.toast('保存成功', {duration: 'short', type: 'div'});
@@ -925,7 +935,7 @@
             this.data.materiallist = this.materiallist;
             this.loading = true;
             /*提交信息*/
-            axios.post('/myha-server/govService/submitProjectByTaskguid.do', this.data).then(res => {
+            axios.post('/third-server/govService/submitProjectByTaskguid.do', this.data).then(res => {
               if (res.data.result == 1) {
                 this.loading = false;
                 mui.toast('申请成功', {duration: 'short', type: 'div'});
@@ -1083,7 +1093,7 @@
   .word {
     color: #666;
     font-size: 30px;
-    padding-left:40px;
+    padding-left: 40px;
     width: 100%;
     line-height: 98px;
     white-space: nowrap;
@@ -1092,7 +1102,7 @@
   .word2 {
     color: #666;
     font-size: 32px;
-    padding-left:32px;
+    padding-left: 32px;
     width: 100%;
     line-height: 98px;
     white-space: nowrap;

@@ -4,7 +4,8 @@
       <div class="item" @click="toDetial(item.id)" v-for="item in list">
         <div class="title">
           <div class="name">{{item.voteName}}</div>
-          <div class="state">进行中</div>
+          <div class="state" v-show="item.voteStatus==0">进行中</div>
+          <div class="state2" v-show="item.voteStatus==1">已结束</div>
         </div>
         <div class="detail">
           <div class="line">

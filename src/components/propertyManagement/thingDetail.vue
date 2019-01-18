@@ -29,7 +29,7 @@
       </div>
       <div class="line">
         <div class="lab">投票状态：</div>
-        <div class="txt"><span class="state1">进行中</span></div>
+        <div class="txt"><span class="state1" v-show="data.voteStatus==0">进行中</span><span class="state3" v-show="data.voteStatus==1">已结束</span></div>
       </div>
       <div class="line">
         <div class="lab">投票结果：</div>
@@ -82,6 +82,11 @@
           this.$router.push("/managementChars/"+this.data.id);
         },
         chose(){
+
+          if(this.data.voteStatus==1){
+            mui.toast('投票已结束',{ duration:'short', type:'div' });
+            return
+          }
           let vue = this;
           var picker = new mui.PopPicker();
           picker.setData([{
@@ -148,11 +153,15 @@
   }
   .state1{
     color: #3ad558;
-    font-size: 32px;
+    font-size:28px;
   }
   .state2{
     color: #0d9bf2;
-    font-size: 32px;
+    font-size:28px;
+  }
+  .state3{
+    color: #ccc;
+    font-size:28px;
   }
   .submit{
     width: 686px;

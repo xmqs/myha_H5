@@ -89,7 +89,7 @@
         this.getData();
       },
       getData() {
-        axios.post("/myha-server/govService/taskList.do", this.requestData)
+        axios.post("/third-server/govService/taskList.do", this.requestData)
           .then(res => {
             this.shixiangList = res.data.data;
           })

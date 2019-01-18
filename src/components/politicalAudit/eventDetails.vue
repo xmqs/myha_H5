@@ -173,10 +173,10 @@
             nodeList: []
           }
         },
-        thirdGovernmentProject:{},
-        way:"",
-        way2:"",
-        materiallist:[]
+        thirdGovernmentProject: {},
+        way: "",
+        way2: "",
+        materiallist: []
       }
     },
     methods: {
@@ -186,13 +186,13 @@
       back() {
         history.go(-1)
       },
-      toImg(res){
+      toImg(res) {
         window.location = res;
       }
     },
     mounted() {
       //获取办件详情
-      axios.post("/myha-server/govService/projectDetail.do", {
+      axios.post("/third-server/govService/projectDetail.do", {
         //"projectGuid": "c3fcd17b-ffcb-4410-aad1-8427218e8109",
         "projectGuid": this.$route.params.projectguid,
         "areaCode": "320621"
@@ -208,18 +208,17 @@
         this.way2 = res.data.data.thirdGovernmentProject.ifExpress;
 
 
-        if (this.thirdGovernmentProject.ifExpressMa == '1'&&this.thirdGovernmentProject.is_send == '2') {
+        if (this.thirdGovernmentProject.ifExpressMa == '1' && this.thirdGovernmentProject.is_send == '2') {
           this.way = '1';
         }
 
-        if (this.thirdGovernmentProject.ifExpressMa == '1'&&this.thirdGovernmentProject.is_send == '1') {
+        if (this.thirdGovernmentProject.ifExpressMa == '1' && this.thirdGovernmentProject.is_send == '1') {
           this.way = '2';
         }
 
         if (this.thirdGovernmentProject.ifExpressMa == '2') {
           this.way = '3';
         }
-
 
 
       })
@@ -650,9 +649,9 @@
     border-radius: 10px;
   }
 
-  .projectProcesslist{
+  .projectProcesslist {
     text-align: center;
-    padding:16px 32px;
+    padding: 16px 32px;
     color: #888;
     font-size: 32px;
   }

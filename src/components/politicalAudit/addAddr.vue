@@ -26,7 +26,8 @@
         <li class="list_li">
           <div class="word">设为默认地址</div>
           <div type="text" name="" class="add_inp">
-            <div class="mui-switch mui-switch-mini" style="float: right" :class="{'mui-active':receiveInfo.isDefault=='1'}" @click="cut()">
+            <div class="mui-switch mui-switch-mini" style="float: right"
+                 :class="{'mui-active':receiveInfo.isDefault=='1'}" @click="cut()">
               <div class="mui-switch-handle"></div>
             </div>
           </div>
@@ -44,12 +45,13 @@
   import axios from "axios"
   import './../../../static/js/mui.picker.min'
   import {mapGetters} from 'vuex'
+
   export default {
     data() {
       return {
         isOn: false,
-        area:'',
-        receiveInfo:{
+        area: '',
+        receiveInfo: {
           backupTelephone: "",
           contactPhone: "",
           id: "",
@@ -58,9 +60,9 @@
           receiveAddress: "",
           receivePerson: "",
           receiveStreetCode: "",
-          userId:"",
+          userId: "",
         },
-        streetList:[]
+        streetList: []
       }
     },
     computed: {
@@ -76,42 +78,42 @@
 
 
       this.receiveInfo.userId = this.getUserId;
-      axios.post('/myha-server/haAreaInfo/queryHaAreaInfoList.do').then(res=>{
+      axios.post('/myha-server/haAreaInfo/queryHaAreaInfoList.do').then(res => {
         this.streetList = res.data.data.haAreaInfoList;
       })
 
-      if(this.$route.params.id){
+      if (this.$route.params.id) {
         /*修改*/
-        axios.post("/myha-server/receiveInfo/getOneReceiveInfo.do",{
-          id:this.$route.params.id
-        }).then(res=>{
+        axios.post("/myha-server/receiveInfo/getOneReceiveInfo.do", {
+          id: this.$route.params.id
+        }).then(res => {
           this.receiveInfo = res.data.data.receiveInfo;
         })
       }
     },
     methods: {
       cut() {
-        if(this.receiveInfo.isDefault == '0'){
+        if (this.receiveInfo.isDefault == '0') {
           this.receiveInfo.isDefault = "1";
-        }else{
+        } else {
           this.receiveInfo.isDefault = "0";
         }
       },
-      choseArea(){
+      choseArea() {
         let vue = this;
         var picker = new mui.PopPicker();
         picker.setData(this.streetList);
-        picker.show(function(SelectedItem) {
+        picker.show(function (SelectedItem) {
           console.log(SelectedItem);
           vue.receiveInfo.receiveStreetCode = "江苏 南通 海安市" + SelectedItem[0].text;
         })
       },
-      saveReceiveInfo(){
-        if(this.receiveInfo.receivePerson==''){
+      saveReceiveInfo() {
+        if (this.receiveInfo.receivePerson == '') {
           mui.toast('请填写收货人', {duration: 'short', type: 'div'});
           return
         }
-        if(this.receiveInfo.contactPhone==''){
+        if (this.receiveInfo.contactPhone == '') {
           mui.toast('请填写联系电话', {duration: 'short', type: 'div'});
           return
         }
@@ -120,27 +122,27 @@
           mui.toast('请填写正确的电话号码', {duration: 'short', type: 'div'});
           return false;
         }
-        if(this.receiveInfo.receiveStreetCode==''){
+        if (this.receiveInfo.receiveStreetCode == '') {
           mui.toast('请选择所在区域', {duration: 'short', type: 'div'});
           return
         }
-        if(this.receiveInfo.receiveAddress==''){
+        if (this.receiveInfo.receiveAddress == '') {
           mui.toast('请填写详细地址', {duration: 'short', type: 'div'});
           return
         }
 
 
-        if(this.$route.params.id){
-          axios.post("/myha-server/receiveInfo/updateReceiveInfo.do",this.receiveInfo).then(res=>{
-            if(res.data.result==1){
-              mui.toast('修改成功',{ duration:'short', type:'div' });
+        if (this.$route.params.id) {
+          axios.post("/myha-server/receiveInfo/updateReceiveInfo.do", this.receiveInfo).then(res => {
+            if (res.data.result == 1) {
+              mui.toast('修改成功', {duration: 'short', type: 'div'});
               this.$router.go(-1);
             }
           })
-        }else{
-          axios.post("/myha-server/receiveInfo/saveReceiveInfo.do",this.receiveInfo).then(res=>{
-            if(res.data.result==1){
-              mui.toast('提交成功',{ duration:'short', type:'div' });
+        } else {
+          axios.post("/myha-server/receiveInfo/saveReceiveInfo.do", this.receiveInfo).then(res => {
+            if (res.data.result == 1) {
+              mui.toast('提交成功', {duration: 'short', type: 'div'});
               this.$router.go(-1);
             }
           })
@@ -209,7 +211,6 @@
     /*display: none;*/
   }
 
-
   #btn {
     position: fixed;
     bottom: 0;
@@ -250,7 +251,8 @@
     background: transparent;
     line-height: 58px;
   }
-  .choseArea{
+
+  .choseArea {
     background: url("./../../../static/img/politicalAudit/d1.png") no-repeat;
     background-position: 654px center;
     background-size: 60px;
