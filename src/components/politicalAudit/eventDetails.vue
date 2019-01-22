@@ -192,7 +192,7 @@
     },
     mounted() {
       //获取办件详情
-      axios.post("/myha-server/govService/projectDetail.do", {
+      axios.post("/third-server/govService/projectDetail.do", {
         //"projectGuid": "c3fcd17b-ffcb-4410-aad1-8427218e8109",
         "projectGuid": this.$route.params.projectguid,
         "areaCode": "320621"

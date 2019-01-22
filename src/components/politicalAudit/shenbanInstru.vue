@@ -68,14 +68,14 @@
 		mounted(){
 			//console.log(this.$route.params.shenbanList)
 			//获取申办说明
-			axios.post("/myha-server/govService/declareProjectNotice.do",
+			axios.post("/third-server/govService/declareProjectNotice.do",
 			{
 			  "taskGuid":this.$route.params.taskguid
 			}).then(res=>{
 				this.data=res.data.data;
 				console.log(res.data.data)
 			})
-			
+
 		}
 	}
 </script>

@@ -54,7 +54,7 @@
         let time = setInterval(()=>{
           if(this.getCardId!==""){
             clearInterval(time);
-            axios.post("/myha-server/govService/getAccountGuid.do", {
+            axios.post("/third-server/govService/getAccountGuid.do", {
               //"idNum":"3e9dff50-54a8-46af-88cf-52ef2d8c8cc3"
               "idNum": this.getCardId
             })
@@ -62,7 +62,7 @@
                 if(res.data.result==1){
                   this.accountguid = res.data.data.IdList[0].accountguid;
                   //获取办事列表
-                  axios.post("/myha-server/govService/myProjects.do", {
+                  axios.post("/third-server/govService/myProjects.do", {
                     "currentPage": "0",//当前页
                     "pageSize": "100",//每页数目
                     "keyword": "",//搜索内容

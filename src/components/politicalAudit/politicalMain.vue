@@ -99,18 +99,18 @@
           interval: 2000//自动轮播周期，若为0则不自动播放，默认为0；
         });
         //加载部门分类
-        axios.post("/myha-server/govService/departments.do", {"areaCode": "320621"})
+        axios.post("/third-server/govService/departments.do", {"areaCode": "320621"})
           .then(res => {
             this.bumen = res.data.data;
           })
         //加载主题分类
-        axios.post("/myha-server/govService/themes.do", {"userType": "10"})
+        axios.post("/third-server/govService/themes.do", {"userType": "10"})
           .then(res => {
             this.zhuti = res.data.data
             console.log(this.zhuti)
           })
         //事项展示
-        axios.post("/myha-server/govService/taskList.do", this.requestData)
+        axios.post("/third-server/govService/taskList.do", this.requestData)
           .then(res => {
             this.zhanshiList = res.data;
             console.log("事项展示数据")

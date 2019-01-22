@@ -112,7 +112,6 @@
           }else{
             mui.toast(res.data.errMsg,{ duration:'short', type:'div' });
           }
-
         }).catch(err=> {
           this.canadd = true;
           mui.toast("出了点小差错，请稍后尝试",{ duration:'short', type:'div' });
