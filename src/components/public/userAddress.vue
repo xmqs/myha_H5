@@ -60,7 +60,7 @@
       },
       delAddr(id) {
         let vue = this;
-        mui.confirm('是否删除改条地址','提示',function (res) {
+        mui.confirm('是否删除该条地址','提示',function (res) {
           if(res.index==1){
             axios.post("/myha-server/receiveInfo/deleteReceiveInfo.do",{
               id:id
